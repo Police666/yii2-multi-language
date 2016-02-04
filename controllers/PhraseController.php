@@ -6,19 +6,25 @@
  * @email   phuong17889[at]gmail.com
  * @date    04/02/2016
  * @time    2:34 CH
+ * @version 1.0.0
  */
 namespace navatech\language\controllers;
 
+use navatech\language\helpers\Language as LanguageHelper;
 use navatech\language\models\Language;
 use navatech\language\models\PhraseMeta;
 use navatech\language\models\PhraseSearch;
-use navatech\language\helpers\Language as LanguageHelper;
 use Yii;
 use yii\helpers\Json;
 use yii\web\Controller;
 
 class PhraseController extends Controller {
 
+	/**
+	 * @return string
+	 * @throws \yii\base\ExitException
+	 * @since 1.0.0
+	 */
 	public function actionIndex() {
 		echo '<pre>';
 		print_r((new LanguageHelper)->one);

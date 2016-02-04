@@ -6,6 +6,7 @@
  * @email   phuong17889[at]gmail.com
  * @date    04/02/2016
  * @time    1:48 SA
+ * @version 1.0.0
  */
 namespace navatech\language\models;
 
@@ -72,6 +73,7 @@ class Phrase extends ActiveRecord {
 	/**
 	 * This will set dynamic field
 	 * nava need more documents
+	 * @since 1.0.0
 	 */
 	public function setDynamicField() {
 		foreach($this->languages as $language) {
@@ -116,6 +118,7 @@ class Phrase extends ActiveRecord {
 	 * This will return all PhraseMeta relations of Phrase
 	 * nava need more documents
 	 * @return \yii\db\ActiveQuery|PhraseMeta[]
+	 * @since 1.0.0
 	 */
 	public function getPhraseMeta() {
 		return $this->hasMany(PhraseMeta::className(), ['phrase_id' => 'id'])->all();
@@ -146,6 +149,7 @@ class Phrase extends ActiveRecord {
 	 * @param $name
 	 *
 	 * @return int
+	 * @since 1.0.0
 	 */
 	public static function getIdByName($name) {
 		$model = self::findOne(['name' => $name]);

@@ -6,6 +6,7 @@
  * @email   phuong17889[at]gmail.com
  * @date    04/02/2016
  * @time    1:48 SA
+ * @version 1.0.0
  */
 namespace navatech\language\models;
 
@@ -74,6 +75,7 @@ class PhraseMeta extends ActiveRecord {
 	/**
 	 * nava need more documents
 	 * @return \yii\db\ActiveQuery|Language
+	 * @since 1.0.0
 	 */
 	public function getLanguage() {
 		return $this->hasOne(Language::className(), ['id' => 'language_id']);
@@ -82,6 +84,7 @@ class PhraseMeta extends ActiveRecord {
 	/**
 	 * nava need more documents
 	 * @return \yii\db\ActiveQuery|Phrase
+	 * @since 1.0.0
 	 */
 	public function getPhrase() {
 		return $this->hasOne(Phrase::className(), ['id' => 'phrase_id']);

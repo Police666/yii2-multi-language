@@ -6,6 +6,7 @@
  * @email   phuong17889[at]gmail.com
  * @date    04/02/2016
  * @time    1:49 SA
+ * @version 1.0.0
  */
 namespace navatech\language\models;
 
@@ -72,6 +73,7 @@ class Language extends ActiveRecord {
 	/**
 	 * nava need more documents
 	 * @return \yii\db\ActiveQuery|PhraseMeta[]
+	 * @since 1.0.0
 	 */
 	public function getPhraseMeta() {
 		return $this->hasMany(PhraseMeta::className(), ['language_id' => 'id'])->all();
@@ -96,6 +98,7 @@ class Language extends ActiveRecord {
 	 * @param array $attributes
 	 *
 	 * @return array|\yii\db\ActiveRecord[]|Language[]
+	 * @since 1.0.0
 	 */
 	public static function getAllLanguages($attributes = []) {
 		if($attributes == null) {
@@ -110,6 +113,7 @@ class Language extends ActiveRecord {
 	 * @param $code
 	 *
 	 * @return int
+	 * @since 1.0.0
 	 */
 	public static function getIdByCode($code) {
 		$model = self::findOne(['code' => $code]);

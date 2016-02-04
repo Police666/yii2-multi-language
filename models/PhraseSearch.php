@@ -6,6 +6,7 @@
  * @email   phuong17889[at]gmail.com
  * @date    04/02/2016
  * @time    2:43 CH
+ * @version 1.0.0
  */
 namespace navatech\language\models;
 
@@ -44,6 +45,7 @@ class PhraseSearch extends Phrase {
 	 * @param array $params
 	 *
 	 * @return ActiveDataProvider
+	 * @since 1.0.0
 	 */
 	public function search($params) {
 		$query        = Phrase::find();

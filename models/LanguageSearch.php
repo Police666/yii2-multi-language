@@ -6,6 +6,7 @@
  * @email   phuong17889[at]gmail.com
  * @date    04/02/2016
  * @time    1:30 CH
+ * @version 1.0.0
  */
 namespace navatech\language\models;
 
@@ -42,6 +43,7 @@ class LanguageSearch extends Language {
 	 * @param array $params
 	 *
 	 * @return ActiveDataProvider
+	 * @since 1.0.0
 	 */
 	public function search($params) {
 		$query        = Language::find();

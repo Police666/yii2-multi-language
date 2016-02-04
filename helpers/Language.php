@@ -6,6 +6,7 @@
  * @email   phuong17889[at]gmail.com
  * @date    04/02/2016
  * @time    11:03 SA
+ * @version 1.0.0
  */
 namespace navatech\language\helpers;
 
@@ -23,6 +24,7 @@ class Language {
 	 * @param null $code
 	 *
 	 * @return array|string
+	 * @since 1.0.0
 	 */
 	public static function url($code = null) {
 		if($code == null) {
@@ -51,6 +53,7 @@ class Language {
 	 * @param $language_code string
 	 *
 	 * @return string return translated value
+	 * @since 1.0.0
 	 */
 	public static function t($name, $params = array(), $language_code = null) {
 		if($language_code == null) {
@@ -96,6 +99,7 @@ class Language {
 	 * @param $phrase Phrase
 	 *
 	 * @return array|mixed
+	 * @since 1.0.0
 	 */
 	public static function phraseColumns($phrase) {
 		$columns    = [];
