@@ -49,6 +49,9 @@ class m160204_045439_navatech_multi_language extends Migration {
 			'country' => 'us',
 			'status'  => 1,
 		]);
+		$translate = new \navatech\language\Translate();
+		$translate->setLanguage();
+		$translate->setData();
 	}
 
 	public function down() {

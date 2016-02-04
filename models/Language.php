@@ -10,6 +10,7 @@
  */
 namespace navatech\language\models;
 
+use navatech\language\Translate;
 use Yii;
 use yii\db\ActiveRecord;
 
@@ -122,5 +123,23 @@ class Language extends ActiveRecord {
 		} else {
 			return 0;
 		}
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function afterSave($insert, $changedAttributes) {
+		parent::afterSave($insert, $changedAttributes);
+		$language = new Translate();
+		$language->setLanguage();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function afterDelete() {
+		parent::afterDelete();
+		$language = new Translate();
+		$language->setLanguage();
 	}
 }

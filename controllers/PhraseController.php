@@ -25,11 +25,6 @@ class PhraseController extends Controller {
 	 * @since 1.0.0
 	 */
 	public function actionIndex() {
-		$a = new \navatech\language\Language();
-//		$a->setData();
-		echo '<pre>';
-		print_r($a->support_max_5_params_in_a_sentence);
-		die;
 		$searchModel  = new PhraseSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 		if(Yii::$app->request->post('hasEditable')) {

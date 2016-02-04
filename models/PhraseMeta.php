@@ -10,6 +10,7 @@
  */
 namespace navatech\language\models;
 
+use navatech\language\Translate;
 use yii\db\ActiveRecord;
 
 /**
@@ -88,5 +89,23 @@ class PhraseMeta extends ActiveRecord {
 	 */
 	public function getPhrase() {
 		return $this->hasOne(Phrase::className(), ['id' => 'phrase_id']);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function afterSave($insert, $changedAttributes) {
+		parent::afterSave($insert, $changedAttributes);
+		$language = new Translate();
+		$language->setData();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function afterDelete() {
+		parent::afterDelete();
+		$language = new Translate();
+		$language->setData();
 	}
 }

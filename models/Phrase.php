@@ -12,6 +12,7 @@ namespace navatech\language\models;
 
 use kartik\editable\Editable;
 use kartik\popover\PopoverX;
+use navatech\language\Translate;
 use yii\db\ActiveRecord;
 
 /**
@@ -34,6 +35,9 @@ class Phrase extends ActiveRecord {
 	 */
 	public static function tableName() {
 		return '{{%phrase}}';
+	}
+
+	public static function __getStatic() {
 	}
 
 	/**
@@ -197,5 +201,23 @@ class Phrase extends ActiveRecord {
 			'template' => '{delete}',
 		];
 		return $columns;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function afterSave($insert, $changedAttributes) {
+		parent::afterSave($insert, $changedAttributes);
+		$language = new Translate();
+		$language->setData();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function afterDelete() {
+		parent::afterDelete();
+		$language = new Translate();
+		$language->setData();
 	}
 }
