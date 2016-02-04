@@ -14,3 +14,8 @@ Migration:
 ```
 php yii migrate/up --migrationPath=@vendor/navatech/yii2-multi-language/migrations
 ```
+Usage:
+````
+$language = new \navatech\language\Language();
+print_r($language->about);
+````

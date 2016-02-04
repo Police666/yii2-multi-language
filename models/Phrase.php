@@ -10,6 +10,8 @@
  */
 namespace navatech\language\models;
 
+use kartik\editable\Editable;
+use kartik\popover\PopoverX;
 use yii\db\ActiveRecord;
 
 /**
@@ -158,5 +160,42 @@ class Phrase extends ActiveRecord {
 		} else {
 			return 0;
 		}
+	}
+
+	/**
+	 * @param $phrase Phrase
+	 *
+	 * @return array|mixed
+	 * @since 1.0.0
+	 */
+	public function phraseColumns($phrase) {
+		$columns    = [];
+		$columns[]  = ['class' => 'kartik\grid\SerialColumn'];
+		$columns[]  = ['attribute' => 'name'];
+		$attributes = $phrase->attributeLabels();
+		foreach($phrase->_dynamicField as $key => $value) {
+			$columns[] = array(
+				'attribute'       => $key,
+				'header'          => '<a href="#">' . $attributes[$key] . '</a>',
+				'value'           => function (Phrase $model) use ($key) {
+					$model->setDynamicField();
+					return $model->$key;
+				},
+				'class'           => 'kartik\grid\EditableColumn',
+				'refreshGrid'     => true,
+				'editableOptions' => [
+					'inputType' => Editable::INPUT_TEXTAREA,
+					'placement' => PopoverX::ALIGN_TOP_LEFT,
+					'options'   => [
+						'cols' => '200',
+					],
+				],
+			);
+		}
+		$columns[] = [
+			'class'    => 'kartik\grid\ActionColumn',
+			'template' => '{delete}',
+		];
+		return $columns;
 	}
 }

@@ -8,7 +8,6 @@
  * @time    2:35 CH
  */
 use kartik\grid\GridView;
-use navatech\language\helpers\Language;
 
 /* @var $this yii\web\View */
 /* @var $searchModel \navatech\language\models\PhraseSearch */
@@ -37,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'headerRowOptions' => ['class' => 'kartik-sheet-style'],
 				'filterRowOptions' => ['class' => 'kartik-sheet-style'],
 				'pjax'             => true,
-				'columns'          => Language::phraseColumns($searchModel),
+				'columns'          => \navatech\language\models\Phrase::phraseColumns($searchModel),
 			]); ?>
 		</div>
 	</div>
