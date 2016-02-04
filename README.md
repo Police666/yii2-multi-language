@@ -13,7 +13,7 @@ Config:
             'showScriptName'      => false,
             'enableStrictParsing' => false,
         ],
-        ],
+    ],
     'modules'    => [
         'gridview' => [
             'class' => '\kartik\grid\Module',
