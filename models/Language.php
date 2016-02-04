@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by Navatech.
- * @project nic
+ * @project Yii2 Multi Language
  * @author  Phuong
  * @email   notteen[at]gmail.com
  * @date    04/02/2016
@@ -12,6 +12,15 @@ namespace navatech\language\models;
 use Yii;
 use yii\db\ActiveRecord;
 
+/**
+ * This is the model class for table "language".
+ *
+ * @property integer $id
+ * @property string  $name
+ * @property string  $code
+ * @property string  $country
+ * @property int     $status
+ */
 class Language extends ActiveRecord {
 
 	/**
@@ -41,9 +50,8 @@ class Language extends ActiveRecord {
 				'max' => 255,
 			),
 			array(
-				'language_id, name, code, status, country',
+				'id, name, code, status, country',
 				'safe',
-				'on' => 'search',
 			),
 		);
 	}
@@ -60,37 +68,37 @@ class Language extends ActiveRecord {
 	 */
 	public function attributeLabels() {
 		return array(
-			'language_id' => 'No.',
-			'name'        => 'Name',
-			'code'        => 'Code',
-			'country'     => 'Country',
-			'status'      => 'Status',
+			'id'      => 'No.',
+			'name'    => 'Name',
+			'code'    => 'Code',
+			'country' => 'Country',
+			'status'  => 'Status',
 		);
 	}
 
+	/**
+	 * @param array $attributes
+	 *
+	 * @return array|\yii\db\ActiveRecord[]|Language[]
+	 */
 	public static function getAllLanguages($attributes = array()) {
 		if($attributes == null) {
 			$attributes['status'] = 1;
 		}
-		return self::findOne($attributes);
+		return self::find()->where($attributes)->all();
 	}
 
-	public static function getUrl($code = null) {
-		if($code == null) {
-			$code = Yii::$app->language;
-		}
-		$url = $_SERVER['REQUEST_URI'];
-		if(is_int(strpos($url, 'language'))) {
-			$url = explode("language", $url);
-			$url = $url[0];
-			$url .= 'language=' . $code;
+	/**
+	 * @param $code
+	 *
+	 * @return int
+	 */
+	public static function getIdByCode($code) {
+		$model = self::findOne(array('code' => $code));
+		if($model) {
+			return $model->id;
 		} else {
-			if(is_int(strpos($url, '?'))) {
-				$url .= '&language=' . $code;
-			} else {
-				$url .= '?language=' . $code;
-			}
+			return 0;
 		}
-		return $url;
 	}
 }

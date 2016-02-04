@@ -1,0 +1,33 @@
+{
+	"name" : "navatech/yii2-multi-language",
+	"description" : "This will help multi-language for Navatech Only",
+	"keywords" : [
+		"yii2",
+		"multi language"
+	],
+	"type" : "yii2-extension",
+	"license" : "BSD-3-Clause",
+	"support" : {
+		"source" : "https://github.com/navatech/yii2-multi-language"
+	},
+	"authors" : [
+		{
+			"name" : "Le Phuong",
+			"email" : "phuong17889@gmail.com"
+		}
+	],
+	"require" : {
+		"yiisoft/yii2" : ">=2.0.4",
+		"yiisoft/yii2-bootstrap" : "*"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"navatech\\language\\" : ""
+		}
+	},
+	"extra" : {
+		"branch-alias" : {
+			"dev-master" : "1.0.x-dev"
+		}
+	}
+}
