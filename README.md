@@ -5,16 +5,23 @@ composer require navatech/yii2-multi-language "@dev"
 ````
 Config:
 ````
-	'language'   => 'en',
-        .....................
-	'modules'    => [
-		'gridview' => [
-			'class' => '\kartik\grid\Module',
-		],
-		'language' => [
-			'class' => '\navatech\language\Module',
-		],
-	],
+    'language'   => 'en',
+    .....................
+    'components' => [
+        'urlManager' => [
+            'enablePrettyUrl'     => true,
+            'showScriptName'      => false,
+            'enableStrictParsing' => false,
+        ],
+        ],
+    'modules'    => [
+        'gridview' => [
+            'class' => '\kartik\grid\Module',
+        ],
+        'language' => [
+            'class' => '\navatech\language\Module',
+        ],
+    ],
 ````
 Migration:
 ```
