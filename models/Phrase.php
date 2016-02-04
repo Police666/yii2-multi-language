@@ -78,7 +78,6 @@ class Phrase extends ActiveRecord {
 
 	/**
 	 * This will set dynamic field
-	 * nava need more documents
 	 * @since 1.0.0
 	 */
 	public function setDynamicField() {
@@ -122,7 +121,6 @@ class Phrase extends ActiveRecord {
 
 	/**
 	 * This will return all PhraseMeta relations of Phrase
-	 * nava need more documents
 	 * @return \yii\db\ActiveQuery|PhraseMeta[]
 	 * @since 1.0.0
 	 */
@@ -150,7 +148,6 @@ class Phrase extends ActiveRecord {
 	}
 
 	/**
-	 * nava need more documents
 	 *
 	 * @param $name
 	 *

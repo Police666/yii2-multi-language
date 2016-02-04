@@ -72,7 +72,6 @@ class Language extends ActiveRecord {
 	}
 
 	/**
-	 * nava need more documents
 	 * @return \yii\db\ActiveQuery|PhraseMeta[]
 	 * @since 1.0.0
 	 */
@@ -94,7 +93,6 @@ class Language extends ActiveRecord {
 	}
 
 	/**
-	 * nava need more documents
 	 *
 	 * @param array $attributes
 	 *
@@ -109,7 +107,6 @@ class Language extends ActiveRecord {
 	}
 
 	/**
-	 * nava need more documents
 	 *
 	 * @param $code
 	 *

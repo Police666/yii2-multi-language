@@ -74,7 +74,6 @@ class PhraseMeta extends ActiveRecord {
 	}
 
 	/**
-	 * nava need more documents
 	 * @return \yii\db\ActiveQuery|Language
 	 * @since 1.0.0
 	 */
@@ -83,7 +82,6 @@ class PhraseMeta extends ActiveRecord {
 	}
 
 	/**
-	 * nava need more documents
 	 * @return \yii\db\ActiveQuery|Phrase
 	 * @since 1.0.0
 	 */
