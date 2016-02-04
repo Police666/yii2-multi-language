@@ -23,9 +23,15 @@ class Translate {
 	/**
 	 * Language constructor.
 	 * @since 1.0.0
+	 *
+	 * @param null $language_code
 	 */
-	public function __construct() {
-		$this->values = $this->getData(Yii::$app->language);
+	public function __construct($language_code = null) {
+		if($language_code == null) {
+			$this->values = $this->getData(Yii::$app->language);
+		} else {
+			$this->values = $this->getData($language_code);
+		}
 	}
 
 	/**
@@ -65,8 +71,7 @@ class Translate {
 		if(isset($arguments[1]) && is_string($arguments[1]) && strlen($arguments[1]) == 2) {
 			$language_code = $arguments[1];
 		}
-		$language         = new Translate();
-		$language->values = $language->getData($language_code);
+		$language = new Translate($language_code);
 		if($language->values != null && isset($language->values[$name]) && $value = $language->values[$name]) {
 			if($parameters != null) {
 				foreach($parameters as $key => $param) {
@@ -117,6 +122,7 @@ class Translate {
 	 * @param $language_code
 	 * @param $path
 	 *
+	 * @return array
 	 * @since 1.0.0
 	 */
 	private function _setData($language_code, $path) {
@@ -148,18 +154,21 @@ class Translate {
 			}
 		}
 		file_put_contents($file, Json::encode($data));
+		return $data;
 	}
 
 	/**
 	 * @param $path
 	 *
+	 * @param $data
+	 *
 	 * @since 1.0.0
 	 */
-	private function _setClass($path) {
+	private function _setClass($path, $data) {
 		$php = '<?php' . PHP_EOL;
 		$php .= 'namespace navatech\language;' . PHP_EOL;
 		$php .= 'class Translate {' . PHP_EOL;
-		foreach($this->values as $key => $item) {
+		foreach($data as $key => $item) {
 			$php .= '       /**' . PHP_EOL;
 			$php .= '       * @param null $parameters' . PHP_EOL;
 			$php .= '       * @param null $language_code' . PHP_EOL;
@@ -180,7 +189,10 @@ class Translate {
 	public function setLanguage() {
 		$runtime = Yii::getAlias('@runtime');
 		$path    = $runtime . DIRECTORY_SEPARATOR . 'language';
-		$code    = [];
+		if(!file_exists($path)) {
+			mkdir($path, 0777, true);
+		}
+		$code = [];
 		foreach(LanguageModel::getAllLanguages() as $language) {
 			$code[$language->id] = $language->getAttributes();
 		}
@@ -201,14 +213,15 @@ class Translate {
 		if(!file_exists($path)) {
 			mkdir($path, 0777, true);
 		}
+		$data = null;
 		if($language_code != null) {
-			$this->_setData($language_code, $path);
+			$data = $this->_setData($language_code, $path);
 		} else {
 			foreach(LanguageModel::getAllLanguages() as $language) {
-				$this->_setData($language->code, $path);
+				$data = $this->_setData($language->code, $path);
 			}
 		}
-		$this->_setClass($path);
+		$this->_setClass($path, $data);
 	}
 
 	/**

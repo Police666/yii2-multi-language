@@ -1,6 +1,12 @@
 # yii2-multi-language
+Install:
+````
+composer require navatech/yii2-multi-language "@dev"
+````
 Config:
 ````
+	'language'   => 'en',
+        .....................
 	'modules'    => [
 		'gridview' => [
 			'class' => '\kartik\grid\Module',
@@ -14,8 +20,13 @@ Migration:
 ```
 php yii migrate/up --migrationPath=@vendor/navatech/yii2-multi-language/migrations
 ```
-Usage:
+Usage Way 1:
 ````
-$language = new \navatech\language\Language();
-print_r($language->about);
+$translate = new \navatech\language\Translate();
+print_r($translate->about);
+````
+Usage Way 2:
+````
+$translated = \navatech\language\Translate::about($parameters = [], $language_code = 'en');
+print_r($translated);
 ````
