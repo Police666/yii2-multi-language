@@ -3,7 +3,7 @@
  * Created by Navatech.
  * @project Yii2 Multi Language
  * @author  Phuong
- * @email   notteen[at]gmail.com
+ * @email   phuong17889[at]gmail.com
  * @date    04/02/2016
  * @time    1:48 SA
  */
@@ -20,26 +20,24 @@ use yii\db\ActiveRecord;
  */
 class Phrase extends ActiveRecord {
 
-	public $_dynamicData   = [];
+	public $_dynamicData  = [];
 
-	public $_dynamicFields = [];
+	public $_dynamicField = [];
 
-	public $languages      = [];
+	public $languages     = [];
 
 	/**
-	 * @return string name of table
+	 * @inheritdoc
 	 */
 	public static function tableName() {
 		return '{{%phrase}}';
 	}
 
 	/**
-	 * @param string $name
-	 *
-	 * @return mixed|null
+	 * @inheritdoc
 	 */
 	public function __get($name) {
-		if(!empty($this->_dynamicFields[$name])) {
+		if(!empty($this->_dynamicField[$name])) {
 			if(!empty($this->_dynamicData[$name])) {
 				return $this->_dynamicData[$name];
 			} else {
@@ -51,13 +49,10 @@ class Phrase extends ActiveRecord {
 	}
 
 	/**
-	 * @param string $name
-	 * @param mixed  $val
-	 *
-	 * @return mixed
+	 * @inheritdoc
 	 */
 	public function __set($name, $val) {
-		if(!empty($this->_dynamicFields[$name])) {
+		if(!empty($this->_dynamicField[$name])) {
 			$this->_dynamicData[$name] = $val;
 		} else {
 			parent::__set($name, $val);
@@ -65,20 +60,20 @@ class Phrase extends ActiveRecord {
 	}
 
 	/**
-	 * void
+	 * @inheritdoc
 	 */
 	public function init() {
 		$this->languages = Language::getAllLanguages();
 		foreach($this->languages as $language) {
-			$this->_dynamicFields[$language->code] = $language->name;
+			$this->_dynamicField[$language->code] = $language->name;
 		}
 	}
 
 	/**
 	 * This will set dynamic field
+	 * nava need more documents
 	 */
 	public function setDynamicField() {
-		$num = 0;
 		foreach($this->languages as $language) {
 			$set = false;
 			foreach($this->getPhraseMeta() as $phrase_meta) {
@@ -91,48 +86,51 @@ class Phrase extends ActiveRecord {
 			if(!$set) {
 				$this->__set($language->code, '');
 			}
-			$num ++;
 		}
 	}
 
 	/**
-	 * @return array of rule
+	 * @inheritdoc
 	 */
 	public function rules() {
 		$code = [];
 		foreach($this->languages as $language) {
 			$code[] = $language->code;
 		}
-		return array(
-			array(
-				'name',
+		return [
+			[
+				['name'],
 				'required',
-			),
-			array(
-				'id, name, ' . implode(', ', $code),
+			],
+			[
+				array_merge([
+					'id',
+					'name',
+				], $code),
 				'safe',
-			),
-		);
+			],
+		];
 	}
 
 	/**
 	 * This will return all PhraseMeta relations of Phrase
+	 * nava need more documents
 	 * @return \yii\db\ActiveQuery|PhraseMeta[]
 	 */
 	public function getPhraseMeta() {
-		return $this->hasMany(PhraseMeta::className(), ['phrase_id' => 'id']);
+		return $this->hasMany(PhraseMeta::className(), ['phrase_id' => 'id'])->all();
 	}
 
 	/**
-	 * @return array of this attributes
+	 * @inheritdoc
 	 */
 	public function attributes() {
 		$attributes = parent::attributes();
-		return array_merge($attributes, array_keys($this->_dynamicFields));
+		return array_merge($attributes, array_keys($this->_dynamicField));
 	}
 
 	/**
-	 * @return array of this attribute labels
+	 * @inheritdoc
 	 */
 	public function attributeLabels() {
 		$labels = parent::attributeLabels();
@@ -143,6 +141,8 @@ class Phrase extends ActiveRecord {
 	}
 
 	/**
+	 * nava need more documents
+	 *
 	 * @param $name
 	 *
 	 * @return int

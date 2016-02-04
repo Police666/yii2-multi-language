@@ -3,7 +3,7 @@
  * Created by Navatech.
  * @project Yii2 Multi Language
  * @author  Phuong
- * @email   notteen[at]gmail.com
+ * @email   phuong17889[at]gmail.com
  * @date    04/02/2016
  * @time    1:48 SA
  */
@@ -22,49 +22,67 @@ use yii\db\ActiveRecord;
 class PhraseMeta extends ActiveRecord {
 
 	/**
-	 * @return string name of table
+	 * @inheritdoc
 	 */
 	public static function tableName() {
 		return '{{%phrase_meta}}';
 	}
 
 	/**
-	 * @return array
+	 * @inheritdoc
 	 */
 	public function rules() {
-		return array(
-			array(
-				'phrase_id, language_id',
+		return [
+			[
+				[
+					'phrase_id',
+					'language_id',
+				],
 				'required',
-			),
-			array(
-				'phrase_id, language_id',
-				'numerical',
-				'integerOnly' => true,
-			),
-			array(
-				'id, phrase_id, language_id, value',
+			],
+			[
+				[
+					'phrase_id',
+					'language_id',
+				],
+				'integer',
+			],
+			[
+				[
+					'id',
+					'phrase_id',
+					'language_id',
+					'value',
+				],
 				'safe',
-			),
-		);
+			],
+		];
 	}
 
 	/**
-	 * @return array of attribute labels
+	 * @inheritdoc
 	 */
 	public function attributeLabels() {
-		return array(
+		return [
 			'id'          => 'No.',
 			'phrase_id'   => 'Phrase',
 			'language_id' => 'Language',
 			'value'       => 'Translate',
-		);
+		];
 	}
 
+	/**
+	 * nava need more documents
+	 * @return \yii\db\ActiveQuery|Language
+	 */
 	public function getLanguage() {
 		return $this->hasOne(Language::className(), ['id' => 'language_id']);
 	}
 
+	/**
+	 * nava need more documents
+	 * @return \yii\db\ActiveQuery|Phrase
+	 */
 	public function getPhrase() {
 		return $this->hasOne(Phrase::className(), ['id' => 'phrase_id']);
 	}

@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by Navatech.
- * @project nic
+ * @project Yii2 Multi Language
  * @author  Phuong
  * @email   phuong17889[at]gmail.com
  * @date    04/02/2016

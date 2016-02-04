@@ -3,7 +3,7 @@
  * Created by Navatech.
  * @project Yii2 Multi Language
  * @author  Phuong
- * @email   notteen[at]gmail.com
+ * @email   phuong17889[at]gmail.com
  * @date    04/02/2016
  * @time    1:49 SA
  */
@@ -24,64 +24,80 @@ use yii\db\ActiveRecord;
 class Language extends ActiveRecord {
 
 	/**
-	 * @return string
+	 * @inheritdoc
 	 */
 	public static function tableName() {
 		return '{{%language}}';
 	}
 
 	/**
-	 * @return array
+	 * @inheritdoc
 	 */
 	public function rules() {
-		return array(
-			array(
-				'name, code, country',
+		return [
+			[
+				[
+					'name',
+					'code',
+					'country',
+				],
 				'required',
-			),
-			array(
-				'status',
-				'numerical',
-				'integerOnly' => true,
-			),
-			array(
-				'name, code, country',
-				'length',
+			],
+			[
+				['status'],
+				'integer',
+			],
+			[
+				[
+					'name',
+					'code',
+					'country',
+				],
+				'string',
 				'max' => 255,
-			),
-			array(
-				'id, name, code, status, country',
+			],
+			[
+				[
+					'id',
+					'name',
+					'code',
+					'status',
+					'country',
+				],
 				'safe',
-			),
-		);
+			],
+		];
 	}
 
 	/**
+	 * nava need more documents
 	 * @return \yii\db\ActiveQuery|PhraseMeta[]
 	 */
 	public function getPhraseMeta() {
-		return $this->hasMany(PhraseMeta::className(), ['language_id' => 'id']);
+		return $this->hasMany(PhraseMeta::className(), ['language_id' => 'id'])->all();
 	}
 
 	/**
-	 * @return array
+	 * @inheritdoc
 	 */
 	public function attributeLabels() {
-		return array(
+		return [
 			'id'      => 'No.',
 			'name'    => 'Name',
 			'code'    => 'Code',
 			'country' => 'Country',
 			'status'  => 'Status',
-		);
+		];
 	}
 
 	/**
+	 * nava need more documents
+	 *
 	 * @param array $attributes
 	 *
 	 * @return array|\yii\db\ActiveRecord[]|Language[]
 	 */
-	public static function getAllLanguages($attributes = array()) {
+	public static function getAllLanguages($attributes = []) {
 		if($attributes == null) {
 			$attributes['status'] = 1;
 		}
@@ -89,12 +105,14 @@ class Language extends ActiveRecord {
 	}
 
 	/**
+	 * nava need more documents
+	 *
 	 * @param $code
 	 *
 	 * @return int
 	 */
 	public static function getIdByCode($code) {
-		$model = self::findOne(array('code' => $code));
+		$model = self::findOne(['code' => $code]);
 		if($model) {
 			return $model->id;
 		} else {
