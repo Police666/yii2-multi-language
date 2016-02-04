@@ -20,7 +20,8 @@
 		"yiisoft/yii2" : ">=2.0.4",
 		"yiisoft/yii2-bootstrap" : "*",
 		"kartik-v/yii2-grid" : "@dev",
-		"kartik-v/yii2-editable" : "@dev"
+		"kartik-v/yii2-editable" : "@dev",
+		"kartik-v/yii2-mpdf" : "@dev"
 	},
 	"autoload" : {
 		"psr-4" : {

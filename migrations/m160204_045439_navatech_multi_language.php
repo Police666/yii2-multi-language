@@ -5,9 +5,16 @@ class m160204_045439_navatech_multi_language extends Migration {
 
 	public function up() {
 		$tableOptions_mysql = "CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB";
-		$this->dropTable('{{%language}}');
-		$this->dropTable('{{%phrase}}');
-		$this->dropTable('{{%phrase_meta}}');
+		$tables             = $this->getDb()->schema->tableNames;
+		if(in_array('{{%language}}', $tables)) {
+			$this->dropTable('{{%language}}');
+		}
+		if(in_array('{{%phrase}}', $tables)) {
+			$this->dropTable('{{%phrase}}');
+		}
+		if(in_array('{{%phrase_meta}}', $tables)) {
+			$this->dropTable('{{%phrase_meta}}');
+		}
 		$this->createTable('{{%language}}', [
 			'id'      => 'INT(11) NOT NULL AUTO_INCREMENT',
 			0         => 'PRIMARY KEY (`id`)',
