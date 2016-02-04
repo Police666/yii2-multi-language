@@ -37,3 +37,10 @@ Usage Way 2:
 $translated = \navatech\language\Translate::about($parameters = [], $language_code = 'en');
 print_r($translated);
 ````
+Management:
+````
+http://yii2.demo/web/language/index/list
+http://yii2.demo/web/language/index/create
+http://yii2.demo/web/language/index/update
+http://yii2.demo/web/language/phrase/index
+````
