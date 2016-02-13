@@ -17,14 +17,15 @@
 		}
 	],
 	"require" : {
-		"yiisoft/yii2" : ">=2.0.5",
-		"yiisoft/yii2-bootstrap" : "*",
+		"yiisoft/yii2" : "*",
 		"codemix/yii2-localeurls" : "*"
 	},
 	"require-dev" : {
 		"kartik-v/yii2-grid" : "@dev",
 		"kartik-v/yii2-editable" : "@dev",
-		"kartik-v/yii2-mpdf" : "@dev"
+		"kartik-v/yii2-mpdf" : "@dev",
+		"phpunit/phpunit" : "4.6.*",
+		"phpunit/dbunit" : ">=1.2"
 	},
 	"autoload" : {
 		"psr-4" : {
