@@ -9,7 +9,7 @@
 
 Install:
 ````
-composer require navatech/yii2-multi-language "@dev"
+composer require navatech/yii2-multi-language "~1.0"
 ````
 Config:
 ````
@@ -35,7 +35,7 @@ Config:
 ````
 Migration:
 ```
-php yii migrate/up --migrationPath=@vendor/navatech/yii2-multi-language/migrations
+php yii migrate/up --migrationPath=@vendor/navatech/yii2-multi-language/src/migrations
 ```
 Usage Way 1:
 ````

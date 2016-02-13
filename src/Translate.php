@@ -38,21 +38,13 @@ class Translate {
 	 * @param $name
 	 *
 	 * @return string
+	 * @since 1.0.2
 	 */
 	public function __get($name) {
 		if(isset($this->values[$name])) {
 			return $this->values[$name];
 		} else {
-			$model       = new Phrase();
-			$model->name = $name;
-			if($model->save()) {
-				$phraseMeta              = new PhraseMeta();
-				$phraseMeta->phrase_id   = $model->getPrimaryKey();
-				$phraseMeta->language_id = LanguageModel::getIdByCode(Yii::$app->language);
-				$phraseMeta->value       = "error: phrase [" . $name . "] not found";
-				$phraseMeta->save();
-			}
-			return "error: phrase [" . $name . "] not found";
+			return self::newPhrase($name);
 		}
 	}
 
@@ -61,7 +53,7 @@ class Translate {
 	 * @param $arguments
 	 *
 	 * @return string
-	 * @since 1.0.1
+	 * @since 1.0.2
 	 */
 	public static function __callStatic($name, $arguments) {
 		$parameters = null;
@@ -85,17 +77,27 @@ class Translate {
 			}
 			return trim($value);
 		} else {
-			$model       = new Phrase();
-			$model->name = $name;
-			if($model->save()) {
-				$phraseMeta              = new PhraseMeta();
-				$phraseMeta->phrase_id   = $model->getPrimaryKey();
-				$phraseMeta->language_id = LanguageModel::getIdByCode(Yii::$app->language);
-				$phraseMeta->value       = "error: phrase [" . $name . "] not found";
-				$phraseMeta->save();
-			}
-			return "error: phrase [" . $name . "] not found";
+			return self::newPhrase($name);
 		}
+	}
+
+	/**
+	 * @param $name
+	 *
+	 * @return string
+	 * @since 1.0.2
+	 */
+	private static function newPhrase($name) {
+		$model       = new Phrase();
+		$model->name = $name;
+		if($model->save()) {
+			$phraseMeta              = new PhraseMeta();
+			$phraseMeta->phrase_id   = $model->getPrimaryKey();
+			$phraseMeta->language_id = LanguageModel::getIdByCode(Yii::$app->language);
+			$phraseMeta->value       = "error: phrase [" . $name . "] not found";
+			$phraseMeta->save();
+		}
+		return "error: phrase [" . $name . "] not found";
 	}
 
 	/**
