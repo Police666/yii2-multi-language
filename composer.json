@@ -18,12 +18,13 @@
 	],
 	"require" : {
 		"yiisoft/yii2" : "*",
-		"codemix/yii2-localeurls" : "*"
-	},
-	"require-dev" : {
+		"yiisoft/yii2-bootstrap" : "*",
 		"kartik-v/yii2-grid" : "@dev",
 		"kartik-v/yii2-editable" : "@dev",
 		"kartik-v/yii2-mpdf" : "@dev",
+		"codemix/yii2-localeurls" : "*"
+	},
+	"require-dev" : {
 		"phpunit/phpunit" : "4.6.*",
 		"phpunit/dbunit" : ">=1.2"
 	},
