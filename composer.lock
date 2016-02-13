@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f56e7d4395729b5c27926826fccafcc4",
-    "content-hash": "f1be7067ee40f39429b464e58fa0b480",
+    "hash": "bcbd2366b23ed3dabc9cab5bead04011",
+    "content-hash": "90ce0a6ba1af85d05a33cd0e1768a82b",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -685,16 +685,16 @@
         },
         {
             "name": "navatech/yii2-multi-language",
-            "version": "dev-master",
+            "version": "1.0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/navatech/yii2-multi-language.git",
-                "reference": "cda172ff32040da135550164418f0a78559f4823"
+                "reference": "5e8f9d9672cfda53dd382f7250e82ef346e3987a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/navatech/yii2-multi-language/zipball/cda172ff32040da135550164418f0a78559f4823",
-                "reference": "cda172ff32040da135550164418f0a78559f4823",
+                "url": "https://api.github.com/repos/navatech/yii2-multi-language/zipball/5e8f9d9672cfda53dd382f7250e82ef346e3987a",
+                "reference": "5e8f9d9672cfda53dd382f7250e82ef346e3987a",
                 "shasum": ""
             },
             "require": {
@@ -727,7 +727,7 @@
                 "multi phrase language",
                 "yii2"
             ],
-            "time": "2016-02-13 15:56:03"
+            "time": "2016-02-13 16:24:07"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -1327,9 +1327,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "navatech/yii2-multi-language": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

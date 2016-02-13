@@ -8,6 +8,7 @@
 	],
 	"type" : "yii2-extension",
 	"license" : "BSD-3-Clause",
+	"minimum-stability" : "dev",
 	"support" : {
 		"source" : "https://github.com/navatech/yii2-multi-language"
 	},
