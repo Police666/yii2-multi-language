@@ -12,12 +12,12 @@ matrix:
   allow_failures:
     - php: hhvm
 
-before_script:
-  - travis_retry COMPOSER_ROOT_VERSION=dev-master composer install
+before_install:
+  - sudo apt-get update
 
 install:
   - travis_retry composer self-update && composer --version
-  - travis_retry composer install --prefer-dist --no-interaction --dev
+  - travis_retry COMPOSER_ROOT_VERSION=dev-master composer install --prefer-dist --no-interaction --dev
 
 after_script:
   - travis_retry wget https://scrutinizer-ci.com/ocular.phar
