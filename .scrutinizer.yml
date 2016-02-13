@@ -1,8 +1,4 @@
 build:
-    dependencies:
-        before:
-            - sudo composer self-update && composer --version
-
     environment:
         php:
             version: 5.6.9
