@@ -1,7 +1,7 @@
 # yii2-multi-language
 
-[![Packagist Version](https://img.shields.io/packagist/v/navatech/yii2-multi-language.svg?style=flat-square)](https://packagist.org/packages/navatech/yii2-multi-language)
-[![Total Downloads](https://img.shields.io/packagist/dt/navatech/yii2-multi-language.svg?style=flat-square)](https://packagist.org/packages/navatech/yii2-multi-language)
+[![Packagist Version](https://img.shields.io/packagist/v/navatech/yii2-multi-language.svg?style=flat)](https://packagist.org/packages/navatech/yii2-multi-language)
+[![Total Downloads](https://img.shields.io/packagist/dt/navatech/yii2-multi-language.svg?style=flat)](https://packagist.org/packages/navatech/yii2-multi-language)
 [![Build Status](https://travis-ci.org/navatech/yii2-multi-language.svg?branch=master)](https://travis-ci.org/navatech/yii2-multi-language)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/navatech/yii2-multi-language/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/navatech/yii2-multi-language/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/navatech/yii2-multi-language/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/navatech/yii2-multi-language/?branch=master)
