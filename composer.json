@@ -25,10 +25,6 @@
 		"kartik-v/yii2-mpdf" : "@dev",
 		"codemix/yii2-localeurls" : "*"
 	},
-	"require-dev" : {
-		"phpunit/phpunit" : "4.6.*",
-		"phpunit/dbunit" : ">=1.2"
-	},
 	"autoload" : {
 		"psr-4" : {
 			"navatech\\language\\" : "src"
