@@ -99,31 +99,6 @@ class Translate {
 	}
 
 	/**
-	 * @param null $code
-	 *
-	 * @return array|string
-	 * @since 1.0.0
-	 */
-	public static function url($code = null) {
-		if($code == null) {
-			$code = Yii::$app->language;
-		}
-		$url = $_SERVER['REQUEST_URI'];
-		if(is_int(strpos($url, 'language'))) {
-			$url = explode("language", $url);
-			$url = $url[0];
-			$url .= 'language=' . $code;
-		} else {
-			if(is_int(strpos($url, '?'))) {
-				$url .= '&language=' . $code;
-			} else {
-				$url .= '?language=' . $code;
-			}
-		}
-		return $url;
-	}
-
-	/**
 	 * @param $language_code
 	 * @param $path
 	 *
@@ -191,7 +166,7 @@ class Translate {
 	/**
 	 *
 	 */
-	public function setLanguage() {
+	public function setLanguages() {
 		$runtime = Yii::getAlias('@runtime');
 		$path    = $runtime . DIRECTORY_SEPARATOR . 'language';
 		if(!file_exists($path)) {
@@ -201,10 +176,34 @@ class Translate {
 		foreach(LanguageModel::getAllLanguages() as $language) {
 			$code[$language->id] = $language->getAttributes();
 		}
-		$file = $path . DIRECTORY_SEPARATOR . 'language.data';
+		$file = $path . DIRECTORY_SEPARATOR . 'languages.data';
 		$fp   = fopen($file, "wb");
 		fwrite($fp, Json::encode($code));
 		fclose($fp);
+	}
+
+	/**
+	 *
+	 * @return array|mixed
+	 * @since 1.0.2
+	 */
+	public static function getLanguages() {
+		$runtime = Yii::getAlias('@runtime');
+		$path    = $runtime . DIRECTORY_SEPARATOR . 'language';
+		if(!file_exists($path)) {
+			$translate = new Translate();
+			$translate->setLanguages();
+			return $translate::getLanguages();
+		}
+		$file = $path . DIRECTORY_SEPARATOR . 'languages.data';
+		if(!file_exists($file)) {
+			$translate = new Translate();
+			$translate->setLanguages();
+			return $translate::getLanguages();
+		}
+		$data = file_get_contents($file);
+		$data = Json::decode($data);
+		return $data;
 	}
 
 	/**

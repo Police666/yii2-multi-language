@@ -1,6 +1,6 @@
 {
 	"name" : "navatech/yii2-multi-language",
-	"description" : "This will help multi-language for Navatech Only",
+	"description" : "This will help multi-language for Yii2",
 	"keywords" : [
 		"yii2",
 		"multi language"
@@ -17,8 +17,11 @@
 		}
 	],
 	"require" : {
-		"yiisoft/yii2" : ">=2.0.4",
+		"yiisoft/yii2" : ">=2.0.5",
 		"yiisoft/yii2-bootstrap" : "*",
+		"codemix/yii2-localeurls" : "*"
+	},
+	"require-dev" : {
 		"kartik-v/yii2-grid" : "@dev",
 		"kartik-v/yii2-editable" : "@dev",
 		"kartik-v/yii2-mpdf" : "@dev"

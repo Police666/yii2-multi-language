@@ -117,7 +117,7 @@ class m160213_041916_navatech_multi_language_insert extends Migration {
 			'value'       => 'Translate',
 		]);
 		$translate = new \navatech\language\Translate();
-		$translate->setLanguage();
+		$translate->setLanguages();
 		$translate->setData();
 	}
 

@@ -128,7 +128,7 @@ class Language extends ActiveRecord {
 	public function afterSave($insert, $changedAttributes) {
 		parent::afterSave($insert, $changedAttributes);
 		$language = new Translate();
-		$language->setLanguage();
+		$language->setLanguages();
 	}
 
 	/**
@@ -137,6 +137,6 @@ class Language extends ActiveRecord {
 	public function afterDelete() {
 		parent::afterDelete();
 		$language = new Translate();
-		$language->setLanguage();
+		$language->setLanguages();
 	}
 }
