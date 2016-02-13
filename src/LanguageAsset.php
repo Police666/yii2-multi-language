@@ -14,7 +14,7 @@ use yii\web\AssetBundle;
 
 class LanguageAsset extends AssetBundle {
 
-	public $sourcePath = '@vendor/navatech/yii2-multi-language/assets';
+	public $sourcePath = '@vendor/navatech/yii2-multi-language/src/assets';
 
 	public $css        = [
 		'style.css',
