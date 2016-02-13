@@ -3,6 +3,7 @@
 [![Packagist Version](https://img.shields.io/packagist/v/navatech/yii2-multi-language.svg?style=flat)](https://packagist.org/packages/navatech/yii2-multi-language)
 [![Total Downloads](https://img.shields.io/packagist/dt/navatech/yii2-multi-language.svg?style=flat)](https://packagist.org/packages/navatech/yii2-multi-language)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/navatech/yii2-multi-language/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/navatech/yii2-multi-language/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/navatech/yii2-multi-language/badges/build.png?b=master)](https://scrutinizer-ci.com/g/navatech/yii2-multi-language/build-status/master)
 
 
 Install:
@@ -15,6 +16,7 @@ Config:
     .....................
     'components' => [
         'urlManager' => [
+            'class'               => 'codemix\localeurls\UrlManager',
             'enablePrettyUrl'     => true,
             'showScriptName'      => false,
             'enableStrictParsing' => false,

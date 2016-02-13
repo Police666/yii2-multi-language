@@ -24,7 +24,7 @@
 		"kartik-v/yii2-grid" : "@dev",
 		"kartik-v/yii2-editable" : "@dev",
 		"kartik-v/yii2-mpdf" : "@dev",
-		"codemix/yii2-localeurls" : "*"
+		"navatech/yii2-locale-urls" : "*"
 	},
 	"autoload" : {
 		"psr-4" : {
