@@ -3,7 +3,8 @@
 	"description" : "This will help multi-language for Yii2",
 	"keywords" : [
 		"yii2",
-		"multi language"
+		"multi language",
+		"multi phrase language"
 	],
 	"type" : "yii2-extension",
 	"license" : "BSD-3-Clause",
@@ -30,7 +31,7 @@
 	},
 	"autoload" : {
 		"psr-4" : {
-			"navatech\\language\\" : ""
+			"navatech\\language\\" : "src"
 		}
 	}
 }
