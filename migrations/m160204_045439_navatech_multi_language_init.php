@@ -1,7 +1,7 @@
 <?php
 use navatech\language\migrations\Migration;
 
-class m160204_045439_navatech_multi_language extends Migration {
+class m160204_045439_navatech_multi_language_init extends Migration {
 
 	public function up() {
 		$tableOptions_mysql = "CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB";
@@ -35,24 +35,6 @@ class m160204_045439_navatech_multi_language extends Migration {
 			'language_id' => 'int(11) NOT NULL',
 			'value'       => 'TEXT NOT NULL',
 		], $tableOptions_mysql);
-		$this->insert('{{%language}}', [
-			'id'      => 1,
-			'name'    => 'Việt Nam',
-			'code'    => 'vi',
-			'country' => 'vn',
-			'status'  => 1,
-		]);
-		$this->insert('{{%language}}', [
-			'id'      => 2,
-			'name'    => 'United States',
-			'code'    => 'en',
-			'country' => 'us',
-			'status'  => 1,
-		]);
-		//TODO need to insert more database
-		$translate = new \navatech\language\Translate();
-		$translate->setLanguage();
-		$translate->setData();
 	}
 
 	public function down() {
@@ -60,14 +42,4 @@ class m160204_045439_navatech_multi_language extends Migration {
 		$this->dropTable('{{%phrase}}');
 		$this->dropTable('{{%phrase_meta}}');
 	}
-	/*
-	// Use safeUp/safeDown to run migration code within a transaction
-	public function safeUp()
-	{
-	}
-
-	public function safeDown()
-	{
-	}
-	*/
 }

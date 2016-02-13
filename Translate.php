@@ -6,7 +6,7 @@
  * @email   phuong17889[at]gmail.com
  * @date    04/02/2016
  * @time    11:03 SA
- * @version 1.0.0
+ * @version 1.0.1
  */
 namespace navatech\language;
 
@@ -61,11 +61,16 @@ class Translate {
 	 * @param $arguments
 	 *
 	 * @return string
+	 * @since 1.0.1
 	 */
 	public static function __callStatic($name, $arguments) {
 		$parameters = null;
 		if(isset($arguments[0])) {
-			$parameters = $arguments[0];
+			if(!is_array($arguments[0])) {
+				$parameters = [$arguments[0]];
+			} else {
+				$parameters = $arguments[0];
+			}
 		}
 		$language_code = Yii::$app->language;
 		if(isset($arguments[1]) && is_string($arguments[1]) && strlen($arguments[1]) == 2) {
@@ -228,17 +233,17 @@ class Translate {
 	 * @param $language_code
 	 *
 	 * @return array|mixed|string
-	 * @since 1.0.0
+	 * @since 1.0.1
 	 */
 	public function getData($language_code) {
 		$runtime = Yii::getAlias('@runtime');
 		$path    = $runtime . DIRECTORY_SEPARATOR . 'language';
 		if(!file_exists($path)) {
-			return array();
+			return [];
 		}
 		$file = $path . DIRECTORY_SEPARATOR . 'phrase_' . $language_code . '.data';
 		if(!file_exists($file)) {
-			return array();
+			return [];
 		}
 		$data = file_get_contents($file);
 		$data = Json::decode($data);

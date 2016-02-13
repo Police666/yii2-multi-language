@@ -5,7 +5,7 @@ composer require navatech/yii2-multi-language "@dev"
 ````
 Config:
 ````
-    'language'   => 'en',
+    'language'   => 'en', //TODO Change this to 2 words
     .....................
     'components' => [
         'urlManager' => [
@@ -19,7 +19,9 @@ Config:
             'class' => '\kartik\grid\Module',
         ],
         'language' => [
-            'class' => '\navatech\language\Module',
+        'class'    => '\navatech\language\Module',
+        //REQUIRED if you want to custom view
+        'viewPath' => '@app/vendor/navatech/yii2-multi-language/views',
         ],
     ],
 ````
@@ -34,7 +36,9 @@ print_r($translate->about);
 ````
 Usage Way 2:
 ````
-$translated = \navatech\language\Translate::about($parameters = [], $language_code = 'en');
+use \navatech\language\Translate as Trans;
+..........................
+$translated = Trans::about($parameters = [], $language_code = 'en');
 print_r($translated);
 ````
 Management:

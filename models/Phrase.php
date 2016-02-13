@@ -6,7 +6,7 @@
  * @email   phuong17889[at]gmail.com
  * @date    04/02/2016
  * @time    1:48 SA
- * @version 1.0.0
+ * @version 1.0.1
  */
 namespace navatech\language\models;
 
@@ -164,17 +164,15 @@ class Phrase extends ActiveRecord {
 	}
 
 	/**
-	 * @param $phrase Phrase
-	 *
 	 * @return array|mixed
 	 * @since 1.0.0
 	 */
-	public function phraseColumns($phrase) {
+	public function phraseColumns() {
 		$columns    = [];
 		$columns[]  = ['class' => 'kartik\grid\SerialColumn'];
 		$columns[]  = ['attribute' => 'name'];
-		$attributes = $phrase->attributeLabels();
-		foreach($phrase->_dynamicField as $key => $value) {
+		$attributes = $this->attributeLabels();
+		foreach($this->_dynamicField as $key => $value) {
 			$columns[] = array(
 				'attribute'       => $key,
 				'header'          => '<a href="#">' . $attributes[$key] . '</a>',

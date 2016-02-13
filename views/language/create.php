@@ -1,15 +1,19 @@
 <?php
 /* @var $this yii\web\View */
-/* @var $model app\models\Employee */
+use navatech\language\Translate;
+
+/* @var $model \navatech\language\models\Language */
 $this->params['breadcrumbs'][] = [
 	'label' => 'Languages',
 	'url'   => ['list'],
 ];
-$this->params['breadcrumbs'][] = "Update";
+$this->params['breadcrumbs'][] = "Create";
 ?>
 <div class="page-header">
-	<h1>Dashboard
-		<small><i class="ace-icon fa fa-angle-double-right"></i> Update existing language</small>
+	<h1><?= Translate::language() ?>
+		<small>
+			<i class="ace-icon fa fa-angle-double-right"></i> <?= Translate::add_a_new() ?>
+		</small>
 	</h1>
 </div>
 <div class="row">
@@ -22,3 +26,4 @@ $this->params['breadcrumbs'][] = "Update";
 		</div>
 	</div>
 </div>
+

@@ -1,4 +1,5 @@
 <?php
+use navatech\language\Translate;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -31,13 +32,13 @@ use yii\widgets\ActiveForm;
 	<div class="col-md-offset-3 col-md-6">
 		<button class="btn btn-info" type="submit">
 			<i class="ace-icon fa fa-check bigger-110"></i>
-			Save
+			<?= Translate::save() ?>
 		</button>
 
 		&nbsp; &nbsp; &nbsp;
 		<button class="btn btn-back" type="reset">
 			<i class="ace-icon fa fa-arrow-left bigger-110"></i>
-			Back
+			<?= Translate::back() ?>
 		</button>
 	</div>
 </div>

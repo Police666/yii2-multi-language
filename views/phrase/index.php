@@ -8,6 +8,7 @@
  * @time    2:35 CH
  */
 use kartik\grid\GridView;
+use navatech\language\Translate;
 
 /* @var $this yii\web\View */
 /* @var $searchModel \navatech\language\models\PhraseSearch */
@@ -16,8 +17,8 @@ $this->title                   = 'List phrases';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="page-header">
-	<h1>Home Page
-		<small><i class="ace-icon fa fa-angle-double-right"></i> List phrases</small>
+	<h1><?= Translate::phrase() ?>
+		<small><i class="ace-icon fa fa-angle-double-right"></i> <?= Translate::list_x(Translate::phrase()) ?></small>
 	</h1>
 </div>
 <div class="row">
@@ -36,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'headerRowOptions' => ['class' => 'kartik-sheet-style'],
 				'filterRowOptions' => ['class' => 'kartik-sheet-style'],
 				'pjax'             => true,
-				'columns'          => \navatech\language\models\Phrase::phraseColumns($searchModel),
+				'columns'          => $searchModel->phraseColumns(),
 			]); ?>
 		</div>
 	</div>

@@ -6,10 +6,10 @@
  * @email   phuong17889[at]gmail.com
  * @date    04/02/2016
  * @time    1:46 SA
+ * @version 1.0.1
  */
 namespace navatech\language;
 class Module extends \yii\base\Module {
 
-	const VERSION = '1.0';
-
+	const VERSION = '1.0.1';
 }

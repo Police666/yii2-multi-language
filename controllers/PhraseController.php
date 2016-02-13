@@ -6,7 +6,7 @@
  * @email   phuong17889[at]gmail.com
  * @date    04/02/2016
  * @time    2:34 CH
- * @version 1.0.0
+ * @version 1.0.1
  */
 namespace navatech\language\controllers;
 

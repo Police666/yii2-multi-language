@@ -6,7 +6,7 @@
  * @email   phuong17889[at]gmail.com
  * @date    04/02/2016
  * @time    1:49 SA
- * @version 1.0.0
+ * @version 1.0.1
  */
 namespace navatech\language\models;
 
@@ -85,10 +85,10 @@ class Language extends ActiveRecord {
 	public function attributeLabels() {
 		return [
 			'id'      => 'No.',
-			'name'    => 'Name',
-			'code'    => 'Code',
-			'country' => 'Country',
-			'status'  => 'Status',
+			'name'    => Translate::name(),
+			'code'    => Translate::code(),
+			'country' => Translate::country(),
+			'status'  => Translate::status(),
 		];
 	}
 

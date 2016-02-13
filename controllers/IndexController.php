@@ -6,7 +6,7 @@
  * @email   phuong17889[at]gmail.com
  * @date    04/02/2016
  * @time    1:29 CH
- * @version 1.0.0
+ * @version 1.0.1
  */
 namespace navatech\language\controllers;
 
@@ -29,7 +29,7 @@ class IndexController extends Controller {
 	public function actionList() {
 		$searchModel  = new LanguageSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		return $this->render('list', [
+		return $this->render('/language/list', [
 			'searchModel'  => $searchModel,
 			'dataProvider' => $dataProvider,
 		]);
@@ -51,7 +51,7 @@ class IndexController extends Controller {
 				Yii::$app->getSession()->setFlash('message', 'Something went wrong!');
 			}
 		}
-		return $this->render('create', [
+		return $this->render('/language/create', [
 			'model' => $model,
 		]);
 	}
@@ -75,7 +75,7 @@ class IndexController extends Controller {
 				Yii::$app->getSession()->setFlash('message', 'Something went wrong!');
 			}
 		}
-		return $this->render('update', [
+		return $this->render('/language/update', [
 			'model' => $model,
 		]);
 	}

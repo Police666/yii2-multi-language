@@ -8,16 +8,18 @@
  * @time    1:44 CH
  */
 use kartik\grid\GridView;
+use navatech\language\Translate;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\EmployeeSearch */
+/* @var $searchModel \navatech\language\models\LanguageSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 $this->params['breadcrumbs'][] = "Languages";
 ?>
 <div class="page-header">
-	<h1>Home Page
-		<small><i class="ace-icon fa fa-angle-double-right"></i> List languages</small>
+	<h1><?= Translate::language() ?>
+		<small><i class="ace-icon fa fa-angle-double-right"></i> <?= Translate::list_x([Translate::language()]) ?>
+		</small>
 	</h1>
 </div>
 <div class="row">

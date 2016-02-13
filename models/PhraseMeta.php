@@ -6,7 +6,7 @@
  * @email   phuong17889[at]gmail.com
  * @date    04/02/2016
  * @time    1:48 SA
- * @version 1.0.0
+ * @version 1.0.1
  */
 namespace navatech\language\models;
 
@@ -67,9 +67,9 @@ class PhraseMeta extends ActiveRecord {
 	public function attributeLabels() {
 		return [
 			'id'          => 'No.',
-			'phrase_id'   => 'Phrase',
-			'language_id' => 'Language',
-			'value'       => 'Translate',
+			'phrase_id'   => Translate::phrase(),
+			'language_id' => Translate::language(),
+			'value'       => Translate::translate(),
 		];
 	}
 
