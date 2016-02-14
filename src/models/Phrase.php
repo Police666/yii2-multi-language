@@ -12,7 +12,6 @@ namespace navatech\language\models;
 
 use kartik\editable\Editable;
 use kartik\popover\PopoverX;
-use navatech\language\Translate;
 use yii\db\ActiveRecord;
 
 /**
@@ -44,8 +43,8 @@ class Phrase extends ActiveRecord {
 	 * @inheritdoc
 	 */
 	public function __get($name) {
-		if(!empty($this->_dynamicField[$name])) {
-			if(!empty($this->_dynamicData[$name])) {
+		if (!empty($this->_dynamicField[$name])) {
+			if (!empty($this->_dynamicData[$name])) {
 				return $this->_dynamicData[$name];
 			} else {
 				return null;
@@ -59,7 +58,7 @@ class Phrase extends ActiveRecord {
 	 * @inheritdoc
 	 */
 	public function __set($name, $val) {
-		if(!empty($this->_dynamicField[$name])) {
+		if (!empty($this->_dynamicField[$name])) {
 			$this->_dynamicData[$name] = $val;
 		} else {
 			parent::__set($name, $val);
@@ -71,7 +70,7 @@ class Phrase extends ActiveRecord {
 	 */
 	public function init() {
 		$this->languages = Language::getAllLanguages();
-		foreach($this->languages as $language) {
+		foreach ($this->languages as $language) {
 			$this->_dynamicField[$language->code] = $language->name;
 		}
 	}
@@ -81,16 +80,16 @@ class Phrase extends ActiveRecord {
 	 * @since 1.0.0
 	 */
 	public function setDynamicField() {
-		foreach($this->languages as $language) {
+		foreach ($this->languages as $language) {
 			$set = false;
-			foreach($this->getPhraseMeta() as $phrase_meta) {
-				if($phrase_meta->language_id == $language->id) {
+			foreach ($this->getPhraseMeta() as $phrase_meta) {
+				if ($phrase_meta->language_id == $language->id) {
 					$this->__set($language->code, $phrase_meta->value);
 					$set = true;
 					break;
 				}
 			}
-			if(!$set) {
+			if (!$set) {
 				$this->__set($language->code, '');
 			}
 		}
@@ -101,7 +100,7 @@ class Phrase extends ActiveRecord {
 	 */
 	public function rules() {
 		$code = [];
-		foreach($this->languages as $language) {
+		foreach ($this->languages as $language) {
 			$code[] = $language->code;
 		}
 		return [
@@ -121,8 +120,8 @@ class Phrase extends ActiveRecord {
 
 	/**
 	 * This will return all PhraseMeta relations of Phrase
-	 * @return \yii\db\ActiveQuery|PhraseMeta[]
-	 * @since 1.0.0
+	 * @return PhraseMeta[]
+	 * @since 1.0.2
 	 */
 	public function getPhraseMeta() {
 		return $this->hasMany(PhraseMeta::className(), ['phrase_id' => 'id'])->all();
@@ -141,7 +140,7 @@ class Phrase extends ActiveRecord {
 	 */
 	public function attributeLabels() {
 		$labels = parent::attributeLabels();
-		foreach($this->languages as $language) {
+		foreach ($this->languages as $language) {
 			$labels[$language->code] = $language->name;
 		}
 		return $labels;
@@ -156,7 +155,7 @@ class Phrase extends ActiveRecord {
 	 */
 	public static function getIdByName($name) {
 		$model = self::findOne(['name' => $name]);
-		if($model) {
+		if ($model) {
 			return $model->id;
 		} else {
 			return 0;
@@ -172,11 +171,11 @@ class Phrase extends ActiveRecord {
 		$columns[]  = ['class' => 'kartik\grid\SerialColumn'];
 		$columns[]  = ['attribute' => 'name'];
 		$attributes = $this->attributeLabels();
-		foreach($this->_dynamicField as $key => $value) {
+		foreach ($this->_dynamicField as $key => $value) {
 			$columns[] = array(
 				'attribute'       => $key,
 				'header'          => '<a href="#">' . $attributes[$key] . '</a>',
-				'value'           => function (Phrase $model) use ($key) {
+				'value'           => function(Phrase $model) use ($key) {
 					$model->setDynamicField();
 					return $model->$key;
 				},
@@ -196,23 +195,5 @@ class Phrase extends ActiveRecord {
 			'template' => '{delete}',
 		];
 		return $columns;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function afterSave($insert, $changedAttributes) {
-		parent::afterSave($insert, $changedAttributes);
-		$language = new Translate();
-		$language->setData();
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function afterDelete() {
-		parent::afterDelete();
-		$language = new Translate();
-		$language->setData();
 	}
 }

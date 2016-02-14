@@ -10,6 +10,7 @@
  */
 namespace navatech\language\models;
 
+use navatech\language\MultiLanguage;
 use navatech\language\Translate;
 use yii\db\ActiveRecord;
 
@@ -74,36 +75,36 @@ class PhraseMeta extends ActiveRecord {
 	}
 
 	/**
-	 * @return \yii\db\ActiveQuery|Language
+	 * @return Language
 	 * @since 1.0.0
 	 */
 	public function getLanguage() {
-		return $this->hasOne(Language::className(), ['id' => 'language_id']);
+		return $this->hasOne(Language::className(), ['id' => 'language_id'])->one();
 	}
 
 	/**
-	 * @return \yii\db\ActiveQuery|Phrase
+	 * @return Phrase
 	 * @since 1.0.0
 	 */
 	public function getPhrase() {
-		return $this->hasOne(Phrase::className(), ['id' => 'phrase_id']);
+		return $this->hasOne(Phrase::className(), ['id' => 'phrase_id'])->one();
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function afterSave($insert, $changedAttributes) {
-		parent::afterSave($insert, $changedAttributes);
-		$language = new Translate();
-		$language->setData();
+	public function beforeSave($insert) {
+		MultiLanguage::setData($this);
+		return parent::beforeSave($insert);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function afterDelete() {
-		parent::afterDelete();
-		$language = new Translate();
-		$language->setData();
+	public function beforeDelete() {
+		if (MultiLanguage::removeAllData($this)) {
+			return parent::beforeDelete();
+		}
+		return false;
 	}
 }

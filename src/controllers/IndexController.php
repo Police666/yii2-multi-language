@@ -43,8 +43,8 @@ class IndexController extends Controller {
 	 */
 	public function actionCreate() {
 		$model = new Language();
-		if($model->load(Yii::$app->request->post())) {
-			if($model->save()) {
+		if ($model->load(Yii::$app->request->post())) {
+			if ($model->save()) {
 				Yii::$app->getSession()->setFlash('message', 'Created');
 				return $this->redirect(['list']);
 			} else {
@@ -67,8 +67,8 @@ class IndexController extends Controller {
 	 */
 	public function actionUpdate($id) {
 		$model = $this->findModel($id);
-		if($model->load(Yii::$app->request->post())) {
-			if($model->save()) {
+		if ($model->load(Yii::$app->request->post())) {
+			if ($model->save()) {
 				Yii::$app->getSession()->setFlash('message', 'Updated!');
 				return $this->redirect(['list']);
 			} else {
@@ -91,7 +91,7 @@ class IndexController extends Controller {
 	 * @since 1.0.0
 	 */
 	protected function findModel($id) {
-		if(($model = Language::findOne($id)) !== null) {
+		if (($model = Language::findOne($id)) !== null) {
 			return $model;
 		} else {
 			throw new NotFoundHttpException('The requested page does not exist.');

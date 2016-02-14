@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by Navatech.
- * @project yii-basic
+ * @project Yii2 Multi Language
  * @author  Phuong
  * @email   phuong17889[at]gmail.com
  * @date    13/02/2016
@@ -12,7 +12,7 @@ namespace navatech\language;
 
 use yii\web\AssetBundle;
 
-class LanguageAsset extends AssetBundle {
+class MultiLanguageAsset extends AssetBundle {
 
 	public $sourcePath = '@vendor/navatech/yii2-multi-language/src/assets';
 

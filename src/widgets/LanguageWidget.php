@@ -10,9 +10,9 @@
  */
 namespace navatech\language\widgets;
 
-use navatech\language\LanguageAsset;
 use navatech\language\models\Language;
-use navatech\language\Translate;
+use navatech\language\MultiLanguage;
+use navatech\language\MultiLanguageAsset;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
@@ -26,7 +26,7 @@ class LanguageWidget extends Widget {
 
 	public $size     = 30;
 
-	/**@var \codemix\localeurls\UrlManager */
+	/**@var \navatech\localeurls\UrlManager */
 	private $urlManager;
 
 	private $languages;
@@ -43,12 +43,12 @@ class LanguageWidget extends Widget {
 	 */
 	public function init() {
 		parent::init();
-		LanguageAsset::register($this->view);
+		MultiLanguageAsset::register($this->view);
 		$this->urlManager = Yii::$app->urlManager;
-		if(!$this->type) {
+		if (!$this->type) {
 			$this->type = 'classic';
 		}
-		$this->languages = Translate::getLanguages();
+		$this->languages = MultiLanguage::getLanguages();
 	}
 
 	/**
@@ -56,7 +56,7 @@ class LanguageWidget extends Widget {
 	 * @return bool|string
 	 */
 	public function getViewPath() {
-		if($this->viewPath == null) {
+		if ($this->viewPath == null) {
 			$name = explode("\\", $this->className());
 			return Yii::getAlias(realpath(__DIR__ . '/../views') . DIRECTORY_SEPARATOR . end($name));
 		}
@@ -70,8 +70,8 @@ class LanguageWidget extends Widget {
 		list($route, $params) = Yii::$app->getUrlManager()->parseRequest(Yii::$app->getRequest());
 		$params = ArrayHelper::merge($_GET, $params);
 		$data   = [0];
-		foreach($this->languages as $language) {
-			if($language['code'] == Yii::$app->language) {
+		foreach ($this->languages as $language) {
+			if ($language['code'] == Yii::$app->language) {
 				$this->current = ArrayHelper::merge([
 					'url' => Yii::$app->urlManager->createUrl(ArrayHelper::merge($params, [
 						isset($params['route']) ? $params['route'] : $route,
@@ -88,10 +88,10 @@ class LanguageWidget extends Widget {
 				], $language);
 			}
 		}
-		if(!isset($data[0]) || $data[0] == 0) {
+		if (!isset($data[0]) || $data[0] == 0) {
 			/**@var  $currentLanguage Language */
 			$currentLanguage = Language::findOne(['code' => Yii::$app->language]);
-			if($currentLanguage) {
+			if ($currentLanguage) {
 				$this->current = [
 					'code'    => $currentLanguage->code,
 					'name'    => $currentLanguage->name,
@@ -107,7 +107,7 @@ class LanguageWidget extends Widget {
 	 * @inheritdoc
 	 */
 	public function run() {
-		switch($this->type) {
+		switch ($this->type) {
 			case "selector":
 				$renderView = 'languageSelector';
 				break;

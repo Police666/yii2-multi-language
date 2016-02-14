@@ -5,18 +5,32 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/navatech/yii2-multi-language/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/navatech/yii2-multi-language/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/navatech/yii2-multi-language/badges/build.png?b=master)](https://scrutinizer-ci.com/g/navatech/yii2-multi-language/build-status/master)
 
+This module allow you to create multi language use database.
+By default, Yii use Yii::t() for multi language.
+But you must stored the sentences on file, and it never suggested keywords for you.
+Now you can store it on mySql.
 
-Install:
+## Requirements
+* [Yii 2](https://packagist.org/packages/yiisoft/yii2)
+* [Yii 2 Bootstrap](https://packagist.org/packages/yiisoft/yii2-bootstrap)
+* [Kartik-v Yii 2 Grid](https://packagist.org/packages/kartik-v/yii2-grid)
+* [Kartik-v Yii 2 editable](https://packagist.org/packages/kartik-v/yii2-editable)
+* [Navatech Yii 2 Locale Urls](https://packagist.org/packages/navatech/yii2-localeurls)
+
+## Install & config:
+Install with composer:
 ````
-composer require navatech/yii2-multi-language "~1.0"
+composer require navatech/yii2-multi-language "@dev"
 ````
+
 Config:
-````
-    'language'   => 'en', //TODO Change this to 2 words
+~~~
+[php]
+    'language'   => 'en', //TODO Change this to 2 characters
     .....................
     'components' => [
         'urlManager' => [
-            'class'               => 'codemix\localeurls\UrlManager',
+            'class'               => 'navatech\localeurls\UrlManager',
             'enablePrettyUrl'     => true,
             'showScriptName'      => false,
             'enableStrictParsing' => false,
@@ -28,31 +42,45 @@ Config:
         ],
         'language' => [
         'class'    => '\navatech\language\Module',
-        //REQUIRED if you want to custom view
-        'viewPath' => '@app/vendor/navatech/yii2-multi-language/src/views',
+        //TODO uncommented if you want to custom view
+        //'viewPath' => '@app/vendor/navatech/yii2-multi-language/src/views',
         ],
     ],
-````
-Migration:
+~~~
+Run Yii Migration, you will have two default language (English & Vietnamese):
 ```
 php yii migrate/up --migrationPath=@vendor/navatech/yii2-multi-language/src/migrations
 ```
-Usage Way 1:
-````
-$translate = new \navatech\language\Translate();
-print_r($translate->about);
-````
-Usage Way 2:
-````
-use \navatech\language\Translate as Trans;
-..........................
-$translated = Trans::about($parameters = [], $language_code = 'en');
-print_r($translated);
-````
-Management:
-````
-http://yii2.demo/web/language/index/list
-http://yii2.demo/web/language/index/create
-http://yii2.demo/web/language/index/update
-http://yii2.demo/web/language/phrase/index
-````
+
+## Usage
+### LanguageWidget
+Language widget use [localeurls](https://github.com/navatech/yii2-localeurls). Automatic locale/language management through URLs for Yii 2.
+* Type: Selector
+~~~
+[php]
+    echo LanguageWidget::widget([
+        //TODO type of widget ("selector" or "classic")
+        'type'     => 'selector',
+        //TODO uncommented to change size, default: 30, means width 30px & height 30px for every flag, from 10 to 300
+        //'size'     => 30,
+        //TODO uncommented to customize widget view
+        //'viewPath' => '@vendor/navatech/yii2-multi-language/src/views/LanguageWidget',
+    ]);
+~~~
+![#](http://i.imgur.com/WfDK5Dq.png "Selector widget")
+
+* Type: Classic
+~~~
+[php]
+    echo LanguageWidget::widget([
+        //TODO type of widget ("selector" or "classic")
+        'type'     => 'classic',
+        //TODO uncommented to change size, default: 30, means width 30px & height 30px for every flag, from 10 to 300
+        //'size'     => 30,
+        //TODO uncommented to customize widget view
+        //'viewPath' => '@vendor/navatech/yii2-multi-language/src/views/LanguageWidget',
+    ]);
+~~~
+![#](http://i.imgur.com/cu1xGe9.png "Classic widget")
+
+TODO writing readme

@@ -6,13 +6,13 @@ class m160204_045439_navatech_multi_language_init extends Migration {
 	public function up() {
 		$tableOptions_mysql = "CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB";
 		$tables             = $this->getDb()->schema->tableNames;
-		if(in_array('{{%language}}', $tables)) {
+		if (in_array('{{%language}}', $tables)) {
 			$this->dropTable('{{%language}}');
 		}
-		if(in_array('{{%phrase}}', $tables)) {
+		if (in_array('{{%phrase}}', $tables)) {
 			$this->dropTable('{{%phrase}}');
 		}
-		if(in_array('{{%phrase_meta}}', $tables)) {
+		if (in_array('{{%phrase_meta}}', $tables)) {
 			$this->dropTable('{{%phrase_meta}}');
 		}
 		$this->createTable('{{%language}}', [

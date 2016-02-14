@@ -27,7 +27,7 @@ class PhraseController extends Controller {
 	public function actionIndex() {
 		$searchModel  = new PhraseSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		if(Yii::$app->request->post('hasEditable')) {
+		if (Yii::$app->request->post('hasEditable')) {
 			$post        = Yii::$app->request->post();
 			$out         = Json::encode([
 				'output'  => '',
@@ -35,12 +35,12 @@ class PhraseController extends Controller {
 			]);
 			$language_id = Language::getIdByCode($post['editableAttribute']);
 			$phrase_id   = $post['editableKey'];
-			if($language_id != 0 && $phrase_id != 0) {
+			if ($language_id != 0 && $phrase_id != 0) {
 				$model = PhraseMeta::findOne([
 					'phrase_id'   => $phrase_id,
 					'language_id' => $language_id,
 				]);
-				if($model === null) {
+				if ($model === null) {
 					$model              = new PhraseMeta();
 					$model->language_id = $language_id;
 					$model->phrase_id   = $phrase_id;

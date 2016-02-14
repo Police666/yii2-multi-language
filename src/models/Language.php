@@ -10,6 +10,7 @@
  */
 namespace navatech\language\models;
 
+use navatech\language\MultiLanguage;
 use navatech\language\Translate;
 use Yii;
 use yii\db\ActiveRecord;
@@ -72,8 +73,8 @@ class Language extends ActiveRecord {
 	}
 
 	/**
-	 * @return \yii\db\ActiveQuery|PhraseMeta[]
-	 * @since 1.0.0
+	 * @return PhraseMeta[]
+	 * @since 1.0.2
 	 */
 	public function getPhraseMeta() {
 		return $this->hasMany(PhraseMeta::className(), ['language_id' => 'id'])->all();
@@ -100,7 +101,7 @@ class Language extends ActiveRecord {
 	 * @since 1.0.0
 	 */
 	public static function getAllLanguages($attributes = []) {
-		if($attributes == null) {
+		if ($attributes == null) {
 			$attributes['status'] = 1;
 		}
 		return self::find()->where($attributes)->all();
@@ -115,7 +116,7 @@ class Language extends ActiveRecord {
 	 */
 	public static function getIdByCode($code) {
 		$model = self::findOne(['code' => $code]);
-		if($model) {
+		if ($model) {
 			return $model->id;
 		} else {
 			return 0;
@@ -127,16 +128,16 @@ class Language extends ActiveRecord {
 	 */
 	public function afterSave($insert, $changedAttributes) {
 		parent::afterSave($insert, $changedAttributes);
-		$language = new Translate();
-		$language->setLanguages();
+		MultiLanguage::setLanguages();
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function afterDelete() {
-		parent::afterDelete();
-		$language = new Translate();
-		$language->setLanguages();
+	public function beforeDelete() {
+		if (MultiLanguage::removeAllData($this->code)) {
+			return parent::beforeDelete();
+		}
+		return false;
 	}
 }

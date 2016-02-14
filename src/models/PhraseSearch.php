@@ -19,7 +19,7 @@ class PhraseSearch extends Phrase {
 	 */
 	public function rules() {
 		$code = [];
-		foreach($this->languages as $language) {
+		foreach ($this->languages as $language) {
 			$code[] = $language->code;
 		}
 		return [
@@ -54,13 +54,13 @@ class PhraseSearch extends Phrase {
 			'sort'  => ['defaultOrder' => ['id' => SORT_DESC]],
 		]);
 		$this->load($params);
-		if(!$this->validate()) {
+		if (!$this->validate()) {
 			return $dataProvider;
 		}
-		foreach($this->_dynamicData as $key => $value) {
-			if($this->$key != '') {
+		foreach ($this->_dynamicData as $key => $value) {
+			if ($this->$key != '') {
 				$language_id = Language::getIdByCode($key);
-				if($language_id != 0) {
+				if ($language_id != 0) {
 					$query->join('left', 'phrase_meta as lang_' . $key, 'lang_' . $key . '.phrase_id = t.phrase_id AND lang_' . $key . '.language_id = ' . $language_id);
 					$query->andFilterWhere([
 						'like',

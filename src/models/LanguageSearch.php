@@ -52,7 +52,7 @@ class LanguageSearch extends Language {
 			'sort'  => ['defaultOrder' => ['id' => SORT_DESC]],
 		]);
 		$this->load($params);
-		if(!$this->validate()) {
+		if (!$this->validate()) {
 			return $dataProvider;
 		}
 		$query->andFilterWhere([
