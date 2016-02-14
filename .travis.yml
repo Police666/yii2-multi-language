@@ -1,12 +1,23 @@
 language: php
+
 php:
-  - "5.5"
-  - "5.4"
-  - "hhvm"
+  - 5.4
+  - 5.5
+  - 5.6
+  - 7.0
+  - hhvm
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - php: hhvm
+
+before_install:
+  - sudo apt-get update
 
 install:
-  - sudo apt-get update
-  - travis_retry composer self-update && composer --version
-  - travis_retry composer global require --no-progress "fxp/composer-asset-plugin:1.1.1"
-  - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - travis_retry composer install --prefer-dist --no-interaction --no-progress
+  - travis_retry composer install --prefer-dist --no-interaction --dev
+
+after_script:
+  - travis_retry wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover

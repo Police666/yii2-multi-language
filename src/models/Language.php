@@ -12,7 +12,6 @@ namespace navatech\language\models;
 
 use navatech\language\MultiLanguage;
 use navatech\language\Translate;
-use Yii;
 use yii\db\ActiveRecord;
 
 /**
