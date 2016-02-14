@@ -31,10 +31,10 @@ class MultiLanguage {
 			$phraseMeta              = new PhraseMeta();
 			$phraseMeta->phrase_id   = $model->getPrimaryKey();
 			$phraseMeta->language_id = Language::getIdByCode(Yii::$app->language);
-			$phraseMeta->value       = "error: phrase [" . $name . "] not found";
+			$phraseMeta->value       = 'error: phrase [' . $name . '] not found';
 			$phraseMeta->save();
 		}
-		return "error: phrase [" . $name . "] not found";
+		return 'error: phrase [' . $name . '] not found';
 	}
 
 	/**
@@ -47,19 +47,19 @@ class MultiLanguage {
 	private static function _setAllData($language_code, $path) {
 		$file = $path . DIRECTORY_SEPARATOR . 'phrase_' . $language_code . '.data';
 		if (!file_exists($file)) {
-			$fp = fopen($file, "wb");
+			$fp = fopen($file, 'wb');
 			fwrite($fp, '');
 			fclose($fp);
 		}
 		$data = file_get_contents($file);
 		$data = Json::decode($data);
-		if (empty($data) || $data == null) {
+		if ($data === null) {
 			/**@var $models Phrase[] */
 			$models = Phrase::find()->all();
 			$code   = $language_code;
 			foreach ($models as $model) {
 				$model->setDynamicField();
-				$data[$model->name] = $model->$code;
+				$data = [$model->name => $model->$code];
 			}
 		} else {
 			/**@var $models Phrase[] */
@@ -67,7 +67,7 @@ class MultiLanguage {
 			$code   = $language_code;
 			foreach ($models as $model) {
 				$model->setDynamicField();
-				if (!isset($data[$model->name])) {
+				if (!array_key_exists($model->name, $data)) {
 					$data[$model->name] = $model->$code;
 				}
 			}
@@ -98,7 +98,7 @@ class MultiLanguage {
 		$php .= '//defined_new_method_here' . PHP_EOL;
 		$php .= '}';
 		$file = $path . DIRECTORY_SEPARATOR . 'Translate.php';
-		$fp   = fopen($file, "wb");
+		$fp   = fopen($file, 'wb');
 		fwrite($fp, $php);
 		fclose($fp);
 	}
@@ -110,14 +110,14 @@ class MultiLanguage {
 		$runtime = Yii::getAlias('@runtime');
 		$path    = $runtime . DIRECTORY_SEPARATOR . 'language';
 		if (!file_exists($path)) {
-			mkdir($path, 0777, true);
+			@mkdir($path, 0777, true);
 		}
 		$code = [];
 		foreach (Language::getAllLanguages() as $language) {
 			$code[$language->id] = $language->getAttributes();
 		}
 		$file = $path . DIRECTORY_SEPARATOR . 'languages.data';
-		$fp   = fopen($file, "wb");
+		$fp   = fopen($file, 'wb');
 		fwrite($fp, Json::encode($code));
 		fclose($fp);
 	}
@@ -153,10 +153,10 @@ class MultiLanguage {
 		$runtime = Yii::getAlias('@runtime');
 		$path    = $runtime . DIRECTORY_SEPARATOR . 'language';
 		if (!file_exists($path)) {
-			mkdir($path, 0777, true);
+			@mkdir($path, 0777, true);
 		}
 		$data = null;
-		if ($language_code != null) {
+		if ($language_code !== null) {
 			$data = self::_setAllData($language_code, $path);
 		} else {
 			foreach (Language::getAllLanguages() as $language) {
@@ -227,10 +227,10 @@ class MultiLanguage {
 				}
 				$data = file_get_contents($file);
 				$data = Json::decode($data);
-				if (empty($data) || $data == null) {
+				if ($data === null) {
 					self::setAllData($language['code']);
 				} else {
-					if (!isset($data[$name])) {
+					if (!array_key_exists($name, $data)) {
 						$data[$name] = $model->value;
 						file_put_contents($file, Json::encode($data));
 					}
@@ -250,7 +250,7 @@ class MultiLanguage {
 				$php .= '       public static function ' . $name . '($parameters = null, $language_code = null){}' . PHP_EOL;
 				$php .= '//defined_new_method_here' . PHP_EOL;
 				$content = str_replace('//defined_new_method_here', $php, $content);
-				$fp      = fopen($class, "wb");
+				$fp      = fopen($class, 'wb');
 				fwrite($fp, $content);
 				fclose($fp);
 			}
@@ -261,7 +261,7 @@ class MultiLanguage {
 			}
 			$data = file_get_contents($file);
 			$data = Json::decode($data);
-			if (empty($data) || $data == null) {
+			if ($data === null) {
 				self::setAllData($language_code);
 			} else {
 				$data[$name] = $model->value;

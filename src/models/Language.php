@@ -100,8 +100,8 @@ class Language extends ActiveRecord {
 	 * @since 1.0.0
 	 */
 	public static function getAllLanguages($attributes = []) {
-		if ($attributes == null) {
-			$attributes['status'] = 1;
+		if ($attributes === null) {
+			$attributes = ['status' => 1];
 		}
 		return self::find()->where($attributes)->all();
 	}

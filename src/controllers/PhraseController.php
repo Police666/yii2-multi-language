@@ -35,7 +35,7 @@ class PhraseController extends Controller {
 			]);
 			$language_id = Language::getIdByCode($post['editableAttribute']);
 			$phrase_id   = $post['editableKey'];
-			if ($language_id != 0 && $phrase_id != 0) {
+			if ($language_id !== 0 && $phrase_id !== 0) {
 				$model = PhraseMeta::findOne([
 					'phrase_id'   => $phrase_id,
 					'language_id' => $language_id,

@@ -56,9 +56,9 @@ class LanguageWidget extends Widget {
 	 * @return bool|string
 	 */
 	public function getViewPath() {
-		if ($this->viewPath == null) {
+		if ($this->viewPath === null) {
 			$name = explode("\\", $this->className());
-			return Yii::getAlias(realpath(__DIR__ . '/../views') . DIRECTORY_SEPARATOR . end($name));
+			return Yii::getAlias(dirname(__DIR__ . '/../views') . DIRECTORY_SEPARATOR . end($name));
 		}
 		return $this->viewPath;
 	}
@@ -71,10 +71,10 @@ class LanguageWidget extends Widget {
 		$params = ArrayHelper::merge($_GET, $params);
 		$data   = [0];
 		foreach ($this->languages as $language) {
-			if ($language['code'] == Yii::$app->language) {
+			if ($language['code'] === Yii::$app->language) {
 				$this->current = ArrayHelper::merge([
 					'url' => Yii::$app->urlManager->createUrl(ArrayHelper::merge($params, [
-						isset($params['route']) ? $params['route'] : $route,
+						array_key_exists('route', $params) ? $params['route'] : $route,
 						'language' => $language['code'],
 					])),
 				], $language);
@@ -82,13 +82,13 @@ class LanguageWidget extends Widget {
 			} else {
 				$data[] = ArrayHelper::merge([
 					'url' => Yii::$app->urlManager->createUrl(ArrayHelper::merge($params, [
-						isset($params['route']) ? $params['route'] : $route,
+						array_key_exists('route', $params) ? $params['route'] : $route,
 						'language' => $language['code'],
 					])),
 				], $language);
 			}
 		}
-		if (!isset($data[0]) || $data[0] == 0) {
+		if (!array_key_exists(0, $data) || $data[0] === 0) {
 			/**@var  $currentLanguage Language */
 			$currentLanguage = Language::findOne(['code' => Yii::$app->language]);
 			if ($currentLanguage) {
@@ -107,12 +107,9 @@ class LanguageWidget extends Widget {
 	 * @inheritdoc
 	 */
 	public function run() {
-		switch ($this->type) {
-			case "selector":
-				$renderView = 'languageSelector';
-				break;
-			default:
-				$renderView = 'languageClassic';
+		$renderView = 'languageClassic';
+		if ($this->type === 'selector') {
+			$renderView = 'languageSelector';
 		}
 		return $this->render($renderView, [
 			'data'    => $this->getData(),

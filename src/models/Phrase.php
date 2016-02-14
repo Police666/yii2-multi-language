@@ -83,7 +83,7 @@ class Phrase extends ActiveRecord {
 		foreach ($this->languages as $language) {
 			$set = false;
 			foreach ($this->getPhraseMeta() as $phrase_meta) {
-				if ($phrase_meta->language_id == $language->id) {
+				if ($phrase_meta->language_id === $language->id) {
 					$this->__set($language->code, $phrase_meta->value);
 					$set = true;
 					break;

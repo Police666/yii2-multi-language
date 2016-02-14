@@ -23,7 +23,7 @@ class Translate {
 	 * @param null $language_code
 	 */
 	public function __construct($language_code = null) {
-		if ($language_code == null) {
+		if ($language_code === null) {
 			$this->values = MultiLanguage::getData(Yii::$app->language);
 		} else {
 			$this->values = MultiLanguage::getData($language_code);
@@ -39,7 +39,7 @@ class Translate {
 	 */
 	public static function __callStatic($name, $arguments) {
 		$parameters = null;
-		if (isset($arguments[0])) {
+		if (array_key_exists(0, $arguments)) {
 			if (!is_array($arguments[0])) {
 				$parameters = [$arguments[0]];
 			} else {
@@ -47,12 +47,12 @@ class Translate {
 			}
 		}
 		$language_code = Yii::$app->language;
-		if (isset($arguments[1]) && is_string($arguments[1]) && strlen($arguments[1]) == 2) {
+		if (array_key_exists(1, $arguments) && is_string($arguments[1]) && strlen($arguments[1]) === 2) {
 			$language_code = $arguments[1];
 		}
 		$language = new Translate($language_code);
-		if ($language->values != null && isset($language->values[$name]) && $value = $language->values[$name]) {
-			if ($parameters != null) {
+		if ($language->values !== null && array_key_exists($name, $language->values) && $value = $language->values[$name]) {
+			if ($parameters !== null) {
 				foreach ($parameters as $key => $param) {
 					$value = str_replace('{' . ($key + 1) . '}', $param, $value);
 				}
@@ -70,7 +70,7 @@ class Translate {
 	 * @since 1.0.2
 	 */
 	public function __get($name) {
-		if (isset($this->values[$name])) {
+		if (array_key_exists($name, $this->values)) {
 			return $this->values[$name];
 		} else {
 			return MultiLanguage::newPhrase($name);

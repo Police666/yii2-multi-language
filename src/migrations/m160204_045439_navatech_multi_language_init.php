@@ -4,7 +4,7 @@ use navatech\language\migrations\Migration;
 class m160204_045439_navatech_multi_language_init extends Migration {
 
 	public function up() {
-		$tableOptions_mysql = "CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB";
+		$tableOptions_mysql = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
 		$tables             = $this->getDb()->schema->tableNames;
 		if (in_array('{{%language}}', $tables)) {
 			$this->dropTable('{{%language}}');
