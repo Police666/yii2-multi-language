@@ -15,7 +15,8 @@ use yii\data\ActiveDataProvider;
 class PhraseSearch extends Phrase {
 
 	/**
-	 * @inheritdoc
+	 * @return array validation rules
+	 * @see scenarios()
 	 */
 	public function rules() {
 		$code = [];
@@ -46,6 +47,7 @@ class PhraseSearch extends Phrase {
 	 *
 	 * @return ActiveDataProvider
 	 * @since 1.0.0
+	 * @throws \yii\base\InvalidParamException
 	 */
 	public function search($params) {
 		$query        = Phrase::find();
@@ -58,9 +60,9 @@ class PhraseSearch extends Phrase {
 			return $dataProvider;
 		}
 		foreach ($this->_dynamicData as $key => $value) {
-			if ($this->$key != '') {
+			if ($this->$key !== '') {
 				$language_id = Language::getIdByCode($key);
-				if ($language_id != 0) {
+				if ($language_id !== 0) {
 					$query->join('left', 'phrase_meta as lang_' . $key, 'lang_' . $key . '.phrase_id = t.phrase_id AND lang_' . $key . '.language_id = ' . $language_id);
 					$query->andFilterWhere([
 						'like',

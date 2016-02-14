@@ -25,14 +25,15 @@ use yii\db\ActiveRecord;
 class PhraseMeta extends ActiveRecord {
 
 	/**
-	 * @inheritdoc
+	 * @return string the table name
 	 */
 	public static function tableName() {
 		return '{{%phrase_meta}}';
 	}
 
 	/**
-	 * @inheritdoc
+	 * @return array validation rules
+	 * @see scenarios()
 	 */
 	public function rules() {
 		return [
@@ -63,7 +64,8 @@ class PhraseMeta extends ActiveRecord {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @return array attribute labels (name => label)
+	 * @see generateAttributeLabel()
 	 */
 	public function attributeLabels() {
 		return [
@@ -91,7 +93,12 @@ class PhraseMeta extends ActiveRecord {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @param boolean $insert whether this method called while inserting a record.
+	 *                        If false, it means the method is called while updating a record.
+	 *
+	 * @return boolean whether the insertion or updating should continue.
+	 * If false, the insertion or updating will be cancelled.
+	 * @throws \yii\base\Exception|\yii\base\InvalidParamException
 	 */
 	public function beforeSave($insert) {
 		MultiLanguage::setData($this);
@@ -99,7 +106,8 @@ class PhraseMeta extends ActiveRecord {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @return boolean whether the record should be deleted. Defaults to true.
+	 * @throws \yii\base\InvalidParamException
 	 */
 	public function beforeDelete() {
 		if (MultiLanguage::removeAllData($this)) {

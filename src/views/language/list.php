@@ -14,7 +14,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $searchModel \navatech\language\models\LanguageSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-$this->params['breadcrumbs'][] = "Languages";
+$this->params['breadcrumbs'][] = Translate::languages();
 ?>
 <div class="page-header">
 	<h1><?= Translate::language() ?>

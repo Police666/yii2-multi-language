@@ -7,7 +7,7 @@ $this->params['breadcrumbs'][] = [
 	'label' => 'Languages',
 	'url'   => ['list'],
 ];
-$this->params['breadcrumbs'][] = "Update";
+$this->params['breadcrumbs'][] = Translate::update();
 ?>
 <div class="page-header">
 	<h1><?= Translate::language() ?>

@@ -21,8 +21,8 @@ class PhraseController extends Controller {
 
 	/**
 	 * @return string
-	 * @throws \yii\base\ExitException
 	 * @since 1.0.0
+	 * @throws \yii\base\ExitException|\yii\base\InvalidParamException
 	 */
 	public function actionIndex() {
 		$searchModel  = new PhraseSearch();

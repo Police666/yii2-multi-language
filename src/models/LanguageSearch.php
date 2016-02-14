@@ -15,7 +15,8 @@ use yii\data\ActiveDataProvider;
 class LanguageSearch extends Language {
 
 	/**
-	 * @inheritdoc
+	 * @return array validation rules
+	 * @see scenarios()
 	 */
 	public function rules() {
 		return [
@@ -44,6 +45,7 @@ class LanguageSearch extends Language {
 	 *
 	 * @return ActiveDataProvider
 	 * @since 1.0.0
+	 * @throws \yii\base\InvalidParamException
 	 */
 	public function search($params) {
 		$query        = Language::find();

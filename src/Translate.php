@@ -21,6 +21,8 @@ class Translate {
 	 * @since 1.0.0
 	 *
 	 * @param null $language_code
+	 *
+	 * @throws \yii\base\InvalidParamException
 	 */
 	public function __construct($language_code = null) {
 		if ($language_code === null) {
@@ -36,6 +38,7 @@ class Translate {
 	 *
 	 * @return string
 	 * @since 1.0.2
+	 * @throws \yii\base\InvalidParamException
 	 */
 	public static function __callStatic($name, $arguments) {
 		$parameters = null;

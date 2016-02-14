@@ -64,7 +64,7 @@ Language widget use [localeurls](https://github.com/navatech/yii2-localeurls). A
         //TODO uncommented to change size, default: 30, means width 30px & height 30px for every flag, from 10 to 300
         //'size'     => 30,
         //TODO uncommented to customize widget view
-        //'viewPath' => '@vendor/navatech/yii2-multi-language/src/views/LanguageWidget',
+        //'viewDir' => '@vendor/navatech/yii2-multi-language/src/views/LanguageWidget',
     ]);
 ~~~
 ![#](http://i.imgur.com/WfDK5Dq.png "Selector widget")
@@ -78,7 +78,7 @@ Language widget use [localeurls](https://github.com/navatech/yii2-localeurls). A
         //TODO uncommented to change size, default: 30, means width 30px & height 30px for every flag, from 10 to 300
         //'size'     => 30,
         //TODO uncommented to customize widget view
-        //'viewPath' => '@vendor/navatech/yii2-multi-language/src/views/LanguageWidget',
+        //'viewDir' => '@vendor/navatech/yii2-multi-language/src/views/LanguageWidget',
     ]);
 ~~~
 ![#](http://i.imgur.com/cu1xGe9.png "Classic widget")

@@ -30,17 +30,21 @@ class Phrase extends ActiveRecord {
 	public $languages     = [];
 
 	/**
-	 * @inheritdoc
+	 * @return string the table name
 	 */
 	public static function tableName() {
 		return '{{%phrase}}';
 	}
 
-	public static function __getStatic() {
-	}
-
 	/**
-	 * @inheritdoc
+	 * PHP getter magic method.
+	 * This method is overridden so that attributes and related objects can be accessed like properties.
+	 *
+	 * @param string $name property name
+	 *
+	 * @throws \yii\base\InvalidParamException if relation name is wrong
+	 * @return mixed property value
+	 * @see getAttribute()
 	 */
 	public function __get($name) {
 		if (!empty($this->_dynamicField[$name])) {
@@ -55,18 +59,26 @@ class Phrase extends ActiveRecord {
 	}
 
 	/**
-	 * @inheritdoc
+	 * PHP setter magic method.
+	 * This method is overridden so that AR attributes can be accessed like properties.
+	 *
+	 * @param string $name  property name
+	 * @param mixed  $value property value
 	 */
-	public function __set($name, $val) {
+	public function __set($name, $value) {
 		if (!empty($this->_dynamicField[$name])) {
-			$this->_dynamicData[$name] = $val;
+			$this->_dynamicData[$name] = $value;
 		} else {
-			parent::__set($name, $val);
+			parent::__set($name, $value);
 		}
 	}
 
 	/**
-	 * @inheritdoc
+	 * Initializes the object.
+	 * This method is called at the end of the constructor.
+	 * The default implementation will trigger an [[EVENT_INIT]] event.
+	 * If you override this method, make sure you call the parent implementation at the end
+	 * to ensure triggering of the event.
 	 */
 	public function init() {
 		$this->languages = Language::getAllLanguages();
@@ -84,19 +96,22 @@ class Phrase extends ActiveRecord {
 			$set = false;
 			foreach ($this->getPhraseMeta() as $phrase_meta) {
 				if ($phrase_meta->language_id === $language->id) {
-					$this->__set($language->code, $phrase_meta->value);
-					$set = true;
+					$key        = $language->code;
+					$this->$key = $phrase_meta->value;
+					$set        = true;
 					break;
 				}
 			}
 			if (!$set) {
-				$this->__set($language->code, '');
+				$key        = $language->code;
+				$this->$key = '';
 			}
 		}
 	}
 
 	/**
-	 * @inheritdoc
+	 * @return array validation rules
+	 * @see scenarios()
 	 */
 	public function rules() {
 		$code = [];
@@ -128,7 +143,9 @@ class Phrase extends ActiveRecord {
 	}
 
 	/**
-	 * @inheritdoc
+	 * Returns the list of all attribute names of the model.
+	 * The default implementation will return all column names of the table associated with this AR class.
+	 * @return array list of attribute names.
 	 */
 	public function attributes() {
 		$attributes = parent::attributes();
@@ -136,7 +153,8 @@ class Phrase extends ActiveRecord {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @return array attribute labels (name => label)
+	 * @see generateAttributeLabel()
 	 */
 	public function attributeLabels() {
 		$labels = parent::attributeLabels();

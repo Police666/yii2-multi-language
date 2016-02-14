@@ -14,16 +14,21 @@ use yii\web\AssetBundle;
 
 class MultiLanguageAsset extends AssetBundle {
 
-	public $sourcePath = '@vendor/navatech/yii2-multi-language/src/assets';
-
-	public $css        = [
-		'style.css',
-		'phoca-flags.css',
-	];
-
-	public $depends    = [
-		'yii\web\YiiAsset',
-		'yii\bootstrap\BootstrapAsset',
-		'yii\bootstrap\BootstrapPluginAsset',
-	];
+	/**
+	 * Initializes the bundle.
+	 * If you override this method, make sure you call the parent implementation in the last.
+	 */
+	public function init() {
+		parent::init();
+		$this->depends    = [
+			'yii\web\YiiAsset',
+			'yii\bootstrap\BootstrapAsset',
+			'yii\bootstrap\BootstrapPluginAsset',
+		];
+		$this->css        = [
+			'style.css',
+			'phoca-flags.css',
+		];
+		$this->sourcePath = '@vendor/navatech/yii2-multi-language/src/assets';
+	}
 }

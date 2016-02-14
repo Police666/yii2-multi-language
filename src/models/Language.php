@@ -26,14 +26,15 @@ use yii\db\ActiveRecord;
 class Language extends ActiveRecord {
 
 	/**
-	 * @inheritdoc
+	 * @return string the table name
 	 */
 	public static function tableName() {
 		return '{{%language}}';
 	}
 
 	/**
-	 * @inheritdoc
+	 * @return array validation rules
+	 * @see scenarios()
 	 */
 	public function rules() {
 		return [
@@ -80,7 +81,8 @@ class Language extends ActiveRecord {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @return array attribute labels (name => label)
+	 * @see generateAttributeLabel()
 	 */
 	public function attributeLabels() {
 		return [
@@ -94,12 +96,12 @@ class Language extends ActiveRecord {
 
 	/**
 	 *
-	 * @param array $attributes
+	 * @param array|null $attributes
 	 *
 	 * @return array|\yii\db\ActiveRecord[]|Language[]
 	 * @since 1.0.0
 	 */
-	public static function getAllLanguages($attributes = []) {
+	public static function getAllLanguages(array $attributes = []) {
 		if ($attributes === null) {
 			$attributes = ['status' => 1];
 		}
@@ -123,7 +125,16 @@ class Language extends ActiveRecord {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @param boolean $insert            whether this method called while inserting a record.
+	 *                                   If false, it means the method is called while updating a record.
+	 * @param array   $changedAttributes The old values of attributes that had changed and were saved.
+	 *                                   You can use this parameter to take action based on the changes made for
+	 *                                   example send an email when the password had changed or implement audit trail
+	 *                                   that tracks all the changes.
+	 *                                   `$changedAttributes` gives you the old attribute values while the active
+	 *                                   record (`$this`) has already the new, updated values.
+	 *
+	 * @throws \yii\base\Exception|\yii\base\InvalidParamException
 	 */
 	public function afterSave($insert, $changedAttributes) {
 		parent::afterSave($insert, $changedAttributes);
@@ -131,7 +142,8 @@ class Language extends ActiveRecord {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @return boolean whether the record should be deleted. Defaults to true.
+	 * @throws \yii\base\Exception|\yii\base\InvalidParamException
 	 */
 	public function beforeDelete() {
 		if (MultiLanguage::removeAllData($this->code)) {

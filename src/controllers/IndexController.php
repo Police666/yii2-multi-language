@@ -25,6 +25,7 @@ class IndexController extends Controller {
 	/**
 	 * @return string
 	 * @since 1.0.0
+	 * @throws \yii\base\InvalidParamException if the model cannot be found
 	 */
 	public function actionList() {
 		$searchModel  = new LanguageSearch();
@@ -40,6 +41,7 @@ class IndexController extends Controller {
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 * @return mixed
 	 * @since 1.0.0
+	 * @throws \yii\base\InvalidParamException if the model cannot be found
 	 */
 	public function actionCreate() {
 		$model = new Language();
@@ -64,6 +66,7 @@ class IndexController extends Controller {
 	 *
 	 * @return mixed
 	 * @since 1.0.0
+	 * @throws NotFoundHttpException|\yii\base\InvalidParamException if the model cannot be found
 	 */
 	public function actionUpdate($id) {
 		$model = $this->findModel($id);

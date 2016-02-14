@@ -23,7 +23,7 @@
 		<ul class="dropdown-menu" role="menu" aria-labelledby="multiLanguage">
 			<?php foreach ($data as $key => $item) : ?>
 				<li role="presentation">
-					<?php if ($key == 0): ?>
+					<?php if ($key === 0): ?>
 						<a class="active" role="menuitem" tabindex="-1" href="<?= $item['url'] ?>">
 							<span class="flag <?= $item['country'] ?> flag-<?= $size ?>" title="<?= $item['name'] ?>"></span> <?= $item['name'] ?>
 						</a>

@@ -14,6 +14,7 @@ use navatech\language\models\Language;
 use navatech\language\models\Phrase;
 use navatech\language\models\PhraseMeta;
 use Yii;
+use yii\base\Exception;
 use yii\helpers\Json;
 
 class MultiLanguage {
@@ -43,6 +44,7 @@ class MultiLanguage {
 	 *
 	 * @return array
 	 * @since 1.0.0
+	 * @throws \yii\base\InvalidParamException
 	 */
 	private static function _setAllData($language_code, $path) {
 		$file = $path . DIRECTORY_SEPARATOR . 'phrase_' . $language_code . '.data';
@@ -105,12 +107,13 @@ class MultiLanguage {
 
 	/**
 	 *
+	 * @throws Exception|\yii\base\InvalidParamException
 	 */
 	public static function setLanguages() {
 		$runtime = Yii::getAlias('@runtime');
 		$path    = $runtime . DIRECTORY_SEPARATOR . 'language';
-		if (!file_exists($path)) {
-			@mkdir($path, 0777, true);
+		if (!file_exists($path) && !@mkdir($path, 0777, true) && !is_dir($path)) {
+			throw new Exception('Cannot create directory');
 		}
 		$code = [];
 		foreach (Language::getAllLanguages() as $language) {
@@ -126,6 +129,7 @@ class MultiLanguage {
 	 *
 	 * @return array|mixed
 	 * @since 1.0.2
+	 * @throws Exception|\yii\base\InvalidParamException
 	 */
 	public static function getLanguages() {
 		$runtime = Yii::getAlias('@runtime');
@@ -147,13 +151,13 @@ class MultiLanguage {
 	/**
 	 * @param null $language_code
 	 *
-	 * @since 1.0.0
+	 * @throws Exception|\yii\base\InvalidParamException
 	 */
 	public static function setAllData($language_code = null) {
 		$runtime = Yii::getAlias('@runtime');
 		$path    = $runtime . DIRECTORY_SEPARATOR . 'language';
-		if (!file_exists($path)) {
-			@mkdir($path, 0777, true);
+		if (!file_exists($path) && !@mkdir($path, 0777, true) && !is_dir($path)) {
+			throw new Exception('Cannot create directory');
 		}
 		$data = null;
 		if ($language_code !== null) {
@@ -171,6 +175,7 @@ class MultiLanguage {
 	 *
 	 * @return array|mixed|string
 	 * @since 1.0.1
+	 * @throws \yii\base\InvalidParamException
 	 */
 	public static function getData($language_code) {
 		$runtime = Yii::getAlias('@runtime');
@@ -192,6 +197,7 @@ class MultiLanguage {
 	 *
 	 * @return bool
 	 * @since 1.0.0
+	 * @throws \yii\base\InvalidParamException
 	 */
 	public static function removeAllData($language_code) {
 		$runtime = Yii::getAlias('@runtime');
@@ -210,6 +216,7 @@ class MultiLanguage {
 	 * @param PhraseMeta $model
 	 *
 	 * @since 1.0.2
+	 * @throws Exception|\yii\base\InvalidParamException
 	 */
 	public static function setData(PhraseMeta $model) {
 		$name          = $model->getPhrase()->name;

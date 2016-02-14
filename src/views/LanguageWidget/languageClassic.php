@@ -16,7 +16,7 @@
 <div class="navatech-multi-language">
 	<div class="language-box">
 		<?php foreach ($data as $key => $item) : ?>
-			<?php if ($key == 0): ?>
+			<?php if ($key === 0): ?>
 				<div class="flag-box flag-<?= $size ?>">
 					<a class="active" href="<?= $item['url'] ?>">
 						<span class="flag <?= $item['country'] ?> flag-<?= $size ?>" title="<?= $item['name'] ?>"></span>

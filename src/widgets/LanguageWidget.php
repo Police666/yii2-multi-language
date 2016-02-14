@@ -14,50 +14,51 @@ use navatech\language\models\Language;
 use navatech\language\MultiLanguage;
 use navatech\language\MultiLanguageAsset;
 use Yii;
-use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
 
 class LanguageWidget extends Widget {
 
-	public $type;
+	public $type    = 'classic';
 
-	public $viewPath = null;
+	public $viewDir = '@vendor/navatech/yii2-multi-language/src/views/LanguageWidget';
 
-	public $size     = 30;
+	public $size    = 30;
 
 	/**@var \navatech\localeurls\UrlManager */
 	private $urlManager;
 
 	private $languages;
 
-	private $current = [
-		'code'    => 'en',
-		'name'    => 'United States',
-		'country' => 'us',
-	];
+	private $current;
 
 	/**
-	 * @inheritdoc
-	 * @throws InvalidConfigException
+	 * Initializes the object.
+	 * This method is invoked at the end of the constructor after the object is initialized with the
+	 * given configuration.
+	 * @throws \yii\base\Exception|\yii\base\InvalidParamException
 	 */
 	public function init() {
 		parent::init();
 		MultiLanguageAsset::register($this->view);
 		$this->urlManager = Yii::$app->urlManager;
-		if (!$this->type) {
-			$this->type = 'classic';
-		}
-		$this->languages = MultiLanguage::getLanguages();
+		$this->languages  = MultiLanguage::getLanguages();
+		$this->current    = [
+			'code'    => 'en',
+			'name'    => 'United States',
+			'country' => 'us',
+		];
 	}
 
 	/**
-	 * @inheritdoc
-	 * @return bool|string
+	 * Returns the directory containing the view files for this widget.
+	 * The default implementation returns the 'views' subdirectory under the directory containing the widget class file.
+	 * @return string the directory containing the view files for this widget.
+	 * @throws \yii\base\InvalidParamException
 	 */
 	public function getViewPath() {
 		if ($this->viewPath === null) {
-			$name = explode("\\", $this->className());
+			$name = explode("\\", self::className());
 			return Yii::getAlias(dirname(__DIR__ . '/../views') . DIRECTORY_SEPARATOR . end($name));
 		}
 		return $this->viewPath;
@@ -104,7 +105,9 @@ class LanguageWidget extends Widget {
 	}
 
 	/**
-	 * @inheritdoc
+	 * Executes the widget.
+	 * @return string the result of widget execution to be outputted.
+	 * @throws \yii\base\InvalidParamException
 	 */
 	public function run() {
 		$renderView = 'languageClassic';

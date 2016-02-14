@@ -12,8 +12,8 @@ namespace navatech\language\migrations;
 class Migration extends \yii\db\Migration {
 
 	/**
-	 * @inheritdoc
-	 * @since 1.0.0
+	 * Initializes the migration.
+	 * This method will set [[db]] to be the 'db' application component, if it is `null`.
 	 */
 	public function init() {
 		parent::init();

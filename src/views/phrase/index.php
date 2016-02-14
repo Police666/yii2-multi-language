@@ -13,7 +13,7 @@ use navatech\language\Translate;
 /* @var $this yii\web\View */
 /* @var $searchModel \navatech\language\models\PhraseSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-$this->title                   = 'List phrases';
+$this->title                   = Translate::list_x(Translate::phrase());
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="page-header">
