@@ -33,13 +33,8 @@ $this->params['breadcrumbs'][] = Translate::languages();
 				'id'               => 'language',
 				'dataProvider'     => $dataProvider,
 				'filterModel'      => $searchModel,
-				'export'           => [
-					'fontAwesome' => true,
-				],
 				'responsive'       => true,
 				'hover'            => true,
-				'headerRowOptions' => ['class' => 'kartik-sheet-style'],
-				'filterRowOptions' => ['class' => 'kartik-sheet-style'],
 				'pjax'             => true,
 				'columns'          => [
 					['class' => 'kartik\grid\SerialColumn'],

@@ -23,7 +23,6 @@
 		"yiisoft/yii2-bootstrap" : "*",
 		"kartik-v/yii2-grid" : "@dev",
 		"kartik-v/yii2-editable" : "@dev",
-		"kartik-v/yii2-mpdf" : "@dev",
 		"navatech/yii2-localeurls" : "@dev"
 	},
 	"require-dev" : {

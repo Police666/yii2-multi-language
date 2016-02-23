@@ -29,13 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
 				'id'               => 'phrase',
 				'dataProvider'     => $dataProvider,
 				'filterModel'      => $searchModel,
-				'export'           => [
-					'fontAwesome' => true,
-				],
 				'responsive'       => true,
 				'hover'            => true,
-				'headerRowOptions' => ['class' => 'kartik-sheet-style'],
-				'filterRowOptions' => ['class' => 'kartik-sheet-style'],
 				'pjax'             => true,
 				'columns'          => $searchModel->phraseColumns(),
 			]); ?>
