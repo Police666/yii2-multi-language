@@ -11,13 +11,30 @@
 namespace navatech\language\controllers;
 
 use navatech\language\models\Language;
+use navatech\language\models\Phrase;
 use navatech\language\models\PhraseMeta;
 use navatech\language\models\PhraseSearch;
 use Yii;
+use yii\filters\VerbFilter;
 use yii\helpers\Json;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 
 class PhraseController extends Controller {
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function behaviors() {
+		return [
+			'verbs' => [
+				'class'   => VerbFilter::className(),
+				'actions' => [
+					'delete' => ['post'],
+				],
+			],
+		];
+	}
 
 	/**
 	 * @return string
@@ -59,5 +76,39 @@ class PhraseController extends Controller {
 			'searchModel'  => $searchModel,
 			'dataProvider' => $dataProvider,
 		]);
+	}
+
+	/**
+	 * Deletes an existing Financial model.
+	 * If deletion is successful, the browser will be redirected to the 'index' page.
+	 *
+	 * @param integer $id
+	 *
+	 * @return mixed
+	 */
+	public function actionDelete($id) {
+		$this->findModel($id)->delete();
+		if (!Yii::$app->request->get('project') && !Yii::$app->request->isAjax) {
+			return $this->redirect(Yii::$app->request->referrer);
+		}
+		return false;
+	}
+
+	/**
+	 * Finds the Language model based on its primary key value.
+	 * If the model is not found, a 404 HTTP exception will be thrown.
+	 *
+	 * @param integer $id
+	 *
+	 * @return Phrase the loaded model
+	 * @throws NotFoundHttpException if the model cannot be found
+	 * @since 1.0.0
+	 */
+	protected function findModel($id) {
+		if (($model = Phrase::findOne($id)) !== null) {
+			return $model;
+		} else {
+			throw new NotFoundHttpException('The requested page does not exist.');
+		}
 	}
 }

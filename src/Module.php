@@ -11,5 +11,12 @@
 namespace navatech\language;
 class Module extends \yii\base\Module {
 
-	const VERSION = '1.0.2';
+	const VERSION = '1.0.3';
+
+	public $translate;
+
+	public function init() {
+		parent::init();
+		MultiLanguage::getData(\Yii::$app->language);
+	}
 }

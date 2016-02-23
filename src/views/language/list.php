@@ -30,13 +30,14 @@ $this->params['breadcrumbs'][] = Translate::languages();
 				<?= Html::a('Add a new language', ['create'], ['class' => 'btn btn-success']) ?>
 			</p>
 			<?= GridView::widget([
-				'id'               => 'language',
-				'dataProvider'     => $dataProvider,
-				'filterModel'      => $searchModel,
-				'responsive'       => true,
-				'hover'            => true,
-				'pjax'             => true,
-				'columns'          => [
+				'id'           => 'language',
+				'dataProvider' => $dataProvider,
+				'filterModel'  => $searchModel,
+				'export'       => false,
+				'responsive'   => true,
+				'hover'        => true,
+				'pjax'         => true,
+				'columns'      => [
 					['class' => 'kartik\grid\SerialColumn'],
 					[
 						'attribute' => 'name',

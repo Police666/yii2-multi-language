@@ -18,6 +18,23 @@ use yii\web\NotFoundHttpException;
 
 class IndexController extends Controller {
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public function behaviors() {
+		return [
+			'verbs' => [
+				'class'   => VerbFilter::className(),
+				'actions' => [
+					'delete' => ['post'],
+				],
+			],
+		];
+	}
+
+	/**
+	 * @return string
+	 */
 	public function actionIndex() {
 		return $this->actionList();
 	}
@@ -81,6 +98,22 @@ class IndexController extends Controller {
 		return $this->render('/language/update', [
 			'model' => $model,
 		]);
+	}
+
+	/**
+	 * Deletes an existing Financial model.
+	 * If deletion is successful, the browser will be redirected to the 'index' page.
+	 *
+	 * @param integer $id
+	 *
+	 * @return mixed
+	 */
+	public function actionDelete($id) {
+		$this->findModel($id)->delete();
+		if (!Yii::$app->request->get('project') && !Yii::$app->request->isAjax) {
+			return $this->redirect(Yii::$app->request->referrer);
+		}
+		return false;
 	}
 
 	/**

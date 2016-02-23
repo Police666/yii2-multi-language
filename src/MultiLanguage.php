@@ -47,23 +47,23 @@ class MultiLanguage {
 	 * @throws \yii\base\InvalidParamException
 	 */
 	private static function _setAllData($language_code, $path) {
-		$file = $path . DIRECTORY_SEPARATOR . 'phrase_' . $language_code . '.data';
+		$file = $path . DIRECTORY_SEPARATOR . 'phrase_' . $language_code . '.json';
 		if (!file_exists($file)) {
 			$fp = fopen($file, 'wb');
 			fwrite($fp, '');
 			fclose($fp);
 		}
 		$data = file_get_contents($file);
-		$data = Json::decode($data);
-		if ($data === null) {
+		if ($data === '') {
 			/**@var $models Phrase[] */
 			$models = Phrase::find()->all();
 			$code   = $language_code;
 			foreach ($models as $model) {
 				$model->setDynamicField();
-				$data = [$model->name => $model->$code];
+				$data[$model->name] = $model->$code;
 			}
 		} else {
+			$data = [];
 			/**@var $models Phrase[] */
 			$models = Phrase::find()->all();
 			$code   = $language_code;
@@ -119,7 +119,7 @@ class MultiLanguage {
 		foreach (Language::getAllLanguages() as $language) {
 			$code[$language->id] = $language->getAttributes();
 		}
-		$file = $path . DIRECTORY_SEPARATOR . 'languages.data';
+		$file = $path . DIRECTORY_SEPARATOR . 'languages.json';
 		$fp   = fopen($file, 'wb');
 		fwrite($fp, Json::encode($code));
 		fclose($fp);
@@ -138,7 +138,7 @@ class MultiLanguage {
 			self::setLanguages();
 			return self::getLanguages();
 		}
-		$file = $path . DIRECTORY_SEPARATOR . 'languages.data';
+		$file = $path . DIRECTORY_SEPARATOR . 'languages.json';
 		if (!file_exists($file)) {
 			self::setLanguages();
 			return self::getLanguages();
@@ -180,15 +180,21 @@ class MultiLanguage {
 	public static function getData($language_code) {
 		$runtime = Yii::getAlias('@runtime');
 		$path    = $runtime . DIRECTORY_SEPARATOR . 'language';
-		if (!file_exists($path)) {
-			return [];
+		$file    = $path . DIRECTORY_SEPARATOR . 'phrase_' . $language_code . '.json';
+		if (!file_exists($path) || !file_exists($file)) {
+			self::setAllData($language_code);
+			return self::getData($language_code);
 		}
-		$file = $path . DIRECTORY_SEPARATOR . 'phrase_' . $language_code . '.data';
-		if (!file_exists($file)) {
-			return [];
+		$content = file_get_contents($file);
+		if ($content === '') {
+			self::setAllData($language_code);
+			return self::getData($language_code);
 		}
-		$data = file_get_contents($file);
-		$data = Json::decode($data);
+		$data = Json::decode($content);
+		if ($data === null) {
+			self::setAllData($language_code);
+			return self::getData($language_code);
+		}
 		return $data;
 	}
 
@@ -205,7 +211,7 @@ class MultiLanguage {
 		if (!file_exists($path)) {
 			return true;
 		}
-		$file = $path . DIRECTORY_SEPARATOR . 'phrase_' . $language_code . '.data';
+		$file = $path . DIRECTORY_SEPARATOR . 'phrase_' . $language_code . '.json';
 		if (!file_exists($file)) {
 			return true;
 		}
@@ -228,7 +234,7 @@ class MultiLanguage {
 		}
 		if ($model->isNewRecord) {
 			foreach (self::getLanguages() as $language) {
-				$file = $path . DIRECTORY_SEPARATOR . 'phrase_' . $language['code'] . '.data';
+				$file = $path . DIRECTORY_SEPARATOR . 'phrase_' . $language['code'] . '.json';
 				if (!file_exists($file)) {
 					self::setAllData($language['code']);
 				}
@@ -262,7 +268,7 @@ class MultiLanguage {
 				fclose($fp);
 			}
 		} else {
-			$file = $path . DIRECTORY_SEPARATOR . 'phrase_' . $language_code . '.data';
+			$file = $path . DIRECTORY_SEPARATOR . 'phrase_' . $language_code . '.json';
 			if (!file_exists($file)) {
 				self::setAllData($language_code);
 			}

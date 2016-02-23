@@ -26,13 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
 		<div class="row">
 			<div class="space-6"></div>
 			<?= GridView::widget([
-				'id'               => 'phrase',
-				'dataProvider'     => $dataProvider,
-				'filterModel'      => $searchModel,
-				'responsive'       => true,
-				'hover'            => true,
-				'pjax'             => true,
-				'columns'          => $searchModel->phraseColumns(),
+				'id'           => 'phrase',
+				'dataProvider' => $dataProvider,
+				'filterModel'  => $searchModel,
+				'responsive'   => true,
+				'hover'        => true,
+				'pjax'         => true,
+				'export'       => false,
+				'columns'      => $searchModel->phraseColumns(),
 			]); ?>
 		</div>
 	</div>

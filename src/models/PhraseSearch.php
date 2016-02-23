@@ -63,7 +63,7 @@ class PhraseSearch extends Phrase {
 			if ($this->$key !== '') {
 				$language_id = Language::getIdByCode($key);
 				if ($language_id !== 0) {
-					$query->join('left', 'phrase_meta as lang_' . $key, 'lang_' . $key . '.phrase_id = t.phrase_id AND lang_' . $key . '.language_id = ' . $language_id);
+					$query->join('LEFT JOIN', 'phrase_meta as lang_' . $key, 'lang_' . $key . '.phrase_id = {{%phrase}}.id AND lang_' . $key . '.language_id = ' . $language_id);
 					$query->andFilterWhere([
 						'like',
 						'lang_' . $key . '.value',
@@ -73,8 +73,12 @@ class PhraseSearch extends Phrase {
 			}
 		}
 		$query->andFilterWhere([
-			'id'   => $this->id,
-			'name' => $this->name,
+			'id' => $this->id,
+		]);
+		$query->andFilterWhere([
+			'like',
+			'name',
+			$this->name,
 		]);
 		return $dataProvider;
 	}

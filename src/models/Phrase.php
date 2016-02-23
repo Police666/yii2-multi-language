@@ -124,6 +124,10 @@ class Phrase extends ActiveRecord {
 				'required',
 			],
 			[
+				['name'],
+				'unique',
+			],
+			[
 				array_merge([
 					'id',
 					'name',
