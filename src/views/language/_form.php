@@ -22,9 +22,9 @@ use yii\widgets\ActiveForm;
 		<?= $form->field($model, 'country')->textInput(['maxlength' => true]) ?>
 
 		<?= $form->field($model, 'status')->dropDownList([
-			0 => 'Not in use',
-			1 => 'In use',
-		], ['prompt' => 'Choose status ...']) ?>
+			0 => Translate::not_in_use(),
+			1 => Translate::in_use(),
+		], ['prompt' => Translate::choose_status()]) ?>
 
 	</div>
 </div>

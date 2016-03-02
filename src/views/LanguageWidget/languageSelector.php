@@ -6,7 +6,7 @@
  * @email   phuong17889[at]gmail.com
  * @date    13/02/2016
  * @time    16:20 CH
- * @version 1.0.2
+ * @since   1.0.2
  *
  * @var  $data    array
  * @var  $size    int

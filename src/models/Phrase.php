@@ -1,12 +1,12 @@
 <?php
 /**
  * Created by Navatech.
- * @project Yii2 Multi Language
- * @author  Phuong
- * @email   phuong17889[at]gmail.com
- * @date    04/02/2016
- * @time    1:48 SA
- * @version 1.0.1
+ * @project    Yii2 Multi Language
+ * @author     Phuong
+ * @email      phuong17889[at]gmail.com
+ * @created    04/02/2016 1:48 SA
+ * @updated    03/03/2016 00:40 SA
+ * @since      2.0.0
  */
 namespace navatech\language\models;
 

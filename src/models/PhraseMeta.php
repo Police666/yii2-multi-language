@@ -6,11 +6,11 @@
  * @email   phuong17889[at]gmail.com
  * @date    04/02/2016
  * @time    1:48 SA
- * @version 1.0.1
+ * @since   1.0.1
  */
 namespace navatech\language\models;
 
-use navatech\language\MultiLanguage;
+use navatech\language\helpers\MultiLanguageHelpers;
 use navatech\language\Translate;
 use yii\db\ActiveRecord;
 
@@ -101,7 +101,7 @@ class PhraseMeta extends ActiveRecord {
 	 * @throws \yii\base\Exception|\yii\base\InvalidParamException
 	 */
 	public function beforeSave($insert) {
-		MultiLanguage::setData($this);
+		MultiLanguageHelpers::setData($this);
 		return parent::beforeSave($insert);
 	}
 
@@ -110,7 +110,7 @@ class PhraseMeta extends ActiveRecord {
 	 * @throws \yii\base\InvalidParamException
 	 */
 	public function beforeDelete() {
-		if (MultiLanguage::removeAllData($this)) {
+		if (MultiLanguageHelpers::removeAllData($this)) {
 			return parent::beforeDelete();
 		}
 		return false;

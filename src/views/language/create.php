@@ -4,7 +4,7 @@ use navatech\language\Translate;
 
 /* @var $model \navatech\language\models\Language */
 $this->params['breadcrumbs'][] = [
-	'label' => 'Languages',
+	'label' => Translate::language(),
 	'url'   => ['list'],
 ];
 $this->params['breadcrumbs'][] = Translate::create();

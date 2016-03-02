@@ -1,12 +1,12 @@
 <?php
 /**
  * Created by Navatech.
- * @project nic
- * @author  Phuong
- * @email   phuong17889[at]gmail.com
- * @date    04/02/2016
- * @time    2:34 CH
- * @version 1.0.1
+ * @project    nic
+ * @author     Phuong
+ * @email      phuong17889[at]gmail.com
+ * @created    04/02/2016 2:34 CH
+ * @updated    03/03/2016 00:38 SA
+ * @since      2.0.0
  */
 namespace navatech\language\controllers;
 
@@ -14,6 +14,7 @@ use navatech\language\models\Language;
 use navatech\language\models\Phrase;
 use navatech\language\models\PhraseMeta;
 use navatech\language\models\PhraseSearch;
+use navatech\language\Translate;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
@@ -26,7 +27,7 @@ class PhraseController extends Controller {
 	 * {@inheritDoc}
 	 */
 	public function behaviors() {
-		return [
+		$behaviors = [
 			'verbs' => [
 				'class'   => VerbFilter::className(),
 				'actions' => [
@@ -34,6 +35,17 @@ class PhraseController extends Controller {
 				],
 			],
 		];
+		if (class_exists('navatech\\role\\Module')) {
+			$behaviors['role'] = [
+				'class'   => \navatech\role\filters\RoleFilter::className(),
+				'name'    => Translate::x_management([Translate::language()]),
+				'actions' => [
+					'index'  => Translate::lists(),
+					'delete' => Translate::delete(),
+				],
+			];
+		}
+		return $behaviors;
 	}
 
 	/**

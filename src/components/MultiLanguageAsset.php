@@ -6,9 +6,9 @@
  * @email   phuong17889[at]gmail.com
  * @date    13/02/2016
  * @time    4:49 CH
- * @version 1.0.2
+ * @since   1.0.2
  */
-namespace navatech\language;
+namespace navatech\language\components;
 
 use yii\web\AssetBundle;
 

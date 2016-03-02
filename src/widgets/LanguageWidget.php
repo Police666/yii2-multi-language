@@ -1,18 +1,18 @@
 <?php
 /**
  * Created by Navatech.
- * @project Yii2 Multi Language
- * @author  Phuong
- * @email   phuong17889[at]gmail.com
- * @date    13/02/2016
- * @time    16:20 CH
- * @version 1.0.2
+ * @project    Yii2 Multi Language
+ * @author     Phuong
+ * @email      phuong17889[at]gmail.com
+ * @created    13/02/2016 16:20 CH
+ * @updated    03/03/2016 00:40 SA
+ * @since      2.0.0
  */
 namespace navatech\language\widgets;
 
+use navatech\language\helpers\MultiLanguageHelpers;
 use navatech\language\models\Language;
-use navatech\language\MultiLanguage;
-use navatech\language\MultiLanguageAsset;
+use navatech\language\components\MultiLanguageAsset;
 use Yii;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
@@ -42,7 +42,7 @@ class LanguageWidget extends Widget {
 		parent::init();
 		MultiLanguageAsset::register($this->view);
 		$this->urlManager = Yii::$app->urlManager;
-		$this->languages  = MultiLanguage::getLanguages();
+		$this->languages  = MultiLanguageHelpers::getLanguages();
 		$this->current    = [
 			'code'    => 'en',
 			'name'    => 'United States',

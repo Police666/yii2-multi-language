@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = Translate::languages();
 		<div class="row">
 			<div class="space-6"></div>
 			<p>
-				<?= Html::a('Add a new language', ['create'], ['class' => 'btn btn-success']) ?>
+				<?= Html::a(Translate::add_a_new_x([Translate::language()]), ['create'], ['class' => 'btn btn-success']) ?>
 			</p>
 			<?= GridView::widget([
 				'id'           => 'language',
@@ -53,8 +53,8 @@ $this->params['breadcrumbs'][] = Translate::languages();
 					],
 					[
 						'class'      => 'kartik\grid\BooleanColumn',
-						'trueLabel'  => 'In use',
-						'falseLabel' => 'Not in use',
+						'trueLabel'  => Translate::in_use(),
+						'falseLabel' => Translate::not_in_use(),
 						'attribute'  => 'status',
 						'vAlign'     => 'middle',
 					],
