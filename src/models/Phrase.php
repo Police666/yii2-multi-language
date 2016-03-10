@@ -94,10 +94,10 @@ class Phrase extends ActiveRecord {
 	public function setDynamicField() {
 		foreach ($this->languages as $language) {
 			$set = false;
-			foreach ($this->getPhraseMeta() as $phrase_meta) {
-				if ($phrase_meta->language_id === $language->id) {
+			foreach ($this->getPhraseTranslate() as $phrase_translate) {
+				if ($phrase_translate->language_id === $language->id) {
 					$key        = $language->code;
-					$this->$key = $phrase_meta->value;
+					$this->$key = $phrase_translate->value;
 					$set        = true;
 					break;
 				}
@@ -138,12 +138,12 @@ class Phrase extends ActiveRecord {
 	}
 
 	/**
-	 * This will return all PhraseMeta relations of Phrase
-	 * @return PhraseMeta[]
+	 * This will return all PhraseTranslate relations of Phrase
+	 * @return PhraseTranslate[]
 	 * @since 1.0.2
 	 */
-	public function getPhraseMeta() {
-		return $this->hasMany(PhraseMeta::className(), ['phrase_id' => 'id'])->all();
+	public function getPhraseTranslate() {
+		return $this->hasMany(PhraseTranslate::className(), ['phrase_id' => 'id'])->all();
 	}
 
 	/**

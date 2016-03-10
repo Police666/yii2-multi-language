@@ -12,7 +12,7 @@ namespace navatech\language\controllers;
 
 use navatech\language\models\Language;
 use navatech\language\models\Phrase;
-use navatech\language\models\PhraseMeta;
+use navatech\language\models\PhraseTranslate;
 use navatech\language\models\PhraseSearch;
 use navatech\language\Translate;
 use Yii;
@@ -65,16 +65,16 @@ class PhraseController extends Controller {
 			$language_id = Language::getIdByCode($post['editableAttribute']);
 			$phrase_id   = $post['editableKey'];
 			if ($language_id !== 0 && $phrase_id !== 0) {
-				$model = PhraseMeta::findOne([
+				$model = PhraseTranslate::findOne([
 					'phrase_id'   => $phrase_id,
 					'language_id' => $language_id,
 				]);
 				if ($model === null) {
-					$model              = new PhraseMeta();
+					$model              = new PhraseTranslate();
 					$model->language_id = $language_id;
 					$model->phrase_id   = $phrase_id;
 				}
-				$model->value = $post['Phrase'][0][$post['editableAttribute']];
+				$model->value = $post['Phrase'][$post['editableIndex']][$post['editableAttribute']];
 				$model->save();
 				$out = Json::encode([
 					'output'  => $model->value,

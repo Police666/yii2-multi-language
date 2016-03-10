@@ -12,8 +12,8 @@ class m160204_045439_navatech_multi_language_init extends Migration {
 		if (in_array('{{%phrase}}', $tables)) {
 			$this->dropTable('{{%phrase}}');
 		}
-		if (in_array('{{%phrase_meta}}', $tables)) {
-			$this->dropTable('{{%phrase_meta}}');
+		if (in_array('{{%phrase_translate}}', $tables)) {
+			$this->dropTable('{{%phrase_translate}}');
 		}
 		$this->createTable('{{%language}}', [
 			'id'      => 'INT(11) NOT NULL AUTO_INCREMENT',
@@ -28,7 +28,7 @@ class m160204_045439_navatech_multi_language_init extends Migration {
 			0      => 'PRIMARY KEY (`id`)',
 			'name' => 'VARCHAR(255) NOT NULL',
 		], $tableOptions_mysql);
-		$this->createTable('{{%phrase_meta}}', [
+		$this->createTable('{{%phrase_translate}}', [
 			'id'          => 'INT(11) NOT NULL AUTO_INCREMENT',
 			0             => 'PRIMARY KEY (`id`)',
 			'phrase_id'   => 'int(11) NOT NULL',
@@ -40,6 +40,6 @@ class m160204_045439_navatech_multi_language_init extends Migration {
 	public function down() {
 		$this->dropTable('{{%language}}');
 		$this->dropTable('{{%phrase}}');
-		$this->dropTable('{{%phrase_meta}}');
+		$this->dropTable('{{%phrase_translate}}');
 	}
 }

@@ -15,20 +15,20 @@ use navatech\language\Translate;
 use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "phrase_meta".
- * The followings are the available columns in table 'phrase_meta':
+ * This is the model class for table "phrase_translate".
+ * The followings are the available columns in table 'phrase_translate':
  * @property integer $id
  * @property integer $phrase_id
  * @property integer $language_id
  * @property string  $value
  */
-class PhraseMeta extends ActiveRecord {
+class PhraseTranslate extends ActiveRecord {
 
 	/**
 	 * @return string the table name
 	 */
 	public static function tableName() {
-		return '{{%phrase_meta}}';
+		return '{{%phrase_translate}}';
 	}
 
 	/**

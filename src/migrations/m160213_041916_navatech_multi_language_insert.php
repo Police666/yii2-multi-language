@@ -47,72 +47,72 @@ class m160213_041916_navatech_multi_language_insert extends Migration {
 			'id'   => 7,
 			'name' => 'translate',
 		]);
-		$this->insert('{{%phrase_meta}}', [
+		$this->insert('{{%phrase_translate}}', [
 			'phrase_id'   => 1,
 			'language_id' => 1,
 			'value'       => 'Ngôn ngữ',
 		]);
-		$this->insert('{{%phrase_meta}}', [
+		$this->insert('{{%phrase_translate}}', [
 			'phrase_id'   => 1,
 			'language_id' => 2,
 			'value'       => 'Language',
 		]);
-		$this->insert('{{%phrase_meta}}', [
+		$this->insert('{{%phrase_translate}}', [
 			'phrase_id'   => 2,
 			'language_id' => 1,
 			'value'       => 'Từ ngữ',
 		]);
-		$this->insert('{{%phrase_meta}}', [
+		$this->insert('{{%phrase_translate}}', [
 			'phrase_id'   => 2,
 			'language_id' => 2,
 			'value'       => 'Phrase',
 		]);
-		$this->insert('{{%phrase_meta}}', [
+		$this->insert('{{%phrase_translate}}', [
 			'phrase_id'   => 3,
 			'language_id' => 1,
 			'value'       => 'Tên',
 		]);
-		$this->insert('{{%phrase_meta}}', [
+		$this->insert('{{%phrase_translate}}', [
 			'phrase_id'   => 3,
 			'language_id' => 2,
 			'value'       => 'Name',
 		]);
-		$this->insert('{{%phrase_meta}}', [
+		$this->insert('{{%phrase_translate}}', [
 			'phrase_id'   => 4,
 			'language_id' => 1,
 			'value'       => 'Mã',
 		]);
-		$this->insert('{{%phrase_meta}}', [
+		$this->insert('{{%phrase_translate}}', [
 			'phrase_id'   => 4,
 			'language_id' => 2,
 			'value'       => 'Code',
 		]);
-		$this->insert('{{%phrase_meta}}', [
+		$this->insert('{{%phrase_translate}}', [
 			'phrase_id'   => 5,
 			'language_id' => 1,
 			'value'       => 'Quốc gia',
 		]);
-		$this->insert('{{%phrase_meta}}', [
+		$this->insert('{{%phrase_translate}}', [
 			'phrase_id'   => 5,
 			'language_id' => 2,
 			'value'       => 'Country',
 		]);
-		$this->insert('{{%phrase_meta}}', [
+		$this->insert('{{%phrase_translate}}', [
 			'phrase_id'   => 6,
 			'language_id' => 1,
 			'value'       => 'Trạng thái',
 		]);
-		$this->insert('{{%phrase_meta}}', [
+		$this->insert('{{%phrase_translate}}', [
 			'phrase_id'   => 6,
 			'language_id' => 2,
 			'value'       => 'Status',
 		]);
-		$this->insert('{{%phrase_meta}}', [
+		$this->insert('{{%phrase_translate}}', [
 			'phrase_id'   => 7,
 			'language_id' => 1,
 			'value'       => 'Dịch',
 		]);
-		$this->insert('{{%phrase_meta}}', [
+		$this->insert('{{%phrase_translate}}', [
 			'phrase_id'   => 7,
 			'language_id' => 2,
 			'value'       => 'Translate',

@@ -12,7 +12,7 @@ namespace navatech\language\helpers;
 
 use navatech\language\models\Language;
 use navatech\language\models\Phrase;
-use navatech\language\models\PhraseMeta;
+use navatech\language\models\PhraseTranslate;
 use Yii;
 use yii\base\Exception;
 use yii\helpers\Json;
@@ -29,11 +29,11 @@ class MultiLanguageHelpers {
 		$model       = new Phrase();
 		$model->name = $name;
 		if ($model->save()) {
-			$phraseMeta              = new PhraseMeta();
-			$phraseMeta->phrase_id   = $model->getPrimaryKey();
-			$phraseMeta->language_id = Language::getIdByCode(Yii::$app->language);
-			$phraseMeta->value       = 'error: phrase [' . $name . '] not found';
-			$phraseMeta->save();
+			$PhraseTranslate              = new PhraseTranslate();
+			$PhraseTranslate->phrase_id   = $model->getPrimaryKey();
+			$PhraseTranslate->language_id = Language::getIdByCode(Yii::$app->language);
+			$PhraseTranslate->value       = 'error: phrase [' . $name . '] not found';
+			$PhraseTranslate->save();
 		}
 		return 'error: phrase [' . $name . '] not found';
 	}
@@ -219,12 +219,12 @@ class MultiLanguageHelpers {
 	}
 
 	/**
-	 * @param PhraseMeta $model
+	 * @param PhraseTranslate $model
 	 *
 	 * @since 1.0.2
 	 * @throws Exception|\yii\base\InvalidParamException
 	 */
-	public static function setData(PhraseMeta $model) {
+	public static function setData(PhraseTranslate $model) {
 		$name          = $model->getPhrase()->name;
 		$language_code = $model->getLanguage()->code;
 		$runtime       = Yii::getAlias('@runtime');

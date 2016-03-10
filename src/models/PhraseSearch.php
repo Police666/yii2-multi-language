@@ -63,7 +63,7 @@ class PhraseSearch extends Phrase {
 			if ($this->$key !== '') {
 				$language_id = Language::getIdByCode($key);
 				if ($language_id !== 0) {
-					$query->join('LEFT JOIN', 'phrase_meta as lang_' . $key, 'lang_' . $key . '.phrase_id = {{%phrase}}.id AND lang_' . $key . '.language_id = ' . $language_id);
+					$query->join('LEFT JOIN', 'phrase_translate as lang_' . $key, 'lang_' . $key . '.phrase_id = {{%phrase}}.id AND lang_' . $key . '.language_id = ' . $language_id);
 					$query->andFilterWhere([
 						'like',
 						'lang_' . $key . '.value',

@@ -10,9 +10,9 @@
  */
 namespace navatech\language\widgets;
 
+use navatech\language\components\MultiLanguageAsset;
 use navatech\language\helpers\MultiLanguageHelpers;
 use navatech\language\models\Language;
-use navatech\language\components\MultiLanguageAsset;
 use Yii;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
@@ -57,11 +57,11 @@ class LanguageWidget extends Widget {
 	 * @throws \yii\base\InvalidParamException
 	 */
 	public function getViewPath() {
-		if ($this->viewPath === null) {
+		if ($this->viewDir === null) {
 			$name = explode("\\", self::className());
 			return Yii::getAlias(dirname(__DIR__ . '/../views') . DIRECTORY_SEPARATOR . end($name));
 		}
-		return $this->viewPath;
+		return $this->viewDir;
 	}
 
 	/**
@@ -74,7 +74,7 @@ class LanguageWidget extends Widget {
 		foreach ($this->languages as $language) {
 			if ($language['code'] === Yii::$app->language) {
 				$this->current = ArrayHelper::merge([
-					'url' => Yii::$app->urlManager->createUrl(ArrayHelper::merge($params, [
+					'url' => $this->urlManager->createUrl(ArrayHelper::merge($params, [
 						array_key_exists('route', $params) ? $params['route'] : $route,
 						'language' => $language['code'],
 					])),
@@ -82,7 +82,7 @@ class LanguageWidget extends Widget {
 				$data[0]       = $this->current;
 			} else {
 				$data[] = ArrayHelper::merge([
-					'url' => Yii::$app->urlManager->createUrl(ArrayHelper::merge($params, [
+					'url' => $this->urlManager->createUrl(ArrayHelper::merge($params, [
 						array_key_exists('route', $params) ? $params['route'] : $route,
 						'language' => $language['code'],
 					])),

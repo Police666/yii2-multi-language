@@ -73,11 +73,11 @@ class Language extends ActiveRecord {
 	}
 
 	/**
-	 * @return PhraseMeta[]
+	 * @return PhraseTranslate[]
 	 * @since 1.0.2
 	 */
-	public function getPhraseMeta() {
-		return $this->hasMany(PhraseMeta::className(), ['language_id' => 'id'])->all();
+	public function getPhraseTranslate() {
+		return $this->hasMany(PhraseTranslate::className(), ['language_id' => 'id'])->all();
 	}
 
 	/**

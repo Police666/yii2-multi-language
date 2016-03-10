@@ -54,7 +54,7 @@ trait MultiLanguageTrait {
 	 * Scope for querying by all languages
 	 * @return $this
 	 */
-	public function multilingual() {
+	public function translate() {
 		if (isset($this->with['translation'])) {
 			unset($this->with['translation']);
 		}

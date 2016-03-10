@@ -18,6 +18,8 @@ class Module extends \yii\base\Module {
 
 	public $translate;
 
+	public $suffix;
+
 	public function init() {
 		parent::init();
 		MultiLanguageHelpers::getData(\Yii::$app->language);
