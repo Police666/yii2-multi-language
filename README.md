@@ -56,6 +56,6 @@ php yii migrate/up --migrationPath=@vendor/navatech/yii2-multi-language/src/migr
 ```
 
 ## Usage
-[### LanguageWidget](http://google.com)
-[### Multi language on model](http://google.com)
+[### LanguageWidget](https://github.com/navatech/yii2-multi-language/blob/2.0.dev/docs/widget.md)
+[### Multi language on model](https://github.com/navatech/yii2-multi-language/blob/2.0.dev/docs/multi.md)
 [### Phrase](http://google.com)
