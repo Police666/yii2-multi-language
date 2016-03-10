@@ -6,6 +6,7 @@
  * @email   phuong17889[at]gmail.com
  * @date    03/03/2016
  * @time    12:46 SA
+ * @since 2.0.0
  */
 namespace navatech\language\components;
 

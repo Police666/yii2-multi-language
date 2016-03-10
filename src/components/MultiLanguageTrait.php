@@ -6,6 +6,7 @@
  * @email   phuong17889[at]gmail.com
  * @date    03/03/2016
  * @time    12:47 SA
+ * @since   2.0.0
  */
 namespace navatech\language\components;
 
@@ -19,6 +20,7 @@ use yii\db\ActiveQuery;
  * @property array $with
  *
  * @method ActiveQuery with() with($_)
+ * @since 2.0.0
  */
 trait MultiLanguageTrait {
 
@@ -34,6 +36,7 @@ trait MultiLanguageTrait {
 	 * @param $abridge
 	 *
 	 * @return $this
+	 * @since 2.0.0
 	 */
 	public function localized($language = null, $abridge = true) {
 		if (!$language) {
@@ -53,6 +56,7 @@ trait MultiLanguageTrait {
 	/**
 	 * Scope for querying by all languages
 	 * @return $this
+	 * @since 2.0.0
 	 */
 	public function translate() {
 		if (isset($this->with['translation'])) {

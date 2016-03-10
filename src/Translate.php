@@ -12,6 +12,7 @@ namespace navatech\language;
 
 use navatech\language\helpers\MultiLanguageHelpers;
 use Yii;
+use yii\base\InvalidParamException;
 
 class Translate {
 
@@ -23,7 +24,7 @@ class Translate {
 	 *
 	 * @param null $language_code
 	 *
-	 * @throws \yii\base\InvalidParamException
+	 * @throws InvalidParamException
 	 */
 	public function __construct($language_code = null) {
 		if ($language_code === null) {
@@ -39,7 +40,7 @@ class Translate {
 	 *
 	 * @return string
 	 * @since 1.0.2
-	 * @throws \yii\base\InvalidParamException
+	 * @throws InvalidParamException
 	 */
 	public static function __callStatic($name, $arguments) {
 		$parameters = null;

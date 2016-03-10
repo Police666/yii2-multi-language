@@ -23,8 +23,7 @@
 		"yiisoft/yii2-bootstrap" : "*",
 		"kartik-v/yii2-grid" : "@dev",
 		"kartik-v/yii2-editable" : "@dev",
-		"navatech/yii2-localeurls" : "@dev",
-		"navatech/yii2-user-role": "@dev"
+		"navatech/yii2-localeurls" : "@dev"
 	},
 	"autoload" : {
 		"psr-4" : {

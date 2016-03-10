@@ -14,12 +14,17 @@ use navatech\language\helpers\MultiLanguageHelpers;
 
 class Module extends \yii\base\Module {
 
-	const VERSION = '1.0.3';
+	const VERSION = '2.0.0';
 
-	public $translate;
+	/**
+	 * @var string
+	 * @since 2.0.0
+	 */
+	public $suffix = 'translate';
 
-	public $suffix;
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public function init() {
 		parent::init();
 		MultiLanguageHelpers::getData(\Yii::$app->language);
