@@ -4,14 +4,15 @@
  * @project Yii2 Multi Language
  * @author  Phuong
  * @email   phuong17889[at]gmail.com
- * @date    04/02/2016
- * @time    1:29 CH
- * @version 1.0.1
+ * @created    04/02/2016 2:34 CH
+ * @updated    03/03/2016 00:38 SA
+ * @since   2.0.0
  */
 namespace navatech\language\controllers;
 
 use navatech\language\models\Language;
 use navatech\language\models\LanguageSearch;
+use navatech\language\Translate;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -23,7 +24,7 @@ class IndexController extends Controller {
 	 * {@inheritDoc}
 	 */
 	public function behaviors() {
-		return [
+		$behaviors = [
 			'verbs' => [
 				'class'   => VerbFilter::className(),
 				'actions' => [
@@ -31,6 +32,19 @@ class IndexController extends Controller {
 				],
 			],
 		];
+		if (class_exists('navatech\\role\\Module')) {
+			$behaviors['role'] = [
+				'class'   => \navatech\role\filters\RoleFilter::className(),
+				'name'    => Translate::x_management([Translate::language()]),
+				'actions' => [
+					'list'   => Translate::lists(),
+					'create' => Translate::create(),
+					'update' => Translate::update(),
+					'delete' => Translate::delete(),
+				],
+			];
+		}
+		return $behaviors;
 	}
 
 	/**

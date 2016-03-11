@@ -6,11 +6,13 @@
  * @email   phuong17889[at]gmail.com
  * @date    04/02/2016
  * @time    11:03 SA
- * @version 1.0.1
+ * @since   1.0.1
  */
 namespace navatech\language;
 
+use navatech\language\helpers\MultiLanguageHelpers;
 use Yii;
+use yii\base\InvalidParamException;
 
 class Translate {
 
@@ -22,13 +24,13 @@ class Translate {
 	 *
 	 * @param null $language_code
 	 *
-	 * @throws \yii\base\InvalidParamException
+	 * @throws InvalidParamException
 	 */
 	public function __construct($language_code = null) {
 		if ($language_code === null) {
-			$this->values = MultiLanguage::getData(Yii::$app->language);
+			$this->values = MultiLanguageHelpers::getData(Yii::$app->language);
 		} else {
-			$this->values = MultiLanguage::getData($language_code);
+			$this->values = MultiLanguageHelpers::getData($language_code);
 		}
 	}
 
@@ -38,7 +40,7 @@ class Translate {
 	 *
 	 * @return string
 	 * @since 1.0.2
-	 * @throws \yii\base\InvalidParamException
+	 * @throws InvalidParamException
 	 */
 	public static function __callStatic($name, $arguments) {
 		$parameters = null;
@@ -62,7 +64,7 @@ class Translate {
 			}
 			return trim($value);
 		} else {
-			return MultiLanguage::newPhrase($name);
+			return MultiLanguageHelpers::newPhrase($name);
 		}
 	}
 
@@ -70,13 +72,13 @@ class Translate {
 	 * @param $name
 	 *
 	 * @return string
-	 * @since 1.0.2
+	 * @since 2.0.0
 	 */
 	public function __get($name) {
 		if (array_key_exists($name, $this->values)) {
 			return $this->values[$name];
 		} else {
-			return MultiLanguage::newPhrase($name);
+			return MultiLanguageHelpers::newPhrase($name);
 		}
 	}
 }

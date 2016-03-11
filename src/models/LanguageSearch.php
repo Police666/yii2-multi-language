@@ -6,7 +6,7 @@
  * @email   phuong17889[at]gmail.com
  * @date    04/02/2016
  * @time    1:30 CH
- * @version 1.0.1
+ * @since   1.0.1
  */
 namespace navatech\language\models;
 

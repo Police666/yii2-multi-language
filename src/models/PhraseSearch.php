@@ -6,7 +6,7 @@
  * @email   phuong17889[at]gmail.com
  * @date    04/02/2016
  * @time    2:43 CH
- * @version 1.0.1
+ * @since   1.0.1
  */
 namespace navatech\language\models;
 
@@ -63,7 +63,7 @@ class PhraseSearch extends Phrase {
 			if ($this->$key !== '') {
 				$language_id = Language::getIdByCode($key);
 				if ($language_id !== 0) {
-					$query->join('LEFT JOIN', 'phrase_meta as lang_' . $key, 'lang_' . $key . '.phrase_id = {{%phrase}}.id AND lang_' . $key . '.language_id = ' . $language_id);
+					$query->join('LEFT JOIN', 'phrase_translate as lang_' . $key, 'lang_' . $key . '.phrase_id = {{%phrase}}.id AND lang_' . $key . '.language_id = ' . $language_id);
 					$query->andFilterWhere([
 						'like',
 						'lang_' . $key . '.value',

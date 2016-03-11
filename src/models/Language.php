@@ -1,16 +1,16 @@
 <?php
 /**
  * Created by Navatech.
- * @project Yii2 Multi Language
- * @author  Phuong
- * @email   phuong17889[at]gmail.com
- * @date    04/02/2016
- * @time    1:49 SA
- * @version 1.0.1
+ * @project    Yii2 Multi Language
+ * @author     Phuong
+ * @email      phuong17889[at]gmail.com
+ * @created    04/02/2016 1:49 SA
+ * @updated    03/03/2016 00:40 SA
+ * @since      2.0.0
  */
 namespace navatech\language\models;
 
-use navatech\language\MultiLanguage;
+use navatech\language\helpers\MultiLanguageHelpers;
 use navatech\language\Translate;
 use yii\db\ActiveRecord;
 
@@ -73,11 +73,11 @@ class Language extends ActiveRecord {
 	}
 
 	/**
-	 * @return PhraseMeta[]
+	 * @return PhraseTranslate[]
 	 * @since 1.0.2
 	 */
-	public function getPhraseMeta() {
-		return $this->hasMany(PhraseMeta::className(), ['language_id' => 'id'])->all();
+	public function getPhraseTranslate() {
+		return $this->hasMany(PhraseTranslate::className(), ['language_id' => 'id'])->all();
 	}
 
 	/**
@@ -138,7 +138,7 @@ class Language extends ActiveRecord {
 	 */
 	public function afterSave($insert, $changedAttributes) {
 		parent::afterSave($insert, $changedAttributes);
-		MultiLanguage::setLanguages();
+		MultiLanguageHelpers::setLanguages();
 	}
 
 	/**
@@ -146,7 +146,7 @@ class Language extends ActiveRecord {
 	 * @throws \yii\base\Exception|\yii\base\InvalidParamException
 	 */
 	public function beforeDelete() {
-		if (MultiLanguage::removeAllData($this->code)) {
+		if (MultiLanguageHelpers::removeAllData($this->code)) {
 			return parent::beforeDelete();
 		}
 		return false;

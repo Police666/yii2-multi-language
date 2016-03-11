@@ -1,23 +1,23 @@
 <?php
 /**
  * Created by Navatech.
- * @project Yii2 Multi Language
- * @author  Phuong
- * @email   phuong17889[at]gmail.com
- * @date    14/02/2016
- * @time    4:25 CH
- * @version 1.0.2
+ * @project    Yii2 Multi Language
+ * @author     Phuong
+ * @email      phuong17889[at]gmail.com
+ * @created    14/02/2016 4:25 CH
+ * @updated    03/03/2016 00:40 SA
+ * @since      2.0.0
  */
-namespace navatech\language;
+namespace navatech\language\helpers;
 
 use navatech\language\models\Language;
 use navatech\language\models\Phrase;
-use navatech\language\models\PhraseMeta;
+use navatech\language\models\PhraseTranslate;
 use Yii;
 use yii\base\Exception;
 use yii\helpers\Json;
 
-class MultiLanguage {
+class MultiLanguageHelpers {
 
 	/**
 	 * @param $name
@@ -29,11 +29,11 @@ class MultiLanguage {
 		$model       = new Phrase();
 		$model->name = $name;
 		if ($model->save()) {
-			$phraseMeta              = new PhraseMeta();
-			$phraseMeta->phrase_id   = $model->getPrimaryKey();
-			$phraseMeta->language_id = Language::getIdByCode(Yii::$app->language);
-			$phraseMeta->value       = 'error: phrase [' . $name . '] not found';
-			$phraseMeta->save();
+			$PhraseTranslate              = new PhraseTranslate();
+			$PhraseTranslate->phrase_id   = $model->getPrimaryKey();
+			$PhraseTranslate->language_id = Language::getIdByCode(Yii::$app->language);
+			$PhraseTranslate->value       = 'error: phrase [' . $name . '] not found';
+			$PhraseTranslate->save();
 		}
 		return 'error: phrase [' . $name . '] not found';
 	}
@@ -219,12 +219,12 @@ class MultiLanguage {
 	}
 
 	/**
-	 * @param PhraseMeta $model
+	 * @param PhraseTranslate $model
 	 *
 	 * @since 1.0.2
 	 * @throws Exception|\yii\base\InvalidParamException
 	 */
-	public static function setData(PhraseMeta $model) {
+	public static function setData(PhraseTranslate $model) {
 		$name          = $model->getPhrase()->name;
 		$language_code = $model->getLanguage()->code;
 		$runtime       = Yii::getAlias('@runtime');

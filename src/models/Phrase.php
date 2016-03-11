@@ -1,12 +1,12 @@
 <?php
 /**
  * Created by Navatech.
- * @project Yii2 Multi Language
- * @author  Phuong
- * @email   phuong17889[at]gmail.com
- * @date    04/02/2016
- * @time    1:48 SA
- * @version 1.0.1
+ * @project    Yii2 Multi Language
+ * @author     Phuong
+ * @email      phuong17889[at]gmail.com
+ * @created    04/02/2016 1:48 SA
+ * @updated    03/03/2016 00:40 SA
+ * @since      2.0.0
  */
 namespace navatech\language\models;
 
@@ -94,10 +94,10 @@ class Phrase extends ActiveRecord {
 	public function setDynamicField() {
 		foreach ($this->languages as $language) {
 			$set = false;
-			foreach ($this->getPhraseMeta() as $phrase_meta) {
-				if ($phrase_meta->language_id === $language->id) {
+			foreach ($this->getPhraseTranslate() as $phrase_translate) {
+				if ($phrase_translate->language_id === $language->id) {
 					$key        = $language->code;
-					$this->$key = $phrase_meta->value;
+					$this->$key = $phrase_translate->value;
 					$set        = true;
 					break;
 				}
@@ -138,12 +138,12 @@ class Phrase extends ActiveRecord {
 	}
 
 	/**
-	 * This will return all PhraseMeta relations of Phrase
-	 * @return PhraseMeta[]
+	 * This will return all PhraseTranslate relations of Phrase
+	 * @return PhraseTranslate[]
 	 * @since 1.0.2
 	 */
-	public function getPhraseMeta() {
-		return $this->hasMany(PhraseMeta::className(), ['phrase_id' => 'id'])->all();
+	public function getPhraseTranslate() {
+		return $this->hasMany(PhraseTranslate::className(), ['phrase_id' => 'id'])->all();
 	}
 
 	/**
