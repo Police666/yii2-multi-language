@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `post` (
 And its associated translation table (configured as default), assuming translated fields are 'title' and 'content':
 
 ```sql
-CREATE TABLE IF NOT EXISTS `postLang` (
+CREATE TABLE IF NOT EXISTS `post_translate` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `post_id` int(11) NOT NULL,
     `language` varchar(6) NOT NULL,
