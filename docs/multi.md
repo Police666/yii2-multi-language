@@ -67,8 +67,7 @@ CREATE TABLE IF NOT EXISTS `post_translate` (
     KEY `language` (`language`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-ALTER TABLE `postLang`
-ADD CONSTRAINT `postlang_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `post_translate` ADD CONSTRAINT `postlang_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 ```
 
 Attaching this behavior to the model (Post in the example). Commented fields have default values.
