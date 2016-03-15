@@ -14,7 +14,9 @@ use navatech\language\models\Language;
 use navatech\language\models\Phrase;
 use navatech\language\models\PhraseTranslate;
 use Yii;
+use yii\base\ErrorException;
 use yii\base\Exception;
+use yii\base\InvalidParamException;
 use yii\helpers\Json;
 
 class MultiLanguageHelpers {
@@ -44,7 +46,7 @@ class MultiLanguageHelpers {
 	 *
 	 * @return array
 	 * @since 1.0.0
-	 * @throws \yii\base\InvalidParamException
+	 * @throws InvalidParamException
 	 */
 	private static function _setAllData($language_code, $path) {
 		$file = $path . DIRECTORY_SEPARATOR . 'phrase_' . $language_code . '.json';
@@ -53,7 +55,13 @@ class MultiLanguageHelpers {
 			fwrite($fp, '');
 			fclose($fp);
 		}
-		$data = file_get_contents($file);
+		try {
+			$myFile = fopen($file, "r");
+			$data   = fread($myFile, filesize($file));
+		} catch (ErrorException $e) {
+			throw new ErrorException('Unable to open "' . $file . '""');
+		}
+		fclose($myFile);
 		if ($data === '') {
 			/**@var $models Phrase[] */
 			$models = Phrase::find()->all();
@@ -107,7 +115,7 @@ class MultiLanguageHelpers {
 
 	/**
 	 *
-	 * @throws Exception|\yii\base\InvalidParamException
+	 * @throws Exception|InvalidParamException
 	 */
 	public static function setLanguages() {
 		$runtime = Yii::getAlias('@runtime');
@@ -129,7 +137,7 @@ class MultiLanguageHelpers {
 	 *
 	 * @return array|mixed
 	 * @since 1.0.2
-	 * @throws Exception|\yii\base\InvalidParamException
+	 * @throws Exception|InvalidParamException
 	 */
 	public static function getLanguages() {
 		$runtime = Yii::getAlias('@runtime');
@@ -143,15 +151,21 @@ class MultiLanguageHelpers {
 			self::setLanguages();
 			return self::getLanguages();
 		}
-		$data = file_get_contents($file);
+		try {
+			$myFile = fopen($file, "r");
+			$data   = fread($myFile, filesize($file));
+		} catch (ErrorException $e) {
+			throw new ErrorException('Unable to open "' . $file . '""');
+		}
 		$data = Json::decode($data);
+		fclose($myFile);
 		return $data;
 	}
 
 	/**
 	 * @param null $language_code
 	 *
-	 * @throws Exception|\yii\base\InvalidParamException
+	 * @throws Exception|InvalidParamException
 	 */
 	public static function setAllData($language_code = null) {
 		$runtime = Yii::getAlias('@runtime');
@@ -175,7 +189,7 @@ class MultiLanguageHelpers {
 	 *
 	 * @return array|mixed|string
 	 * @since 1.0.1
-	 * @throws \yii\base\InvalidParamException
+	 * @throws InvalidParamException|ErrorException
 	 */
 	public static function getData($language_code) {
 		$runtime = Yii::getAlias('@runtime');
@@ -185,7 +199,13 @@ class MultiLanguageHelpers {
 			self::setAllData($language_code);
 			return self::getData($language_code);
 		}
-		$content = file_get_contents($file);
+		try {
+			$myFile  = fopen($file, "r");
+			$content = fread($myFile, filesize($file));
+		} catch (ErrorException $e) {
+			throw new ErrorException('Unable to open "' . $file . '""');
+		}
+		fclose($myFile);
 		if ($content === '') {
 			self::setAllData($language_code);
 			return self::getData($language_code);
@@ -203,7 +223,7 @@ class MultiLanguageHelpers {
 	 *
 	 * @return bool
 	 * @since 1.0.0
-	 * @throws \yii\base\InvalidParamException
+	 * @throws InvalidParamException
 	 */
 	public static function removeAllData($language_code) {
 		$runtime = Yii::getAlias('@runtime');
@@ -222,7 +242,7 @@ class MultiLanguageHelpers {
 	 * @param PhraseTranslate $model
 	 *
 	 * @since 1.0.2
-	 * @throws Exception|\yii\base\InvalidParamException
+	 * @throws Exception|InvalidParamException
 	 */
 	public static function setData(PhraseTranslate $model) {
 		$name          = $model->getPhrase()->name;
@@ -238,7 +258,13 @@ class MultiLanguageHelpers {
 				if (!file_exists($file)) {
 					self::setAllData($language['code']);
 				}
-				$data = file_get_contents($file);
+				try {
+					$myFile = fopen($file, "r");
+					$data   = fread($myFile, filesize($file));
+				} catch (ErrorException $e) {
+					throw new ErrorException('Unable to open "' . $file . '""');
+				}
+				fclose($myFile);
 				$data = Json::decode($data);
 				if ($data === null) {
 					self::setAllData($language['code']);
@@ -253,7 +279,13 @@ class MultiLanguageHelpers {
 			if (!file_exists($class)) {
 				self::setAllData();
 			}
-			$content = file_get_contents($class);
+			try {
+				$myFile  = fopen($class, "r");
+				$content = fread($myFile, filesize($class));
+			} catch (ErrorException $e) {
+				throw new ErrorException('Unable to open "' . $class . '""');
+			}
+			fclose($myFile);
 			if (!strpos($content, 'function ' . $name . '(')) {
 				$php = '       /**' . PHP_EOL;
 				$php .= '       * @param null|array|mixed $parameters' . PHP_EOL;
@@ -272,8 +304,14 @@ class MultiLanguageHelpers {
 			if (!file_exists($file)) {
 				self::setAllData($language_code);
 			}
-			$data = file_get_contents($file);
+			try {
+				$myFile = fopen($file, "r");
+				$data   = fread($myFile, filesize($file));
+			} catch (ErrorException $e) {
+				throw new ErrorException('Unable to open "' . $file . '""');
+			}
 			$data = Json::decode($data);
+			fclose($myFile);
 			if ($data === null) {
 				self::setAllData($language_code);
 			} else {
