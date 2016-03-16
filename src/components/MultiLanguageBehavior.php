@@ -208,7 +208,7 @@ class MultiLanguageBehavior extends Behavior {
 			}
 		} else {
 			if (!$owner->isRelationPopulated('translation')) {
-				$owner->getTranslation();
+				$owner->translation;
 			}
 			$translation = $owner->getRelatedRecords()['translation'];
 			if ($translation) {
