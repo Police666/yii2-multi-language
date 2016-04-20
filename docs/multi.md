@@ -154,9 +154,9 @@ If you use `findOneTranslated()` query, every model translation is loaded as vir
 and in `getTranslateAttribute()` method
 
 ```php
-$model = Post::findTranslated(1);
+$model = Post::findOneTranslated(1);
 //OR
-$model = Post::findTranslated(['id' => 1]);
+$model = Post::findOneTranslated(['id' => 1]);
 echo $model->getTranslateAttribute('title'); //echo "English title"
 echo $model->getTranslateAttribute('title', 'fr'); //echo "Titre en Français"
 ```
