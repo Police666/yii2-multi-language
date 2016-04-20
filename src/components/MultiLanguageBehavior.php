@@ -426,10 +426,17 @@ class MultiLanguageBehavior extends Behavior {
 	/**
 	 * @param string $name the name of the attribute
 	 *
+	 * @param null   $language
+	 *
 	 * @return string the attribute value
 	 * @since 2.0.0
 	 */
-	public function getTranslateAttribute($name) {
-		return $this->hasTranslateAttribute($name) ? $this->translateAttributes[$name] : null;
+	public function getTranslateAttribute($name, $language = null) {
+		if ($language !== null) {
+			$attribute = $name . '_' . $language;
+		} else {
+			$attribute = $name;
+		}
+		return $this->hasTranslateAttribute($attribute) ? $this->translateAttributes[$attribute] : null;
 	}
 }
