@@ -329,12 +329,12 @@ class MultiLanguageBehavior extends Behavior {
 				$translation = $translations[$lang];
 			}
 			foreach ($this->attributes as $attribute) {
-				$value = $this->getTranslateAttribute($attribute . '_' . $lang);
+				$value = $this->getTranslateAttribute($attribute, $lang);
 				if ($value !== null) {
 					$translation->$attribute = $value;
 				}
 			}
-			if ($translation->isNewRecord && !$translation->save()) {
+			if (!$translation->save()) {
 				print_r($translation->getErrors());
 			}
 		}
