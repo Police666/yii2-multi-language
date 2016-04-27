@@ -11,14 +11,15 @@
 namespace navatech\language;
 
 use navatech\language\helpers\MultiLanguageHelpers;
+use Yii;
 
 class Module extends \yii\base\Module {
 
-	const VERSION = '2.0.0';
+	const VERSION = '2.0.1';
 
 	/**
 	 * @var string
-	 * @since 2.0.0
+	 * @since 2.0.1
 	 */
 	public $suffix = 'translate';
 
@@ -27,6 +28,6 @@ class Module extends \yii\base\Module {
 	 */
 	public function init() {
 		parent::init();
-		MultiLanguageHelpers::getData(\Yii::$app->language);
+		MultiLanguageHelpers::getData(Yii::$app->language);
 	}
 }
