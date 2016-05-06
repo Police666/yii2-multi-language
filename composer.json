@@ -7,8 +7,8 @@
 		"multi phrase language"
 	],
 	"type" : "yii2-extension",
-	"license" : "BSD-3-Clause",
-	"minimum-stability" : "dev",
+	"license" : "MIT",
+	"homepage" : "https://navatech.vn",
 	"support" : {
 		"source" : "https://github.com/navatech/yii2-multi-language"
 	},
@@ -19,11 +19,10 @@
 		}
 	],
 	"require" : {
-		"yiisoft/yii2" : "*",
-		"yiisoft/yii2-bootstrap" : "*",
+		"navatech/yii2-navatech-base": "@dev",
+		"navatech/yii2-localeurls" : "@dev",
 		"kartik-v/yii2-grid" : "@dev",
-		"kartik-v/yii2-editable" : "@dev",
-		"navatech/yii2-localeurls" : "^1.0"
+		"kartik-v/yii2-editable" : "@dev"
 	},
 	"autoload" : {
 		"psr-4" : {
