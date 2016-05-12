@@ -1,8 +1,10 @@
 <?php
-/* @var $this yii\web\View */
+use navatech\language\models\Language;
 use navatech\language\Translate;
+use yii\web\View;
 
-/* @var $model \navatech\language\models\Language */
+/* @var $this View */
+/* @var $model Language */
 $this->params['breadcrumbs'][] = [
 	'label' => Translate::language(),
 	'url'   => ['list'],

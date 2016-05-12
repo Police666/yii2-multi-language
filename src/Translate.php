@@ -10,7 +10,7 @@
  */
 namespace navatech\language;
 
-use navatech\language\helpers\MultiLanguageHelpers;
+use navatech\language\helpers\MultiLanguageHelper;
 use Yii;
 use yii\base\InvalidParamException;
 
@@ -28,9 +28,9 @@ class Translate {
 	 */
 	public function __construct($language_code = null) {
 		if ($language_code === null) {
-			$this->values = MultiLanguageHelpers::getData(Yii::$app->language);
+			$this->values = MultiLanguageHelper::getData(Yii::$app->language);
 		} else {
-			$this->values = MultiLanguageHelpers::getData($language_code);
+			$this->values = MultiLanguageHelper::getData($language_code);
 		}
 	}
 
@@ -64,7 +64,7 @@ class Translate {
 			}
 			return trim($value);
 		} else {
-			return MultiLanguageHelpers::newPhrase($name);
+			return MultiLanguageHelper::newPhrase($name);
 		}
 	}
 
@@ -78,7 +78,7 @@ class Translate {
 		if (array_key_exists($name, $this->values)) {
 			return $this->values[$name];
 		} else {
-			return MultiLanguageHelpers::newPhrase($name);
+			return MultiLanguageHelper::newPhrase($name);
 		}
 	}
 }

@@ -10,21 +10,28 @@
  */
 namespace navatech\language\components;
 
-use navatech\language\helpers\MultiLanguageHelpers;
+use navatech\language\helpers\MultiLanguageHelper;
 use navatech\language\Module;
 use Yii;
 use yii\base\Behavior;
+use yii\base\Component;
+use yii\base\InvalidCallException;
 use yii\base\InvalidConfigException;
 use yii\base\UnknownPropertyException;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\helpers\Url;
 use yii\validators\Validator;
+use yii\web\NotFoundHttpException;
 
+/**
+ * @property ActiveQuery $translation
+ * @property ActiveQuery $translations
+ */
 class MultiLanguageBehavior extends Behavior {
 
 	/**
-	 * @var ActiveRecord|$this
+	 * @var ActiveRecord|$this|self
 	 */
 	public $owner;
 
@@ -37,17 +44,17 @@ class MultiLanguageBehavior extends Behavior {
 	/**
 	 * @var string the name of the translation table
 	 */
-	public $tableName;
+	public $translateTableName;
 
 	/**
 	 * @var string the name of translation model class.
 	 */
-	public $langClassName;
+	public $translateClassName;
 
 	/**
 	 * @var string the name of the foreign key field of the translation table related to base model table.
 	 */
-	public $langForeignKey;
+	public $translateForeignKey;
 
 	/**
 	 * @var string the name of the lang field of the translation table. Default to 'language'.
@@ -64,12 +71,12 @@ class MultiLanguageBehavior extends Behavior {
 	/**
 	 * @var array list available languages
 	 */
-	private $languages = [];
+	private $availableLanguages = [];
 
 	/**
 	 * @var string current default language
 	 */
-	private $language;
+	private $currentLanguage;
 
 	/**
 	 * @var int current primary key
@@ -77,29 +84,43 @@ class MultiLanguageBehavior extends Behavior {
 	private $ownerPrimaryKey;
 
 	/**
+	 * @var string current class name
+	 */
+	private $ownerClassName;
+
+	/**
 	 * @var array temp of values
 	 */
 	private $translateAttributes = [];
 
-	/**
-	 * @var Module
-	 */
+	/**@var Module */
 	private $module;
 
 	/**
-	 * {@inheritDoc}
+	 * Initializes the object.
+	 * This method is invoked at the end of the constructor after the object is initialized with the
+	 * given configuration.
 	 */
 	public function init() {
 		parent::init();
-		$this->module   = Yii::$app->getModule('language');
-		$this->language = Yii::$app->language;
-		foreach (MultiLanguageHelpers::getLanguages() as $language) {
-			$this->languages[$language['code']] = $language['name'];
+		$this->module          = Yii::$app->getModule('language');
+		$this->currentLanguage = Yii::$app->language;
+		foreach (MultiLanguageHelper::getLanguages() as $language) {
+			$this->availableLanguages[$language['code']] = $language['name'];
 		}
 	}
 
 	/**
-	 * @inheritdoc
+	 * Declares event handlers for the [[owner]]'s events.
+	 *
+	 * Child classes may override this method to declare what PHP callbacks should
+	 * be attached to the events of the [[owner]] component.
+	 *
+	 * The callbacks will be attached to the [[owner]]'s events when the behavior is
+	 * attached to the owner; and they will be detached from the events when
+	 * the behavior is detached from the component.
+	 *
+	 * @return array events (array keys) and the corresponding event handler methods (array values).
 	 */
 	public function events() {
 		return [
@@ -112,36 +133,44 @@ class MultiLanguageBehavior extends Behavior {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Attaches the behavior object to the component.
+	 * The default implementation will set the [[owner]] property
+	 * and attach event handlers as declared in [[events]].
+	 * Make sure you call the parent implementation if you override this method.
+	 *
+	 * @param Component $owner the component that this behavior is to be attached to.
+	 *
+	 * @throws InvalidConfigException
 	 */
 	public function attach($owner) {
+		/** @var ActiveRecord $ownerClassName */
 		/** @var ActiveRecord $owner */
 		parent::attach($owner);
-		$this->module   = Yii::$app->getModule('language');
-		$this->language = Yii::$app->language;
-		foreach (MultiLanguageHelpers::getLanguages() as $language) {
-			$this->languages[$language['code']] = $language['name'];
+		$this->module          = Yii::$app->getModule('language');
+		$this->currentLanguage = Yii::$app->language;
+		foreach (MultiLanguageHelper::getLanguages() as $language) {
+			$this->availableLanguages[$language['code']] = $language['name'];
 		}
-		if (empty($this->languages) || !is_array($this->languages)) {
+		if (empty($this->availableLanguages) || !is_array($this->availableLanguages)) {
 			throw new InvalidConfigException('Please specify at least one of available languages on ' . Url::to(['language/index']), 101);
 		}
-		if (array_values($this->languages) !== $this->languages) {
-			$this->languages = array_keys($this->languages);
+		if (array_values($this->availableLanguages) !== $this->availableLanguages) {
+			$this->availableLanguages = array_keys($this->availableLanguages);
 		}
 		if (empty($this->attributes) || !is_array($this->attributes)) {
 			throw new InvalidConfigException('Please specify multilingual attributes for the ' . get_class($this) . ' in the ' . get_class($this->owner), 103);
 		}
-		if (!$this->langClassName) {
-			$this->langClassName = get_class($this->owner) . ucfirst($this->module->suffix);
+		if (!$this->translateClassName) {
+			$this->translateClassName = get_class($this->owner) . ucfirst($this->module->suffix);
 		}
-		/** @var ActiveRecord $className */
-		$className             = get_class($this->owner);
-		$this->ownerPrimaryKey = $className::primaryKey()[0];
-		if (!$this->langForeignKey) {
-			$this->langForeignKey = $this->owner->tableName() . '_id';
+		$this->ownerClassName  = get_class($this->owner);
+		$ownerClassName        = $this->ownerClassName;
+		$this->ownerPrimaryKey = $ownerClassName::primaryKey()[0];
+		if (!$this->translateForeignKey) {
+			$this->translateForeignKey = $this->owner->tableName() . '_id';
 		}
-		if (!$this->tableName) {
-			$this->tableName = $this->owner->tableName() . '_' . $this->module->suffix;
+		if (!$this->translateTableName) {
+			$this->translateTableName = $this->owner->tableName() . '_' . $this->module->suffix;
 		}
 		$rules      = $owner->rules();
 		$validators = $owner->getValidators();
@@ -156,7 +185,7 @@ class MultiLanguageBehavior extends Behavior {
 			}
 			$rule_attributes = [];
 			foreach ($attributes as $key => $attribute) {
-				foreach ($this->languages as $language) {
+				foreach ($this->availableLanguages as $language) {
 					$rule_attributes[] = $attribute . "_" . $language;
 				}
 			}
@@ -167,15 +196,41 @@ class MultiLanguageBehavior extends Behavior {
 				$validators[] = Validator::createValidator('safe', $owner, $rule_attributes, $params);
 			}
 		}
-		$translation = new $this->langClassName;
-		foreach ($this->languages as $lang) {
-			foreach ($this->attributes as $attribute) {
-				$this->setTranslateAttribute($attribute . "_" . $lang, $translation->$attribute);
-				if ($lang == Yii::$app->language) {
-					$this->setTranslateAttribute($attribute, $translation->$attribute);
+		if (class_exists($this->translateClassName)) {
+			$translation = new $this->translateClassName;
+			foreach ($this->availableLanguages as $language) {
+				foreach ($this->attributes as $attribute) {
+					$this->setTranslateAttribute($attribute . "_" . $language, $translation->$attribute);
+					if ($language == Yii::$app->language) {
+						$this->setTranslateAttribute($attribute, $translation->$attribute);
+					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * Relation to model translations
+	 * @return ActiveQuery
+	 * @since 2.0.0
+	 */
+	public function getTranslations() {
+		return $this->owner->hasMany($this->translateClassName, [$this->translateForeignKey => $this->ownerPrimaryKey]);
+	}
+
+	/**
+	 * Relation to model translation
+	 *
+	 * @param $language
+	 *
+	 * @return ActiveQuery
+	 * @since 2.0.0
+	 */
+	public function getTranslation($language = null) {
+		if ($language == null) {
+			$language = $this->currentLanguage;
+		}
+		return $this->owner->hasOne($this->translateClassName, [$this->translateForeignKey => $this->ownerPrimaryKey])->where([$this->languageField => $language]);
 	}
 
 	/**
@@ -183,7 +238,7 @@ class MultiLanguageBehavior extends Behavior {
 	 */
 	public function beforeValidate() {
 		foreach ($this->attributes as $attribute) {
-			$this->setTranslateAttribute($attribute, $this->getTranslateAttribute($attribute . '_' . $this->language));
+			$this->setTranslateAttribute($attribute, $this->getTranslateAttribute($attribute . '_' . $this->currentLanguage));
 		}
 	}
 
@@ -191,10 +246,9 @@ class MultiLanguageBehavior extends Behavior {
 	 * Handle 'afterFind' event of the owner.
 	 */
 	public function afterFind() {
-		$owner = $this->owner;
-		if ($owner->isRelationPopulated('translations') && $related = $owner->getRelatedRecords()['translations']) {
+		if ($this->owner->isRelationPopulated('translations') && $related = $this->owner->getRelatedRecords()['translations']) {
 			$translations = $this->indexByLanguage($related);
-			foreach ($this->languages as $lang) {
+			foreach ($this->availableLanguages as $lang) {
 				foreach ($this->attributes as $attribute) {
 					foreach ($translations as $translation) {
 						if ($translation->{$this->languageField} == $lang) {
@@ -207,19 +261,19 @@ class MultiLanguageBehavior extends Behavior {
 				}
 			}
 		} else {
-			if (!$owner->isRelationPopulated('translation')) {
-				$owner->translation;
+			if (!$this->owner->isRelationPopulated('translation')) {
+				$this->owner->translation;
 			}
-			$translation = $owner->getRelatedRecords()['translation'];
+			$translation = $this->owner->getRelatedRecords()['translation'];
 			if ($translation) {
 				foreach ($this->attributes as $attribute) {
-					$owner->setTranslateAttribute($attribute, $translation->$attribute);
+					$this->owner->setTranslateAttribute($attribute, $translation->$attribute);
 				}
 			}
 		}
 		foreach ($this->attributes as $attribute) {
-			if ($owner->hasAttribute($attribute) && $this->getTranslateAttribute($attribute)) {
-				$owner->setAttribute($attribute, $this->getTranslateAttribute($attribute));
+			if ($this->owner->hasAttribute($attribute) && $this->getTranslateAttribute($attribute)) {
+				$this->owner->setAttribute($attribute, $this->getTranslateAttribute($attribute));
 			}
 		}
 	}
@@ -248,28 +302,58 @@ class MultiLanguageBehavior extends Behavior {
 	 */
 	public function afterDelete() {
 		if ($this->forceDelete) {
-			/** @var ActiveRecord $owner */
-			$owner = $this->owner;
-			$owner->unlinkAll('translations', true);
+			$this->owner->unlinkAll('translations', true);
 		}
 	}
 
 	/**
-	 * @inheritdoc
+	 * Returns a value indicating whether a property can be read.
+	 * A property is readable if:
+	 *
+	 * - the class has a getter method associated with the specified name
+	 *   (in this case, property name is case-insensitive);
+	 * - the class has a member variable with the specified name (when `$checkVars` is true);
+	 *
+	 * @param string  $name      the property name
+	 * @param boolean $checkVars whether to treat member variables as properties
+	 *
+	 * @return boolean whether the property can be read
+	 * @see canSetProperty()
 	 */
 	public function canGetProperty($name, $checkVars = true) {
 		return method_exists($this, 'get' . $name) || $checkVars && property_exists($this, $name) || $this->hasTranslateAttribute($name);
 	}
 
 	/**
-	 * @inheritdoc
+	 * Returns a value indicating whether a property can be set.
+	 * A property is writable if:
+	 *
+	 * - the class has a setter method associated with the specified name
+	 *   (in this case, property name is case-insensitive);
+	 * - the class has a member variable with the specified name (when `$checkVars` is true);
+	 *
+	 * @param string  $name      the property name
+	 * @param boolean $checkVars whether to treat member variables as properties
+	 *
+	 * @return boolean whether the property can be written
+	 * @see canGetProperty()
 	 */
 	public function canSetProperty($name, $checkVars = true) {
 		return $this->hasTranslateAttribute($name);
 	}
 
 	/**
-	 * @inheritdoc
+	 * Returns the value of an object property.
+	 *
+	 * Do not call this method directly as it is a PHP magic method that
+	 * will be implicitly called when executing `$value = $object->property;`.
+	 *
+	 * @param string $name the property name
+	 *
+	 * @return mixed the property value
+	 * @throws UnknownPropertyException if the property is not defined
+	 * @throws InvalidCallException if the property is write-only
+	 * @see __set()
 	 */
 	public function __get($name) {
 		try {
@@ -284,7 +368,17 @@ class MultiLanguageBehavior extends Behavior {
 	}
 
 	/**
-	 * @inheritdoc
+	 * Sets value of an object property.
+	 *
+	 * Do not call this method directly as it is a PHP magic method that
+	 * will be implicitly called when executing `$object->property = $value;`.
+	 *
+	 * @param string $name  the property name or the event name
+	 * @param mixed  $value the property value
+	 *
+	 * @throws UnknownPropertyException if the property is not defined
+	 * @throws InvalidCallException if the property is read-only
+	 * @see __get()
 	 */
 	public function __set($name, $value) {
 		try {
@@ -299,7 +393,17 @@ class MultiLanguageBehavior extends Behavior {
 	}
 
 	/**
-	 * @inheritdoc
+	 * Checks if a property is set, i.e. defined and not null.
+	 *
+	 * Do not call this method directly as it is a PHP magic method that
+	 * will be implicitly called when executing `isset($object->property)`.
+	 *
+	 * Note that if the property is not defined, false will be returned.
+	 *
+	 * @param string $name the property name or the event name
+	 *
+	 * @return boolean whether the named property is set (not null).
+	 * @see http://php.net/manual/en/function.isset.php
 	 */
 	public function __isset($name) {
 		if (!parent::__isset($name)) {
@@ -315,27 +419,27 @@ class MultiLanguageBehavior extends Behavior {
 	 * @param array $translations
 	 *
 	 * @since 2.0.0
+	 * @throws NotFoundHttpException
 	 */
 	private function saveTranslations($translations = []) {
 		/** @var ActiveRecord $owner */
-		$owner = $this->owner;
-		foreach ($this->languages as $lang) {
-			if (!isset($translations[$lang])) {
-				/** @var ActiveRecord $translation */
-				$translation                          = new $this->langClassName;
-				$translation->{$this->languageField}  = $lang;
-				$translation->{$this->langForeignKey} = $owner->getPrimaryKey();
+		/** @var ActiveRecord $translation */
+		foreach ($this->availableLanguages as $language) {
+			if (!isset($translations[$language])) {
+				$translation                               = new $this->translateClassName;
+				$translation->{$this->languageField}       = $language;
+				$translation->{$this->translateForeignKey} = $this->owner->getPrimaryKey();
 			} else {
-				$translation = $translations[$lang];
+				$translation = $translations[$language];
 			}
 			foreach ($this->attributes as $attribute) {
-				$value = $this->getTranslateAttribute($attribute, $lang);
+				$value = $this->getTranslateAttribute($attribute, $language);
 				if ($value !== null) {
 					$translation->$attribute = $value;
 				}
 			}
 			if (!$translation->save()) {
-				print_r($translation->getErrors());
+				throw new NotFoundHttpException('Somethings went wrong! Please report to phuong17889@gmail.com.', 500);
 			}
 		}
 	}
@@ -349,12 +453,12 @@ class MultiLanguageBehavior extends Behavior {
 	public function getTranslateAttributes($name = null) {
 		$attributes = [];
 		if ($name != null) {
-			foreach ($this->languages as $language) {
+			foreach ($this->availableLanguages as $language) {
 				$attributes[] = $name . '_' . $language;
 			}
 		} else {
 			foreach ($this->attributes as $attribute) {
-				foreach ($this->languages as $language) {
+				foreach ($this->availableLanguages as $language) {
 					$attributes[] = $attribute . '_' . $language;
 				}
 			}
@@ -375,30 +479,6 @@ class MultiLanguageBehavior extends Behavior {
 		}
 		unset($records);
 		return $sorted;
-	}
-
-	/**
-	 * Relation to model translations
-	 * @return ActiveQuery
-	 * @since 2.0.0
-	 */
-	public function getTranslations() {
-		return $this->owner->hasMany($this->langClassName, [$this->langForeignKey => $this->ownerPrimaryKey]);
-	}
-
-	/**
-	 * Relation to model translation
-	 *
-	 * @param $language
-	 *
-	 * @return ActiveQuery
-	 * @since 2.0.0
-	 */
-	public function getTranslation($language = null) {
-		if ($language == null) {
-			$language = $this->language;
-		}
-		return $this->owner->hasOne($this->langClassName, [$this->langForeignKey => $this->ownerPrimaryKey])->where([$this->languageField => $language]);
 	}
 
 	/**

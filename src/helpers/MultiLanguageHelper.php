@@ -1,12 +1,11 @@
 <?php
 /**
  * Created by Navatech.
- * @project    Yii2 Multi Language
- * @author     Phuong
- * @email      phuong17889[at]gmail.com
- * @created    14/02/2016 4:25 CH
- * @updated    03/03/2016 00:40 SA
- * @since      2.0.0
+ * @project yii2-basic
+ * @author  Phuong
+ * @email   phuong17889[at]gmail.com
+ * @date    5/13/2016
+ * @time    12:36 AM
  */
 namespace navatech\language\helpers;
 
@@ -16,10 +15,12 @@ use navatech\language\models\PhraseTranslate;
 use Yii;
 use yii\base\ErrorException;
 use yii\base\Exception;
+use yii\base\InvalidConfigException;
 use yii\base\InvalidParamException;
+use yii\db\ActiveRecord;
 use yii\helpers\Json;
 
-class MultiLanguageHelpers {
+class MultiLanguageHelper {
 
 	/**
 	 * @param $name
@@ -117,7 +118,7 @@ class MultiLanguageHelpers {
 			throw new Exception('Cannot create directory');
 		}
 		$code = [];
-		foreach (Language::getAllLanguages() as $language) {
+		foreach (Language::getLanguages() as $language) {
 			$code[$language->id] = $language->getAttributes();
 		}
 		$file = $path . DIRECTORY_SEPARATOR . 'languages.json';
@@ -169,7 +170,7 @@ class MultiLanguageHelpers {
 		if ($language_code !== null) {
 			$data = self::_setAllData($language_code, $path);
 		} else {
-			foreach (Language::getAllLanguages() as $language) {
+			foreach (Language::getLanguages() as $language) {
 				$data = self::_setAllData($language->code, $path);
 			}
 		}
@@ -311,5 +312,47 @@ class MultiLanguageHelpers {
 				file_put_contents($file, Json::encode($data));
 			}
 		}
+	}
+
+	/**
+	 * Return all translated attributes include value
+	 * @param ActiveRecord $model
+	 * @param null         $language_code
+	 *
+	 * @return array
+	 * @throws InvalidConfigException
+	 */
+	public static function attributes($model, $language_code = null) {
+		$behavior = $model->behaviors();
+		if (!isset($behavior['ml'])) {
+			throw new InvalidConfigException("MultiLanguage was not defined in " . get_class($model) . ".");
+		}
+		$response = [];
+		foreach (Language::getLanguages() as $language) {
+			foreach ($behavior['ml']['attributes'] as $mlAttribute) {
+				$attribute = $mlAttribute . '_' . $language->code;
+				if ($language_code != null) {
+					if ($language_code == $language->code) {
+						$response[$attribute] = isset($model->behaviors['ml']) ? $model->$attribute : '';
+					}
+				} else {
+					$response[$attribute] = isset($model->behaviors['ml']) ? $model->$attribute : '';
+				}
+			}
+		}
+		return $response;
+	}
+
+	/**
+	 * Return all translated attributes name
+	 * @param ActiveRecord $model
+	 * @param null         $language_code
+	 *
+	 * @return array
+	 * @throws InvalidConfigException
+	 */
+	public static function attributeNames($model, $language_code = null) {
+		$attributes = self::attributes($model, $language_code);
+		return array_keys($attributes);
 	}
 }

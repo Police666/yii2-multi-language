@@ -1,5 +1,5 @@
 <?php
-use navatech\language\helpers\MultiLanguageHelpers;
+use navatech\language\helpers\MultiLanguageHelper;
 use yii\db\Migration;
 
 class m160213_041916_navatech_multi_language_insert extends Migration {
@@ -117,8 +117,8 @@ class m160213_041916_navatech_multi_language_insert extends Migration {
 			'language_id' => 2,
 			'value'       => 'Translate',
 		]);
-		MultiLanguageHelpers::setLanguages();
-		MultiLanguageHelpers::setAllData();
+		MultiLanguageHelper::setLanguages();
+		MultiLanguageHelper::setAllData();
 	}
 
 	public function down() {

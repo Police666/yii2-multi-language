@@ -12,6 +12,16 @@ namespace navatech\language\components;
 
 use yii\db\ActiveQuery;
 
+/**
+ * ActiveQuery represents a DB query associated with an Active Record class.
+ *
+ * An ActiveQuery can be a normal query or be used in a relational context.
+ *
+ * ActiveQuery instances are usually created by [[ActiveRecord::find()]] and [[ActiveRecord::findBySql()]].
+ * Relational queries are created by [[ActiveRecord::hasOne()]] and [[ActiveRecord::hasMany()]].
+ *
+ * @since  2.0
+ */
 class MultiLanguageQuery extends ActiveQuery {
 
 	use MultiLanguageTrait;

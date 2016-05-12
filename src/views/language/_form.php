@@ -1,10 +1,12 @@
 <?php
+use navatech\language\models\Language;
 use navatech\language\Translate;
+use yii\web\View;
 use yii\widgets\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $model navatech\language\models\Language */
-/* @var $form yii\widgets\ActiveForm */
+/* @var $this View */
+/* @var $model Language */
+/* @var $form ActiveForm */
 ?>
 <?php $form = ActiveForm::begin([
 	'options' => [

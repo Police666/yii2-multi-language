@@ -5,9 +5,9 @@ Attributes marked as bold are required
 Attribute | Description
 ----------|------------
 languageField | The name of the language field of the translation table. Default is 'language'
-langClassName | The name of translation model class. Default value is model name + Translate
-langForeignKey | Name of the foreign key field of the translation table related to base model table.
-tableName | The name of the translation table
+translateClassName | The name of translation model class. Default value is model name + Translate
+translateForeignKey | Name of the foreign key field of the translation table related to base model table.
+translateTableName | The name of the translation table
 **attributes** | Multilanguage attributes. Required only
 
 #Usage
@@ -56,17 +56,17 @@ class Model extends ActiveRecord {
      * {@inheritDoc}
      */
     public function behaviors() {
-        $attributes   = [
-            'title',
-            'content',
-        ];
         return [
             'ml' => [
                 'class'      => MultiLanguageBehavior::className(),
-                'attributes' => $attributes,
+                'attributes' => [
+                    'title',
+                    'content',
+                ],
             ],
         ];
     }
+
 
     /**
      * {@inheritDoc}
@@ -90,10 +90,43 @@ class Model extends ActiveRecord {
     public function rules() {
         return [
             .........
-                [['title','content'], 'safe'],
+                [
+                    //if want all translated attributes required
+                    ArrayHelper::merge(MultiLanguageHelper::attributeNames($this), [
+                        'email',
+                        .......
+                    ]),
+                    'required',
+                ],
+            .........
+                [
+                    //make all translated attributes safe
+                    [
+                        'title',
+                        'content',
+                        'email',
+                        .......
+                    ]),
+                    'safe',
+                ],
             .........
         ];
     }
+
+    	/**
+    	 * @inheritdoc
+    	 */
+    	public function attributeLabels() {
+    		$attributeLabels = [
+    			'id'           => 'ID',
+    			'Email'        => Translate::email(),
+    			......
+    		];
+    		foreach(MultiLanguageHelper::attributeNames($this) as $mlAttribute){
+    		    $attributeLabels[$mlAttribute] = Translate::$mlAttribute();
+    		}
+    		return $attributeLabels;
+    	}
 ```
 
 #Examples

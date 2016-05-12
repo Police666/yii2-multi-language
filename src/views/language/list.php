@@ -8,12 +8,15 @@
  * @time    1:44 CH
  */
 use kartik\grid\GridView;
+use navatech\language\models\LanguageSearch;
 use navatech\language\Translate;
+use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
+use yii\web\View;
 
-/* @var $this yii\web\View */
-/* @var $searchModel \navatech\language\models\LanguageSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $this View */
+/* @var $searchModel LanguageSearch */
+/* @var $dataProvider ActiveDataProvider */
 $this->params['breadcrumbs'][] = Translate::languages();
 ?>
 <div class="page-header">

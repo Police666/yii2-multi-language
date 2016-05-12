@@ -10,10 +10,10 @@
  */
 namespace navatech\language;
 
-use navatech\language\helpers\MultiLanguageHelpers;
+use navatech\language\helpers\MultiLanguageHelper;
 use Yii;
 
-class Module extends \yii\base\Module {
+class Module extends \navatech\base\Module {
 
 	const VERSION = '2.0.1';
 
@@ -28,6 +28,6 @@ class Module extends \yii\base\Module {
 	 */
 	public function init() {
 		parent::init();
-		MultiLanguageHelpers::getData(Yii::$app->language);
+		MultiLanguageHelper::getData(Yii::$app->language);
 	}
 }

@@ -12,6 +12,13 @@ namespace navatech\language\models;
 
 use yii\data\ActiveDataProvider;
 
+/**
+ * This is the model class for table "phrase".
+ *
+ * @property integer    $id
+ * @property string     $name
+ * @property Language[] $languages
+ */
 class PhraseSearch extends Phrase {
 
 	/**

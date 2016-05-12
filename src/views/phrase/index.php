@@ -8,11 +8,14 @@
  * @time    2:35 CH
  */
 use kartik\grid\GridView;
+use navatech\language\models\PhraseSearch;
 use navatech\language\Translate;
+use yii\data\ActiveDataProvider;
+use yii\web\View;
 
-/* @var $this yii\web\View */
-/* @var $searchModel \navatech\language\models\PhraseSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $this View */
+/* @var $searchModel PhraseSearch */
+/* @var $dataProvider ActiveDataProvider */
 $this->title                   = Translate::list_x(Translate::phrase());
 $this->params['breadcrumbs'][] = $this->title;
 ?>

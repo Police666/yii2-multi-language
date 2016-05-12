@@ -14,17 +14,46 @@ use navatech\language\models\Language;
 use navatech\language\models\Phrase;
 use navatech\language\models\PhraseTranslate;
 use navatech\language\models\PhraseSearch;
+use navatech\language\Module;
 use navatech\language\Translate;
 use Yii;
+use yii\base\ExitException;
+use yii\base\InvalidParamException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
+/**
+ * Controller is the base class of web controllers.
+ */
 class PhraseController extends Controller {
 
 	/**
-	 * {@inheritDoc}
+	 * Returns a list of behaviors that this component should behave as.
+	 *
+	 * Child classes may override this method to specify the behaviors they want to behave as.
+	 *
+	 * The return value of this method should be an array of behavior objects or configurations
+	 * indexed by behavior names. A behavior configuration can be either a string specifying
+	 * the behavior class or an array of the following structure:
+	 *
+	 * ```php
+	 * 'behaviorName' => [
+	 *     'class' => 'BehaviorClass',
+	 *     'property1' => 'value1',
+	 *     'property2' => 'value2',
+	 * ]
+	 * ```
+	 *
+	 * Note that a behavior class must extend from [[Behavior]]. Behavior names can be strings
+	 * or integers. If the former, they uniquely identify the behaviors. If the latter, the corresponding
+	 * behaviors are anonymous and their properties and methods will NOT be made available via the component
+	 * (however, the behaviors can still respond to the component's events).
+	 *
+	 * Behaviors declared in this method will be attached to the component automatically (on demand).
+	 *
+	 * @return array the behavior configurations.
 	 */
 	public function behaviors() {
 		$behaviors = [
@@ -35,7 +64,7 @@ class PhraseController extends Controller {
 				],
 			],
 		];
-		if (class_exists('navatech\\role\\Module')) {
+		if (Module::hasUserRole()) {
 			$behaviors['role'] = [
 				'class'   => \navatech\role\filters\RoleFilter::className(),
 				'name'    => Translate::x_management([Translate::language()]),
@@ -51,7 +80,7 @@ class PhraseController extends Controller {
 	/**
 	 * @return string
 	 * @since 1.0.0
-	 * @throws \yii\base\ExitException|\yii\base\InvalidParamException
+	 * @throws ExitException|InvalidParamException
 	 */
 	public function actionIndex() {
 		$searchModel  = new PhraseSearch();

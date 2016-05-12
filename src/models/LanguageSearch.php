@@ -10,8 +10,18 @@
  */
 namespace navatech\language\models;
 
+use yii\base\InvalidParamException;
 use yii\data\ActiveDataProvider;
 
+/**
+ * This is the model class for table "language".
+ *
+ * @property integer $id
+ * @property string  $name
+ * @property string  $code
+ * @property string  $country
+ * @property int     $status
+ */
 class LanguageSearch extends Language {
 
 	/**
@@ -45,7 +55,7 @@ class LanguageSearch extends Language {
 	 *
 	 * @return ActiveDataProvider
 	 * @since 1.0.0
-	 * @throws \yii\base\InvalidParamException
+	 * @throws InvalidParamException
 	 */
 	public function search($params) {
 		$query        = Language::find();

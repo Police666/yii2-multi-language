@@ -81,7 +81,7 @@ class Phrase extends ActiveRecord {
 	 * to ensure triggering of the event.
 	 */
 	public function init() {
-		$this->languages = Language::getAllLanguages();
+		$this->languages = Language::getLanguages();
 		foreach ($this->languages as $language) {
 			$this->_dynamicField[$language->code] = $language->name;
 		}

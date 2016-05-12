@@ -11,12 +11,21 @@
 namespace navatech\language\widgets;
 
 use navatech\language\components\MultiLanguageAsset;
-use navatech\language\helpers\MultiLanguageHelpers;
+use navatech\language\helpers\MultiLanguageHelper;
 use navatech\language\models\Language;
 use Yii;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
 
+/**
+ * Widget is the base class for widgets.
+ *
+ * @property string        $id       ID of the widget.
+ * @property \yii\web\View $view     The view object that can be used to render views or view files. Note that the
+ * type of this property differs in getter and setter. See [[getView()]] and [[setView()]] for details.
+ * @property string        $viewPath The directory containing the view files for this widget. This property is
+ * read-only.
+ */
 class LanguageWidget extends Widget {
 
 	public $type    = 'classic';
@@ -42,7 +51,7 @@ class LanguageWidget extends Widget {
 		parent::init();
 		MultiLanguageAsset::register($this->view);
 		$this->urlManager = Yii::$app->urlManager;
-		$this->languages  = MultiLanguageHelpers::getLanguages();
+		$this->languages  = MultiLanguageHelper::getLanguages();
 		$this->current    = [
 			'code'    => 'en',
 			'name'    => 'United States',
@@ -68,6 +77,7 @@ class LanguageWidget extends Widget {
 	 * @return array
 	 */
 	protected function getData() {
+		/**@var  $currentLanguage Language */
 		list($route, $params) = Yii::$app->getUrlManager()->parseRequest(Yii::$app->getRequest());
 		$params = ArrayHelper::merge($_GET, $params);
 		$data   = [0];
@@ -90,7 +100,6 @@ class LanguageWidget extends Widget {
 			}
 		}
 		if (!array_key_exists(0, $data) || $data[0] === 0) {
-			/**@var  $currentLanguage Language */
 			$currentLanguage = Language::findOne(['code' => Yii::$app->language]);
 			if ($currentLanguage) {
 				$this->current = [

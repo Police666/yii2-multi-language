@@ -10,8 +10,10 @@
  */
 namespace navatech\language\models;
 
-use navatech\language\helpers\MultiLanguageHelpers;
+use navatech\language\helpers\MultiLanguageHelper;
 use navatech\language\Translate;
+use yii\base\Exception;
+use yii\base\InvalidParamException;
 use yii\db\ActiveRecord;
 
 /**
@@ -98,10 +100,22 @@ class Language extends ActiveRecord {
 	 *
 	 * @param array|null $attributes
 	 *
-	 * @return array|\yii\db\ActiveRecord[]|Language[]
-	 * @since 1.0.0
+	 * @return array|ActiveRecord[]|Language[]
+	 * @since      1.0.0
+	 * @deprecated This function should be named "Language::getLanguages(array $attributes = [])" or call helper
+	 *             function "MultiLanguageHelper::getLanguages()"
 	 */
 	public static function getAllLanguages(array $attributes = []) {
+		return self::getLanguages($attributes);
+	}
+
+	/**
+	 * @param array $attributes
+	 *
+	 * @return array|ActiveRecord[]|Language[]
+	 * @since      ^2.0
+	 */
+	public static function getLanguages(array $attributes = []) {
 		if ($attributes === null) {
 			$attributes = ['status' => 1];
 		}
@@ -134,19 +148,19 @@ class Language extends ActiveRecord {
 	 *                                   `$changedAttributes` gives you the old attribute values while the active
 	 *                                   record (`$this`) has already the new, updated values.
 	 *
-	 * @throws \yii\base\Exception|\yii\base\InvalidParamException
+	 * @throws Exception|InvalidParamException
 	 */
 	public function afterSave($insert, $changedAttributes) {
 		parent::afterSave($insert, $changedAttributes);
-		MultiLanguageHelpers::setLanguages();
+		MultiLanguageHelper::setLanguages();
 	}
 
 	/**
 	 * @return boolean whether the record should be deleted. Defaults to true.
-	 * @throws \yii\base\Exception|\yii\base\InvalidParamException
+	 * @throws Exception|InvalidParamException
 	 */
 	public function beforeDelete() {
-		if (MultiLanguageHelpers::removeAllData($this->code)) {
+		if (MultiLanguageHelper::removeAllData($this->code)) {
 			return parent::beforeDelete();
 		}
 		return false;
