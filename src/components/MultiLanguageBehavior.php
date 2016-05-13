@@ -438,9 +438,7 @@ class MultiLanguageBehavior extends Behavior {
 					$translation->$attribute = $value;
 				}
 			}
-			if (!$translation->save()) {
-				throw new NotFoundHttpException('Somethings went wrong! Please report to phuong17889@gmail.com.', 500);
-			}
+			$translation->save();
 		}
 	}
 
