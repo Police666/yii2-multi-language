@@ -34,7 +34,6 @@ $this->params['breadcrumbs'][] = $this->title;
 				'filterModel'  => $searchModel,
 				'responsive'   => true,
 				'hover'        => true,
-				'pjax'         => true,
 				'export'       => false,
 				'columns'      => $searchModel->phraseColumns(),
 			]); ?>
