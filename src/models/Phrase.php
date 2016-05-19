@@ -202,7 +202,6 @@ class Phrase extends ActiveRecord {
 					return $model->$key;
 				},
 				'class'           => 'kartik\grid\EditableColumn',
-				'refreshGrid'     => true,
 				'editableOptions' => [
 					'inputType' => Editable::INPUT_TEXTAREA,
 					'placement' => PopoverX::ALIGN_TOP_LEFT,
