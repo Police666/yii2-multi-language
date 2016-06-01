@@ -79,6 +79,7 @@ class LanguageWidget extends Widget {
 	protected function getData() {
 		/**@var  $currentLanguage Language */
 		list($route, $params) = Yii::$app->getUrlManager()->parseRequest(Yii::$app->getRequest());
+		$route  = Yii::$app->controller->getRoute() != '' ? Yii::$app->controller->route : $route;
 		$params = ArrayHelper::merge($_GET, $params);
 		$data   = [0];
 		foreach ($this->languages as $language) {
