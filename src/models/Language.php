@@ -105,7 +105,7 @@ class Language extends ActiveRecord {
 	 * @deprecated This function should be named "Language::getLanguages(array $attributes = [])" or call helper
 	 *             function "MultiLanguageHelper::getLanguages()"
 	 */
-	public static function getAllLanguages(array $attributes = []) {
+	public static function getAllLanguages($attributes = null) {
 		return self::getLanguages($attributes);
 	}
 
@@ -115,7 +115,7 @@ class Language extends ActiveRecord {
 	 * @return array|ActiveRecord[]|Language[]
 	 * @since      ^2.0
 	 */
-	public static function getLanguages(array $attributes = []) {
+	public static function getLanguages($attributes = null) {
 		if ($attributes === null) {
 			$attributes = ['status' => 1];
 		}
@@ -151,8 +151,8 @@ class Language extends ActiveRecord {
 	 * @throws Exception|InvalidParamException
 	 */
 	public function afterSave($insert, $changedAttributes) {
-		parent::afterSave($insert, $changedAttributes);
 		MultiLanguageHelper::setLanguages();
+		parent::afterSave($insert, $changedAttributes);
 	}
 
 	/**
