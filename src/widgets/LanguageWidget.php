@@ -81,7 +81,7 @@ class LanguageWidget extends Widget {
 		list($route, $params) = Yii::$app->getUrlManager()->parseRequest(Yii::$app->getRequest());
 		$route  = Yii::$app->controller->getRoute() != '' ? Yii::$app->controller->route : $route;
 		$params = ArrayHelper::merge($_GET, $params);
-		$data   = [0];
+		$data   = [];
 		foreach ($this->languages as $language) {
 			if ($language['code'] === Yii::$app->language) {
 				$this->current = ArrayHelper::merge([
@@ -98,17 +98,6 @@ class LanguageWidget extends Widget {
 						'language' => $language['code'],
 					])),
 				], $language);
-			}
-		}
-		if (!array_key_exists(0, $data) || $data[0] === 0) {
-			$currentLanguage = Language::findOne(['code' => Yii::$app->language]);
-			if ($currentLanguage) {
-				$this->current = [
-					'code'    => $currentLanguage->code,
-					'name'    => $currentLanguage->name,
-					'country' => $currentLanguage->country,
-				];
-				$data[0]       = $this->current;
 			}
 		}
 		return $data;
