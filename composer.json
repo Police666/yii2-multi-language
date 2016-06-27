@@ -19,10 +19,12 @@
 		}
 	],
 	"require" : {
-		"navatech/yii2-navatech-base": "@dev",
-		"navatech/yii2-localeurls" : "@dev",
+		"navatech/yii2-navatech-base" : "@dev",
 		"kartik-v/yii2-grid" : "@dev",
 		"kartik-v/yii2-editable" : "@dev"
+	},
+	"suggest" : {
+		"navatech/yii2-localeurls" : "@dev"
 	},
 	"autoload" : {
 		"psr-4" : {
