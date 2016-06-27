@@ -20,7 +20,7 @@ Now you can store it on mySql.
 ## Install & config:
 Install with composer:
 ````
-composer require navatech/yii2-multi-language "^2.0"
+composer require navatech/yii2-multi-language "@dev"
 ````
 
 Config:
@@ -30,10 +30,14 @@ Config:
     .....................
     'components' => [
         'urlManager' => [
+            /*
+            //TODO run "composer require navatech/yii2-localeurls" & uncommented if you not using custom url route
             'class'               => 'navatech\localeurls\UrlManager',
+            */
             'enablePrettyUrl'     => true,
             'showScriptName'      => false,
             'enableStrictParsing' => false,
+            ''
         ],
     ],
     'modules'    => [
@@ -55,7 +59,14 @@ Run Yii Migration, you will have two default language (English & Vietnamese):
 php yii migrate/up --migrationPath=@vendor/navatech/yii2-multi-language/src/migrations
 ```
 
+# Notice:
+You should extends `\navatech\language\MultiLanguageController` on all controller or make a Controller in `components` folder
+
 ## Usage
-[### LanguageWidget](https://github.com/navatech/yii2-multi-language/blob/master/docs/widget.md)
-[### Multi language on model](https://github.com/navatech/yii2-multi-language/blob/master/docs/multi.md)
-[### Phrase](http://google.com)
+[LanguageWidget](https://github.com/navatech/yii2-multi-language/blob/master/docs/widget.md)
+
+[Multi language on model](https://github.com/navatech/yii2-multi-language/blob/master/docs/multi.md)
+
+[Translate](https://github.com/navatech/yii2-multi-language/blob/master/docs/translate.md)
+
+[Custom Url Route](https://github.com/navatech/yii2-multi-language/blob/master/docs/route.md)

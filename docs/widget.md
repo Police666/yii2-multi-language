@@ -1,4 +1,4 @@
-Language widget use [localeurls](https://github.com/navatech/yii2-localeurls). Automatic locale/language management through URLs for Yii 2.
+If not use cutom url rule, language widget suggest [localeurls](https://github.com/navatech/yii2-localeurls). Automatic locale/language management through URLs for Yii 2.
 * Type: Selector
 ~~~
 [php]

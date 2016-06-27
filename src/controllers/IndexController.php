@@ -1,15 +1,16 @@
 <?php
 /**
  * Created by Navatech.
- * @project Yii2 Multi Language
- * @author  Phuong
- * @email   phuong17889[at]gmail.com
+ * @project    Yii2 Multi Language
+ * @author     Phuong
+ * @email      phuong17889[at]gmail.com
  * @created    04/02/2016 2:34 CH
  * @updated    03/03/2016 00:38 SA
- * @since   2.0.0
+ * @since      2.0.0
  */
 namespace navatech\language\controllers;
 
+use navatech\language\components\MultiLanguageController;
 use navatech\language\models\Language;
 use navatech\language\models\LanguageSearch;
 use navatech\language\Module;
@@ -17,13 +18,12 @@ use navatech\language\Translate;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\filters\VerbFilter;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 /**
  * Controller is the base class of web controllers.
  */
-class IndexController extends Controller {
+class IndexController extends MultiLanguageController {
 
 	/**
 	 * Returns a list of behaviors that this component should behave as.

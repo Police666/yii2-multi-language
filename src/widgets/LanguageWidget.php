@@ -13,7 +13,10 @@ namespace navatech\language\widgets;
 use navatech\language\components\MultiLanguageAsset;
 use navatech\language\helpers\MultiLanguageHelper;
 use navatech\language\models\Language;
+use navatech\localeurls\UrlManager;
 use Yii;
+use yii\base\Exception;
+use yii\base\InvalidParamException;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
 
@@ -34,7 +37,7 @@ class LanguageWidget extends Widget {
 
 	public $size    = 30;
 
-	/**@var \navatech\localeurls\UrlManager */
+	/**@var UrlManager */
 	private $urlManager;
 
 	private $languages;
@@ -45,7 +48,7 @@ class LanguageWidget extends Widget {
 	 * Initializes the object.
 	 * This method is invoked at the end of the constructor after the object is initialized with the
 	 * given configuration.
-	 * @throws \yii\base\Exception|\yii\base\InvalidParamException
+	 * @throws Exception|InvalidParamException
 	 */
 	public function init() {
 		parent::init();
@@ -63,7 +66,7 @@ class LanguageWidget extends Widget {
 	 * Returns the directory containing the view files for this widget.
 	 * The default implementation returns the 'views' subdirectory under the directory containing the widget class file.
 	 * @return string the directory containing the view files for this widget.
-	 * @throws \yii\base\InvalidParamException
+	 * @throws InvalidParamException
 	 */
 	public function getViewPath() {
 		if ($this->viewDir === null) {
@@ -81,7 +84,7 @@ class LanguageWidget extends Widget {
 		list($route, $params) = Yii::$app->getUrlManager()->parseRequest(Yii::$app->getRequest());
 		$route  = Yii::$app->controller->getRoute() != '' ? Yii::$app->controller->route : $route;
 		$params = ArrayHelper::merge($_GET, $params);
-		$data   = [];
+		$data   = [0];
 		foreach ($this->languages as $language) {
 			if ($language['code'] === Yii::$app->language) {
 				$this->current = ArrayHelper::merge([
@@ -100,13 +103,21 @@ class LanguageWidget extends Widget {
 				], $language);
 			}
 		}
+		if (!array_key_exists(0, $data) || $data[0] === 0) {
+			$currentLanguage = Language::findOne(['code' => Yii::$app->language]);
+			if ($currentLanguage) {
+				$data[0]['code']    = $currentLanguage->code;
+				$data[0]['name']    = $currentLanguage->name;
+				$data[0]['country'] = $currentLanguage->country;
+			}
+		}
 		return $data;
 	}
 
 	/**
 	 * Executes the widget.
 	 * @return string the result of widget execution to be outputted.
-	 * @throws \yii\base\InvalidParamException
+	 * @throws InvalidParamException
 	 */
 	public function run() {
 		$renderView = 'languageClassic';
