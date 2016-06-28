@@ -12,6 +12,7 @@ use navatech\language\models\PhraseSearch;
 use navatech\language\Translate;
 use yii\data\ActiveDataProvider;
 use yii\web\View;
+use yii\widgets\Pjax;
 
 /* @var $this View */
 /* @var $searchModel PhraseSearch */
@@ -34,6 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'filterModel'  => $searchModel,
 				'responsive'   => true,
 				'hover'        => true,
+				'pjax'         => true,
 				'export'       => false,
 				'columns'      => $searchModel->phraseColumns(),
 			]); ?>
