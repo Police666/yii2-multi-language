@@ -106,9 +106,15 @@ class LanguageWidget extends Widget {
 		if (!array_key_exists(0, $data) || $data[0] === 0) {
 			$currentLanguage = Language::findOne(['code' => Yii::$app->language]);
 			if ($currentLanguage) {
-				$data[0]['code']    = $currentLanguage->code;
-				$data[0]['name']    = $currentLanguage->name;
-				$data[0]['country'] = $currentLanguage->country;
+				$data[0] = [
+					'url'     => $this->urlManager->createUrl(ArrayHelper::merge($params, [
+						array_key_exists('route', $params) ? $params['route'] : $route,
+						'language' => $currentLanguage->code,
+					])),
+					'code'    => $currentLanguage->code,
+					'name'    => $currentLanguage->name,
+					'country' => $currentLanguage->country,
+				];
 			}
 		}
 		return $data;
