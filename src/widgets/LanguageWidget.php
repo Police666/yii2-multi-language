@@ -117,7 +117,7 @@ class LanguageWidget extends Widget {
 				];
 			}
 		}
-		return $data;
+		return array_unique($data);
 	}
 
 	/**
