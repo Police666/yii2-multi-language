@@ -117,7 +117,11 @@ class LanguageWidget extends Widget {
 				];
 			}
 		}
-		return array_unique($data);
+		if (count($data) > count(Language::getLanguages())) {
+			return array_unique($data);
+		} else {
+			return $data;
+		}
 	}
 
 	/**
