@@ -13,7 +13,6 @@ use yii\widgets\ActiveForm;
 		'class' => 'language-form',
 	],
 ]); ?>
-<?php $form = ActiveForm::begin(); ?>
 <div class="project-form">
 	<div class="col-md-6 col-md-offset-3">
 
