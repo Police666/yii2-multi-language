@@ -41,15 +41,3 @@ $this->params['breadcrumbs'][] = $this->title;
 		</div>
 	</div>
 </div>
-<script>
-	$(document).on("keydown", function(e) {
-		var key      = e.which;
-		var selector = $(".modal.bootstrap-dialog.type-warning");
-		if(key == 13) {
-			if(selector.length != 0) {
-				selector.find(".btn.btn-warning").trigger("click");
-			}
-		}
-		return false;
-	});
-</script>
