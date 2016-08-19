@@ -10,6 +10,7 @@
 namespace navatech\language\components;
 
 use navatech\language\models\Language;
+use navatech\language\Module;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -34,12 +35,20 @@ class MultiLanguageController extends Controller {
 			$this->refresh();
 		}
 		if (!Yii::$app->request->cookies->has('_language')) {
-			$cookie             = new Cookie([
-				'name'  => '_language',
-				'value' => Yii::$app->setting->general_language,
-				'path'  => '/',
-			]);
-			Yii::$app->language = Yii::$app->setting->general_language;
+			if (Module::hasSetting()) {
+				$cookie             = new Cookie([
+					'name'  => '_language',
+					'value' => Yii::$app->setting->general_language,
+					'path'  => '/',
+				]);
+				Yii::$app->language = Yii::$app->setting->general_language;
+			} else {
+				$cookie = new Cookie([
+					'name'  => '_language',
+					'value' => Yii::$app->language,
+					'path'  => '/',
+				]);
+			}
 			Yii::$app->response->cookies->add($cookie);
 		} else {
 			Yii::$app->language = Yii::$app->request->getCookies()->getValue('_language');
