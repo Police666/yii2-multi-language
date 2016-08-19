@@ -14,15 +14,18 @@ use navatech\language\helpers\MultiLanguageHelper;
 use navatech\language\Translate;
 use yii\base\Exception;
 use yii\base\InvalidParamException;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "phrase_translate".
  * The followings are the available columns in table 'phrase_translate':
- * @property integer $id
- * @property integer $phrase_id
- * @property integer $language_id
- * @property string  $value
+ * @property integer  $id
+ * @property integer  $phrase_id
+ * @property integer  $language_id
+ * @property string   $value
+ * @property Phrase   $phrase
+ * @property Language $language
  */
 class PhraseTranslate extends ActiveRecord {
 
@@ -79,19 +82,19 @@ class PhraseTranslate extends ActiveRecord {
 	}
 
 	/**
-	 * @return Language
+	 * @return ActiveQuery
 	 * @since 1.0.0
 	 */
 	public function getLanguage() {
-		return $this->hasOne(Language::className(), ['id' => 'language_id'])->one();
+		return $this->hasOne(Language::className(), ['id' => 'language_id']);
 	}
 
 	/**
-	 * @return Phrase
+	 * @return ActiveQuery
 	 * @since 1.0.0
 	 */
 	public function getPhrase() {
-		return $this->hasOne(Phrase::className(), ['id' => 'phrase_id'])->one();
+		return $this->hasOne(Phrase::className(), ['id' => 'phrase_id']);
 	}
 
 	/**

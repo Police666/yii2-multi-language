@@ -238,8 +238,8 @@ class MultiLanguageHelper {
 	 * @since 1.0.2
 	 */
 	public static function setData(PhraseTranslate $model) {
-		$name          = $model->getPhrase()->name;
-		$language_code = $model->getLanguage()->code;
+		$name          = $model->phrase->name;
+		$language_code = $model->language->code;
 		$runtime       = Yii::getAlias('@runtime');
 		$path          = $runtime . DIRECTORY_SEPARATOR . 'language';
 		if (!file_exists($path)) {
@@ -316,6 +316,7 @@ class MultiLanguageHelper {
 
 	/**
 	 * Return all translated attributes include value
+	 *
 	 * @param ActiveRecord $model
 	 * @param null         $language_code
 	 *
@@ -345,6 +346,7 @@ class MultiLanguageHelper {
 
 	/**
 	 * Return all translated attributes name
+	 *
 	 * @param ActiveRecord $model
 	 * @param null         $language_code
 	 *
