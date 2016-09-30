@@ -10,7 +10,7 @@
  */
 namespace navatech\language\components;
 
-use navatech\language\helpers\MultiLanguageHelper;
+use navatech\language\helpers\LanguageHelper;
 use navatech\language\Module;
 use Yii;
 use yii\base\Behavior;
@@ -28,7 +28,7 @@ use yii\web\NotFoundHttpException;
  * @property ActiveQuery $translation
  * @property ActiveQuery $translations
  */
-class MultiLanguageBehavior extends Behavior {
+class LanguageBehavior extends Behavior {
 
 	/**
 	 * @var ActiveRecord|$this|self
@@ -105,7 +105,7 @@ class MultiLanguageBehavior extends Behavior {
 		parent::init();
 		$this->module          = Yii::$app->getModule('language');
 		$this->currentLanguage = Yii::$app->language;
-		foreach (MultiLanguageHelper::getLanguages() as $language) {
+		foreach (LanguageHelper::getLanguages() as $language) {
 			$this->availableLanguages[$language['code']] = $language['name'];
 		}
 	}
@@ -148,7 +148,7 @@ class MultiLanguageBehavior extends Behavior {
 		parent::attach($owner);
 		$this->module          = Yii::$app->getModule('language');
 		$this->currentLanguage = Yii::$app->language;
-		foreach (MultiLanguageHelper::getLanguages() as $language) {
+		foreach (LanguageHelper::getLanguages() as $language) {
 			$this->availableLanguages[$language['code']] = $language['name'];
 		}
 		if (empty($this->availableLanguages) || !is_array($this->availableLanguages)) {
@@ -230,7 +230,8 @@ class MultiLanguageBehavior extends Behavior {
 		if ($language == null) {
 			$language = $this->currentLanguage;
 		}
-		return $this->owner->hasOne($this->translateClassName, [$this->translateForeignKey => $this->ownerPrimaryKey])->where([$this->languageField => $language]);
+		return $this->owner->hasOne($this->translateClassName, [$this->translateForeignKey => $this->ownerPrimaryKey])
+			->where([$this->languageField => $language]);
 	}
 
 	/**
@@ -471,7 +472,7 @@ class MultiLanguageBehavior extends Behavior {
 	 * @since 2.0.0
 	 */
 	protected function indexByLanguage($records) {
-		$sorted = array();
+		$sorted = [];
 		foreach ($records as $record) {
 			$sorted[$record->{$this->languageField}] = $record;
 		}

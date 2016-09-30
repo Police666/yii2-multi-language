@@ -10,11 +10,11 @@
  */
 namespace navatech\language\models;
 
-use navatech\language\helpers\MultiLanguageHelper;
+use navatech\language\db\ActiveRecord;
+use navatech\language\helpers\LanguageHelper;
 use navatech\language\Translate;
 use yii\base\Exception;
 use yii\base\InvalidParamException;
-use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "language".
@@ -151,7 +151,7 @@ class Language extends ActiveRecord {
 	 * @throws Exception|InvalidParamException
 	 */
 	public function afterSave($insert, $changedAttributes) {
-		MultiLanguageHelper::setLanguages();
+		LanguageHelper::setLanguages();
 		parent::afterSave($insert, $changedAttributes);
 	}
 
@@ -160,7 +160,7 @@ class Language extends ActiveRecord {
 	 * @throws Exception|InvalidParamException
 	 */
 	public function beforeDelete() {
-		if (MultiLanguageHelper::removeAllData($this->code)) {
+		if (LanguageHelper::removeAllData($this->code)) {
 			return parent::beforeDelete();
 		}
 		return false;

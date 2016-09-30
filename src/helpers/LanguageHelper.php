@@ -9,6 +9,7 @@
  */
 namespace navatech\language\helpers;
 
+use navatech\language\db\ActiveRecord;
 use navatech\language\models\Language;
 use navatech\language\models\Phrase;
 use navatech\language\models\PhraseTranslate;
@@ -17,10 +18,9 @@ use yii\base\ErrorException;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
 use yii\base\InvalidParamException;
-use yii\db\ActiveRecord;
 use yii\helpers\Json;
 
-class MultiLanguageHelper {
+class LanguageHelper {
 
 	/**
 	 * @param $name

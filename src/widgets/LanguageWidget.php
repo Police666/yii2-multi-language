@@ -10,15 +10,15 @@
  */
 namespace navatech\language\widgets;
 
-use navatech\language\components\MultiLanguageAsset;
-use navatech\language\helpers\MultiLanguageHelper;
+use navatech\language\assets\LanguageAsset;
+use navatech\language\helpers\LanguageHelper;
 use navatech\language\models\Language;
-use navatech\localeurls\UrlManager;
 use Yii;
 use yii\base\Exception;
 use yii\base\InvalidParamException;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
+use yii\web\UrlManager;
 
 /**
  * Widget is the base class for widgets.
@@ -31,11 +31,9 @@ use yii\helpers\ArrayHelper;
  */
 class LanguageWidget extends Widget {
 
-	public $type    = 'classic';
+	public $type = 'classic';
 
-	public $viewDir = '@vendor/navatech/yii2-multi-language/src/views/LanguageWidget';
-
-	public $size    = 30;
+	public $size = 30;
 
 	/**@var UrlManager */
 	private $urlManager;
@@ -52,28 +50,14 @@ class LanguageWidget extends Widget {
 	 */
 	public function init() {
 		parent::init();
-		MultiLanguageAsset::register($this->view);
+		LanguageAsset::register($this->view);
 		$this->urlManager = Yii::$app->urlManager;
-		$this->languages  = MultiLanguageHelper::getLanguages();
+		$this->languages  = LanguageHelper::getLanguages();
 		$this->current    = [
 			'code'    => 'en',
 			'name'    => 'United States',
 			'country' => 'us',
 		];
-	}
-
-	/**
-	 * Returns the directory containing the view files for this widget.
-	 * The default implementation returns the 'views' subdirectory under the directory containing the widget class file.
-	 * @return string the directory containing the view files for this widget.
-	 * @throws InvalidParamException
-	 */
-	public function getViewPath() {
-		if ($this->viewDir === null) {
-			$name = explode("\\", self::className());
-			return Yii::getAlias(dirname(__DIR__ . '/../views') . DIRECTORY_SEPARATOR . end($name));
-		}
-		return $this->viewDir;
 	}
 
 	/**

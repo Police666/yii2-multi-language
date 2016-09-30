@@ -10,12 +10,12 @@
  */
 namespace navatech\language\models;
 
-use navatech\language\helpers\MultiLanguageHelper;
+use navatech\language\db\ActiveRecord;
+use navatech\language\helpers\LanguageHelper;
 use navatech\language\Translate;
 use yii\base\Exception;
 use yii\base\InvalidParamException;
 use yii\db\ActiveQuery;
-use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "phrase_translate".
@@ -106,7 +106,7 @@ class PhraseTranslate extends ActiveRecord {
 	 * @throws Exception|InvalidParamException
 	 */
 	public function beforeSave($insert) {
-		MultiLanguageHelper::setData($this);
+		LanguageHelper::setData($this);
 		return parent::beforeSave($insert);
 	}
 
@@ -115,7 +115,7 @@ class PhraseTranslate extends ActiveRecord {
 	 * @throws InvalidParamException
 	 */
 	public function beforeDelete() {
-		if (MultiLanguageHelper::removeAllData($this)) {
+		if (LanguageHelper::removeAllData($this)) {
 			return parent::beforeDelete();
 		}
 		return false;

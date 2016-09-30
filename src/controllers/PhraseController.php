@@ -10,7 +10,6 @@
  */
 namespace navatech\language\controllers;
 
-use navatech\language\components\MultiLanguageController;
 use navatech\language\models\Language;
 use navatech\language\models\Phrase;
 use navatech\language\models\PhraseSearch;
@@ -22,12 +21,13 @@ use yii\base\ExitException;
 use yii\base\InvalidParamException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 /**
  * Controller is the base class of web controllers.
  */
-class PhraseController extends MultiLanguageController {
+class PhraseController extends Controller {
 
 	/**
 	 * Returns a list of behaviors that this component should behave as.

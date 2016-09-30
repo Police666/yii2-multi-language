@@ -12,7 +12,7 @@ namespace navatech\language\models;
 
 use kartik\editable\Editable;
 use kartik\popover\PopoverX;
-use yii\db\ActiveRecord;
+use navatech\language\db\ActiveRecord;
 
 /**
  * This is the model class for table "phrase".
@@ -194,10 +194,10 @@ class Phrase extends ActiveRecord {
 		$columns[]  = ['attribute' => 'name'];
 		$attributes = $this->attributeLabels();
 		foreach ($this->_dynamicField as $key => $value) {
-			$columns[] = array(
+			$columns[] = [
 				'attribute'       => $key,
 				'header'          => '<a href="#">' . $attributes[$key] . '</a>',
-				'value'           => function(Phrase $model) use ($key) {
+				'value'           => function (Phrase $model) use ($key) {
 					$model->setDynamicField();
 					return $model->$key;
 				},
@@ -209,7 +209,7 @@ class Phrase extends ActiveRecord {
 						'cols' => '200',
 					],
 				],
-			);
+			];
 		}
 		$columns[] = [
 			'class'    => 'kartik\grid\ActionColumn',

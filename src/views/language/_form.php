@@ -35,8 +35,6 @@ use yii\widgets\ActiveForm;
 			<i class="ace-icon fa fa-check bigger-110"></i>
 			<?= Translate::save() ?>
 		</button>
-
-		&nbsp; &nbsp; &nbsp;
 		<button class="btn btn-back" type="reset">
 			<i class="ace-icon fa fa-arrow-left bigger-110"></i>
 			<?= Translate::back() ?>

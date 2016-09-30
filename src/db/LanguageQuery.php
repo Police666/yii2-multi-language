@@ -8,7 +8,7 @@
  * @time    12:46 SA
  * @since 2.0.0
  */
-namespace navatech\language\components;
+namespace navatech\language\db;
 
 use yii\db\ActiveQuery;
 
@@ -22,7 +22,7 @@ use yii\db\ActiveQuery;
  *
  * @since  2.0
  */
-class MultiLanguageQuery extends ActiveQuery {
+class LanguageQuery extends ActiveQuery {
 
-	use MultiLanguageTrait;
+	use LanguageTrait;
 }

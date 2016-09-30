@@ -50,38 +50,21 @@ Attaching this behavior to the model (Post in the example). Commented fields hav
  * @method boolean hasTranslateAttribute(string $attribute_translation)
  * @method array getTranslateAttributes(string $attribute)
  */
-class Model extends ActiveRecord {
+class Model extends \navatech\language\db\ActiveRecord {
 
     /**
      * {@inheritDoc}
      */
     public function behaviors() {
-        return [
-            'ml' => [
-                'class'      => MultiLanguageBehavior::className(),
-                'attributes' => [
-                    'title',
-                    'content',
-                ],
+        $behaviors = parent::behaviors();
+        $behaviors['ml'] = [
+            'class'      => \navatech\language\components\LanguageBehavior::className(),
+            'attributes' => [
+                'title',
+                'content',
             ],
         ];
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    public static function find() {
-        return new MultiLanguageQuery(get_called_class());
-    }
-
-    /**
-     * @param $condition
-     *
-     * @return array|null|ActiveRecord
-     */
-    public static function findOneTranslated($condition) {
-        return is_array($condition) ? self::find()->where($condition)->translate()->one() : self::find()->where(['id' => $condition])->translate()->one();
+        return $behaviors;
     }
 
     /**
@@ -92,7 +75,7 @@ class Model extends ActiveRecord {
             .........
                 [
                     //if want all translated attributes required
-                    ArrayHelper::merge(MultiLanguageHelper::attributeNames($this), [
+                    ArrayHelper::merge(\navatech\language\helpers\LanguageHelper::attributeNames($this), [
                         'email',
                         .......
                     ]),
@@ -122,7 +105,7 @@ class Model extends ActiveRecord {
     			'Email'        => Translate::email(),
     			......
     		];
-    		foreach(MultiLanguageHelper::attributeNames($this) as $mlAttribute){
+    		foreach(\navatech\language\helpers\LanguageHelper::attributeNames($this) as $mlAttribute){
     		    $attributeLabels[$mlAttribute] = Translate::$mlAttribute();
     		}
     		return $attributeLabels;
@@ -197,7 +180,7 @@ echo $model->getTranslateAttribute('title', 'fr'); //echo "Titre en Français"
 or get by attribute;
 ```php
 $form = ActiveForm::begin();
-    foreach (Language::getAllLanguages() as $key => $language):
+    foreach (Language::getLanguages() as $key => $language):
         echo '<div class="active in tab-pane fade" id="tab_'.$language->code.'">';
         echo $form->field($model, 'title_' . $language->code)->textInput([
             'value' => $model->getIsNewRecord() ? '' : $model->getTranslateAttribute('title', $language->code),
