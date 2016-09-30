@@ -1,29 +1,28 @@
 <?php
 /**
- * Created by Navatech.
- * @project enesti-com-vn
- * @author  Phuong
- * @email   phuong17889[at]gmail.com
- * @date    6/27/2016
- * @time    5:07 PM
+ * Created by PhpStorm.
+ * User: lephuong
+ * Date: 9/30/16
+ * Time: 10:58 AM
  */
-namespace navatech\language\components;
+namespace navatech\language;
 
 use navatech\language\models\Language;
-use navatech\language\Module;
 use Yii;
 use yii\helpers\ArrayHelper;
-use yii\web\Controller;
 use yii\web\Cookie;
 
-class MultiLanguageController extends Controller {
+class Component extends \yii\base\Component {
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function beforeAction($action) {
+	public function init() {
+		parent::init();
 		$languages = ArrayHelper::map(Language::getLanguages(), 'code', 'name');
-		if (isset($_GET['language']) && isset($languages[$_GET['language']]) && $_GET['language'] != Yii::$app->request->getCookies()->getValue('_language')) {
+		if (isset($_GET['language']) && isset($languages[$_GET['language']]) && $_GET['language'] != Yii::$app->request->getCookies()
+				->getValue('_language')
+		) {
 			Yii::$app->session['language'] = $_GET['language'];
 			$cookie                        = new Cookie([
 				'name'  => '_language',
@@ -53,6 +52,5 @@ class MultiLanguageController extends Controller {
 		} else {
 			Yii::$app->language = Yii::$app->request->getCookies()->getValue('_language');
 		}
-		return parent::beforeAction($action);
 	}
 }
