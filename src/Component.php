@@ -31,7 +31,6 @@ class Component extends \yii\base\Component {
 			]);
 			Yii::$app->language            = $_GET['language'];
 			Yii::$app->response->cookies->add($cookie);
-			Yii::$app->controller->refresh();
 		}
 		if (!Yii::$app->request->cookies->has('_language')) {
 			if (Module::hasSetting()) {

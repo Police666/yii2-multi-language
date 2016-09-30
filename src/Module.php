@@ -28,6 +28,5 @@ class Module extends \navatech\base\Module {
 	 */
 	public function init() {
 		parent::init();
-		LanguageHelper::getData(Yii::$app->language);
 	}
 }
