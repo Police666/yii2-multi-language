@@ -9,10 +9,6 @@
  * @since   1.0.2
  */
 namespace navatech\language;
-
-use navatech\language\helpers\LanguageHelper;
-use Yii;
-
 class Module extends \navatech\base\Module {
 
 	const VERSION = '2.0.1';
@@ -21,7 +17,9 @@ class Module extends \navatech\base\Module {
 	 * @var string
 	 * @since 2.0.1
 	 */
-	public $suffix = 'translate';
+	public $suffix         = 'translate';
+
+	public $modelNamespace = null;
 
 	/**
 	 * {@inheritDoc}

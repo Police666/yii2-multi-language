@@ -12,6 +12,7 @@ namespace navatech\language\components;
 
 use navatech\language\helpers\LanguageHelper;
 use navatech\language\Module;
+use ReflectionClass;
 use Yii;
 use yii\base\Behavior;
 use yii\base\Component;
@@ -113,7 +114,7 @@ class LanguageBehavior extends Behavior {
 	/**
 	 * Declares event handlers for the [[owner]]'s events.
 	 *
-	 * Child classes may override this method to declare what PHP callbacks should
+	 * Child classes may override this method to declare what PHP callba cks should
 	 * be attached to the events of the [[owner]] component.
 	 *
 	 * The callbacks will be attached to the [[owner]]'s events when the behavior is
@@ -161,7 +162,11 @@ class LanguageBehavior extends Behavior {
 			throw new InvalidConfigException('Please specify multilingual attributes for the ' . get_class($this) . ' in the ' . get_class($this->owner), 103);
 		}
 		if (!$this->translateClassName) {
-			$this->translateClassName = get_class($this->owner) . ucfirst($this->module->suffix);
+			if ($this->module->modelNamespace != null) {
+				$this->translateClassName = $this->module->modelNamespace . '\\' . (new ReflectionClass($this->owner))->getShortName() . ucfirst($this->module->suffix);
+			} else {
+				$this->translateClassName = get_class($this->owner) . ucfirst($this->module->suffix);
+			}
 		}
 		$this->ownerClassName  = get_class($this->owner);
 		$ownerClassName        = $this->ownerClassName;
@@ -230,8 +235,7 @@ class LanguageBehavior extends Behavior {
 		if ($language == null) {
 			$language = $this->currentLanguage;
 		}
-		return $this->owner->hasOne($this->translateClassName, [$this->translateForeignKey => $this->ownerPrimaryKey])
-			->where([$this->languageField => $language]);
+		return $this->owner->hasOne($this->translateClassName, [$this->translateForeignKey => $this->ownerPrimaryKey])->where([$this->languageField => $language]);
 	}
 
 	/**
