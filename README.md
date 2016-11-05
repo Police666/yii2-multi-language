@@ -16,12 +16,20 @@ Now you can store it on mySql.
 * [Navatech Yii 2 Locale Urls](https://packagist.org/packages/navatech/yii2-localeurls)
 
 ## Install & config:
-Install with composer:
-````
-composer require navatech/yii2-multi-language "@dev"
-````
 
-Config:
+### Install
+
+Preferred way to install this extension through [composer](http://getcomposer.org)  
+Either run
+~~~
+composer require navatech/yii2-multi-language "^2.0"
+~~~
+Or add to `require` section of `composer.json` then run `composer update`
+~~~
+"navatech/yii2-multi-language" : "^2.0" 
+~~~
+
+### Config:
 ~~~
 [php]
     'language'   => 'en', //TODO Change this to 2 characters
@@ -33,16 +41,6 @@ Config:
     'components' => [
         'multiLanguage' => [
            'class' => '\navatech\language\Component',
-        ],
-        'urlManager' => [
-            /*
-            //TODO run "composer require navatech/yii2-localeurls" & uncommented if you not using custom url route
-            'class'               => 'navatech\localeurls\UrlManager',
-            */
-            'enablePrettyUrl'     => true,
-            'showScriptName'      => false,
-            'enableStrictParsing' => false,
-            ''
         ],
     ],
     'modules'    => [
