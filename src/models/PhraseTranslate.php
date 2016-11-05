@@ -13,7 +13,6 @@ namespace navatech\language\models;
 use navatech\language\db\ActiveRecord;
 use navatech\language\helpers\LanguageHelper;
 use navatech\language\Translate;
-use yii\base\Exception;
 use yii\base\InvalidParamException;
 use yii\db\ActiveQuery;
 
@@ -98,16 +97,11 @@ class PhraseTranslate extends ActiveRecord {
 	}
 
 	/**
-	 * @param boolean $insert whether this method called while inserting a record.
-	 *                        If false, it means the method is called while updating a record.
-	 *
-	 * @return boolean whether the insertion or updating should continue.
-	 * If false, the insertion or updating will be cancelled.
-	 * @throws Exception|InvalidParamException
+	 * {@inheritDoc}
 	 */
-	public function beforeSave($insert) {
+	public function afterSave($insert, $changedAttributes) {
+		parent::afterSave($insert, $changedAttributes);
 		LanguageHelper::setData($this);
-		return parent::beforeSave($insert);
 	}
 
 	/**
