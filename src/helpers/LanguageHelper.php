@@ -13,6 +13,7 @@ use navatech\language\db\ActiveRecord;
 use navatech\language\models\Language;
 use navatech\language\models\Phrase;
 use navatech\language\models\PhraseTranslate;
+use navatech\language\Module;
 use Yii;
 use yii\base\ErrorException;
 use yii\base\Exception;
@@ -112,7 +113,7 @@ class LanguageHelper {
 	 * @throws Exception|InvalidParamException
 	 */
 	public static function setLanguages() {
-		$runtime = Yii::getAlias('@runtime');
+		$runtime = Module::isBasic() ? Yii::getAlias('@runtime') : Yii::getAlias('@backend/runtime');
 		$path    = $runtime . DIRECTORY_SEPARATOR . 'language';
 		if (!file_exists($path) && !@mkdir($path, 0777, true) && !is_dir($path)) {
 			throw new Exception('Cannot create directory');
@@ -133,7 +134,7 @@ class LanguageHelper {
 	 * @since 1.0.2
 	 */
 	public static function getLanguages() {
-		$runtime = Yii::getAlias('@runtime');
+		$runtime = Module::isBasic() ? Yii::getAlias('@runtime') : Yii::getAlias('@backend/runtime');
 		$path    = $runtime . DIRECTORY_SEPARATOR . 'language';
 		if (!file_exists($path)) {
 			self::setLanguages();
@@ -161,7 +162,7 @@ class LanguageHelper {
 	 * @throws Exception|InvalidParamException
 	 */
 	public static function setAllData($language_code = null) {
-		$runtime = Yii::getAlias('@runtime');
+		$runtime = Module::isBasic() ? Yii::getAlias('@runtime') : Yii::getAlias('@backend/runtime');
 		$path    = $runtime . DIRECTORY_SEPARATOR . 'language';
 		if (!file_exists($path) && !@mkdir($path, 0777, true) && !is_dir($path)) {
 			throw new Exception('Cannot create directory');
@@ -185,7 +186,7 @@ class LanguageHelper {
 	 * @throws InvalidParamException|ErrorException
 	 */
 	public static function getData($language_code) {
-		$runtime = Yii::getAlias('@runtime');
+		$runtime = Module::isBasic() ? Yii::getAlias('@runtime') : Yii::getAlias('@backend/runtime');
 		$path    = $runtime . DIRECTORY_SEPARATOR . 'language';
 		$file    = $path . DIRECTORY_SEPARATOR . 'phrase_' . $language_code . '.json';
 		if (!file_exists($path) || !file_exists($file) || !file_get_contents($file)) {
@@ -219,7 +220,7 @@ class LanguageHelper {
 	 * @throws InvalidParamException
 	 */
 	public static function removeAllData($language_code) {
-		$runtime = Yii::getAlias('@runtime');
+		$runtime = Module::isBasic() ? Yii::getAlias('@runtime') : Yii::getAlias('@backend/runtime');
 		$path    = $runtime . DIRECTORY_SEPARATOR . 'language';
 		if (!file_exists($path)) {
 			return true;
@@ -240,7 +241,7 @@ class LanguageHelper {
 	public static function setData(PhraseTranslate $model) {
 		$name          = $model->phrase->name;
 		$language_code = $model->language->code;
-		$runtime       = Yii::getAlias('@runtime');
+		$runtime       = Module::isBasic() ? Yii::getAlias('@runtime') : Yii::getAlias('@backend/runtime');
 		$path          = $runtime . DIRECTORY_SEPARATOR . 'language';
 		if (!file_exists($path)) {
 			self::setAllData();
