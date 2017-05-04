@@ -8,6 +8,7 @@
  * @updated    03/03/2016 00:40 SA
  * @since      2.0.0
  */
+
 namespace navatech\language\models;
 
 use navatech\language\db\ActiveRecord;
@@ -15,15 +16,17 @@ use navatech\language\helpers\LanguageHelper;
 use navatech\language\Translate;
 use yii\base\Exception;
 use yii\base\InvalidParamException;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "language".
  *
- * @property integer $id
- * @property string  $name
- * @property string  $code
- * @property string  $country
- * @property int     $status
+ * @property integer           $id
+ * @property string            $name
+ * @property string            $code
+ * @property string            $country
+ * @property int               $status
+ * @property PhraseTranslate[] $phraseTranslates
  */
 class Language extends ActiveRecord {
 
@@ -75,11 +78,11 @@ class Language extends ActiveRecord {
 	}
 
 	/**
-	 * @return PhraseTranslate[]
+	 * @return ActiveQuery
 	 * @since 1.0.2
 	 */
-	public function getPhraseTranslate() {
-		return $this->hasMany(PhraseTranslate::className(), ['language_id' => 'id'])->all();
+	public function getPhraseTranslates() {
+		return $this->hasMany(PhraseTranslate::className(), ['language_id' => 'id']);
 	}
 
 	/**

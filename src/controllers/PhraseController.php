@@ -8,12 +8,13 @@
  * @updated    03/03/2016 00:38 SA
  * @since      2.0.0
  */
+
 namespace navatech\language\controllers;
 
 use navatech\language\models\Language;
 use navatech\language\models\Phrase;
-use navatech\language\models\PhraseSearch;
 use navatech\language\models\PhraseTranslate;
+use navatech\language\models\search\PhraseSearch;
 use navatech\language\Module;
 use navatech\language\Translate;
 use Yii;

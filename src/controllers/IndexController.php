@@ -11,7 +11,7 @@
 namespace navatech\language\controllers;
 
 use navatech\language\models\Language;
-use navatech\language\models\LanguageSearch;
+use navatech\language\models\search\LanguageSearch;
 use navatech\language\Module;
 use navatech\language\Translate;
 use Yii;

@@ -7,6 +7,7 @@
  * @date    5/13/2016
  * @time    12:36 AM
  */
+
 namespace navatech\language\helpers;
 
 use navatech\language\db\ActiveRecord;
@@ -36,7 +37,7 @@ class LanguageHelper {
 			$PhraseTranslate              = new PhraseTranslate();
 			$PhraseTranslate->phrase_id   = $model->getPrimaryKey();
 			$PhraseTranslate->language_id = Language::getIdByCode(Yii::$app->language);
-			$PhraseTranslate->value       = 'error: phrase [' . $name . '] not found';
+			$PhraseTranslate->value       = ucfirst(str_replace('_', ' ', $name));
 			$PhraseTranslate->save();
 		}
 		return 'error: phrase [' . $name . '] not found';
@@ -100,8 +101,8 @@ class LanguageHelper {
 			$php .= '       */' . PHP_EOL;
 			$php .= '       public static function ' . $key . '($parameters = null, $language_code = null){}' . PHP_EOL;
 		}
-		$php .= '//defined_new_method_here' . PHP_EOL;
-		$php .= '}';
+		$php  .= '//defined_new_method_here' . PHP_EOL;
+		$php  .= '}';
 		$file = $path . DIRECTORY_SEPARATOR . 'Translate.php';
 		$fp   = fopen($file, 'wb');
 		fwrite($fp, $php);
@@ -204,10 +205,15 @@ class LanguageHelper {
 			self::setAllData($language_code);
 			return self::getData($language_code);
 		}
-		$data = Json::decode($content);
-		if ($data === null) {
+		try {
+			$data = Json::decode($content);
+			if ($data === null) {
+				self::setAllData($language_code);
+				return self::getData($language_code);
+			}
+		} catch (InvalidParamException $e) {
 			self::setAllData($language_code);
-			return self::getData($language_code);
+			return [];
 		}
 		return $data;
 	}
@@ -281,13 +287,13 @@ class LanguageHelper {
 			}
 			fclose($myFile);
 			if (!strpos($content, 'function ' . $name . '(')) {
-				$php = '       /**' . PHP_EOL;
-				$php .= '       * @param null|array|mixed $parameters' . PHP_EOL;
-				$php .= '       * @param null|string $language_code' . PHP_EOL;
-				$php .= '       * @return string' . PHP_EOL;
-				$php .= '       */' . PHP_EOL;
-				$php .= '       public static function ' . $name . '($parameters = null, $language_code = null){}' . PHP_EOL;
-				$php .= '//defined_new_method_here' . PHP_EOL;
+				$php     = '       /**' . PHP_EOL;
+				$php     .= '       * @param null|array|mixed $parameters' . PHP_EOL;
+				$php     .= '       * @param null|string $language_code' . PHP_EOL;
+				$php     .= '       * @return string' . PHP_EOL;
+				$php     .= '       */' . PHP_EOL;
+				$php     .= '       public static function ' . $name . '($parameters = null, $language_code = null){}' . PHP_EOL;
+				$php     .= '//defined_new_method_here' . PHP_EOL;
 				$content = str_replace('//defined_new_method_here', $php, $content);
 				$fp      = fopen($class, 'wb');
 				fwrite($fp, $content);
@@ -301,16 +307,18 @@ class LanguageHelper {
 			try {
 				$myFile = fopen($file, "r");
 				$data   = fread($myFile, filesize($file));
+				$data   = Json::decode($data);
+				fclose($myFile);
+				if ($data === null) {
+					self::setAllData($language_code);
+				} else {
+					$data[$name] = $model->value;
+					file_put_contents($file, Json::encode($data));
+				}
 			} catch (ErrorException $e) {
 				throw new ErrorException('Unable to open "' . $file . '"');
-			}
-			$data = Json::decode($data);
-			fclose($myFile);
-			if ($data === null) {
+			} catch (InvalidParamException $e) {
 				self::setAllData($language_code);
-			} else {
-				$data[$name] = $model->value;
-				file_put_contents($file, Json::encode($data));
 			}
 		}
 	}

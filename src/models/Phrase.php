@@ -8,18 +8,21 @@
  * @updated    03/03/2016 00:40 SA
  * @since      2.0.0
  */
+
 namespace navatech\language\models;
 
 use kartik\editable\Editable;
 use kartik\popover\PopoverX;
 use navatech\language\db\ActiveRecord;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "phrase".
  *
- * @property integer    $id
- * @property string     $name
- * @property Language[] $languages
+ * @property integer           $id
+ * @property string            $name
+ * @property Language[]        $languages
+ * @property PhraseTranslate[] $phraseTranslates
  */
 class Phrase extends ActiveRecord {
 
@@ -94,7 +97,7 @@ class Phrase extends ActiveRecord {
 	public function setDynamicField() {
 		foreach ($this->languages as $language) {
 			$set = false;
-			foreach ($this->getPhraseTranslate() as $phrase_translate) {
+			foreach ($this->phraseTranslates as $phrase_translate) {
 				if ($phrase_translate->language_id === $language->id) {
 					$key        = $language->code;
 					$this->$key = $phrase_translate->value;
@@ -139,11 +142,11 @@ class Phrase extends ActiveRecord {
 
 	/**
 	 * This will return all PhraseTranslate relations of Phrase
-	 * @return PhraseTranslate[]
+	 * @return ActiveQuery
 	 * @since 1.0.2
 	 */
-	public function getPhraseTranslate() {
-		return $this->hasMany(PhraseTranslate::className(), ['phrase_id' => 'id'])->all();
+	public function getPhraseTranslates() {
+		return $this->hasMany(PhraseTranslate::className(), ['phrase_id' => 'id']);
 	}
 
 	/**
@@ -197,7 +200,7 @@ class Phrase extends ActiveRecord {
 			$columns[] = [
 				'attribute'       => $key,
 				'header'          => '<a href="#">' . $attributes[$key] . '</a>',
-				'value'           => function (Phrase $model) use ($key) {
+				'value'           => function(Phrase $model) use ($key) {
 					$model->setDynamicField();
 					return $model->$key;
 				},
