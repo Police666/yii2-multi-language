@@ -68,7 +68,7 @@ class PhraseController extends Controller {
 		if (Module::hasUserRole()) {
 			$behaviors['role'] = [
 				'class'   => \navatech\role\filters\RoleFilter::className(),
-				'name'    => Translate::x_management([Translate::language()]),
+				'name'    => Translate::x_management([Translate::phrase()]),
 				'actions' => [
 					'index'  => Translate::lists(),
 					'delete' => Translate::delete(),
