@@ -1,5 +1,5 @@
 {
-	"name" : "navatech/yii2-multi-language",
+	"name" : "tommyknocker/yii2-multi-language",
 	"description" : "This will help multi-language for Yii2",
 	"keywords" : [
 		"yii2",
@@ -10,7 +10,7 @@
 	"license" : "MIT",
 	"homepage" : "https://navatech.vn",
 	"support" : {
-		"source" : "https://github.com/navatech/yii2-multi-language"
+		"source" : "https://github.com/tommyknocker/yii2-multi-language"
 	},
 	"authors" : [
 		{
