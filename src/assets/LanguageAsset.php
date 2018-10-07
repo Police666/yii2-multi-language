@@ -35,8 +35,8 @@ class LanguageAsset extends AssetBundle {
 		parent::init();
 		$this->depends    = [
 			'yii\web\YiiAsset',
-			'yii\bootstrap\BootstrapAsset',
-			'yii\bootstrap\BootstrapPluginAsset',
+			'yii\bootstrap4\BootstrapAsset',
+			'yii\bootstrap4\BootstrapPluginAsset',
 		];
 		$this->css        = [
 			'css/style.css',
