@@ -42,6 +42,6 @@ class LanguageAsset extends AssetBundle {
 			'css/style.css',
 			'css/phoca-flags.css',
 		];
-		$this->sourcePath = '@vendor/tommyknocker/yii2-multi-language/src/web';
+		$this->sourcePath = '@vendor/police666/yii2-multi-language/src/web';
 	}
 }
